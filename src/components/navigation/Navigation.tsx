@@ -1,10 +1,16 @@
-import { Link } from "react-router-dom";
-import { useUser } from "../../api/features/useUser";
+import { Link, useNavigate } from "react-router-dom";
+import { HouseDoorFill } from "react-bootstrap-icons";
+import useStudent from "../../api/features/useStudent";
+import useProfile from "../../api/features/useProfile";
+import { toParamStr } from "../../helpers/features";
 
 export default function Navigation() {
-  const { user } = useUser();
+  const { profile } = useProfile();
+  const { user } = useStudent();
   const isAuthenticated = user?.role === "authenticated";
-  // console.log(isAuthenticated);
+
+  const navigate = useNavigate();
+  const username = toParamStr(profile?.full_name);
 
   return (
     <nav className="grid grid-cols-[80%_20%] justify-items-center items-center w-full text-2xl my-6 px-4 cursor-pointer">
@@ -21,9 +27,14 @@ export default function Navigation() {
       </ul>
       <ul className="flex gap-5 text-xl">
         {isAuthenticated ? (
-          <li>
-            <Link to={"/logout"}>log out</Link>
-          </li>
+          <>
+            <li onClick={() => navigate("/student")}>
+              <HouseDoorFill />
+            </li>
+            <li>
+              <Link to={`/teacher/${username}/logout`}>log out</Link>
+            </li>
+          </>
         ) : (
           <>
             <li>

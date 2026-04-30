@@ -1,9 +1,10 @@
 import { ArrowLeft } from "react-bootstrap-icons";
 import { useState, type FormEvent } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSignUp } from "../../../api/features/useSignUp";
 
 export default function SignUp() {
+  const { teacherName } = useParams();
   const [email, setEmail] = useState("");
   const [full_name, setFullName] = useState("");
   const [password, setPassword] = useState("");
@@ -33,7 +34,7 @@ export default function SignUp() {
       return;
     }
     signup({ email, password, full_name });
-    navigate("/dashboard");
+    navigate(`/teacher/${teacherName}`);
   }
 
   return (

@@ -4,21 +4,25 @@ import utc from "dayjs/plugin/utc";
 import { useLessons } from "../api/features/useLessons";
 import { useBookLesson } from "../api/features/useBookLesson";
 import type { Slot } from "../contexts/BookingContextData";
+import useUpdateBookedSlots from "../api/features/useUpdateBookedSlots";
+import useStudent from "../api/features/useStudent";
 
 dayjs.extend(utc);
 
 export default function BookingConfirmation() {
   const { lessons } = useLessons();
+  const { student } = useStudent();
   const { bookLesson, isBooking } = useBookLesson();
+  const { updateBookedSlots } = useUpdateBookedSlots();
   const { lessonId } = useParams();
   const navigate = useNavigate();
 
   if (!lessons) {
     return <p>Is Loading...</p>;
   }
-  const id = lessonId?.substring(9);
+  const idParams = lessonId?.substring(9);
 
-  const currentLesson = lessons?.filter((lesson) => lesson.id === id);
+  const currentLesson = lessons?.filter((lesson) => lesson.id === idParams);
 
   const currentLessonDate = dayjs
     .utc(currentLesson![0].start_time)
@@ -31,9 +35,21 @@ export default function BookingConfirmation() {
     .format("HH:mm");
   const currentLessonDuration = currentLesson![0].duration;
 
+  const { id: slotId, start_time, duration } = currentLesson[0];
+
+  // Changes status in 'slots' to 'booked' and creates new row in 'bookings' table with students data
   function handleBooking(id: Slot[]) {
     const lessonId = id[0].id;
+    const bookingData = {
+      slot_id: slotId,
+      full_name: student.full_name,
+      booked_by: student.id,
+      start_time,
+      duration,
+      type: "lesson",
+    };
     bookLesson({ lessonId });
+    updateBookedSlots(bookingData);
 
     navigate(-1);
   }

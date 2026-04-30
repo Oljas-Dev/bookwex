@@ -30,13 +30,17 @@ export default function SignIn() {
       },
     );
     toast.success("Successfully logged in!");
+
+    // If current user is teacher then navigate to /teacher/${teacherName} and if student then to /student.
+
+    navigate(`/student`);
   }
 
   return (
     <div className="flex flex-col justify-center gap-6 mx-auto w-[50%] h-screen">
       <ArrowLeft
         style={{ alignSelf: "start", cursor: "pointer" }}
-        onClick={() => navigate("/dashboard")}
+        onClick={() => navigate(-1)}
       />
       <div className="text-center">Sign in to access the Tutor Web App</div>
       <div>

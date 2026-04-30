@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
-import { useState, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import {
   BookingContext,
   type RecurringFormState,
@@ -25,6 +25,15 @@ export function BookingContextProvider({ children }: { children: ReactNode }) {
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
 
   const { user } = useUser();
+
+  // Pop Up window logic
+  const dialogRef = useRef<HTMLDialogElement | null>(null);
+
+  // Close by clicking on button
+  const closeDialog = (): void => {
+    dialogRef?.current?.close();
+    setSelectedSlot(null);
+  };
 
   // function expiredSlotsCheck() {
   //   const now = dayjs().format("YYYY-MM-DD HH:mm");
@@ -195,6 +204,8 @@ export function BookingContextProvider({ children }: { children: ReactNode }) {
   return (
     <BookingContext.Provider
       value={{
+        selectedSlot,
+        dialogRef,
         uniqueSelectedDays,
         bookedSlots,
         availableSlots,
@@ -206,7 +217,6 @@ export function BookingContextProvider({ children }: { children: ReactNode }) {
         duration,
         buffer,
         noUserError,
-        selectedSlot,
         setSelectedSlot,
         setNoUserError,
         setStartDate,
@@ -218,6 +228,7 @@ export function BookingContextProvider({ children }: { children: ReactNode }) {
         setBuffer,
         generateSlots,
         filterAvailableSlots,
+        closeDialog,
       }}
     >
       {children}

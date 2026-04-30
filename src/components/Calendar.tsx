@@ -7,15 +7,17 @@ import ShowPreviousMonth from "./calendarComponents/ShowPreviousMonth";
 import WeekDays from "./calendarComponents/WeekDays";
 import { useUser } from "../api/features/useUser";
 import useProfile from "../api/features/useProfile";
+import { useAuth } from "../contexts/useAuth";
+import { toParamStr } from "../helpers/features";
 
 export default function Calendar() {
+  const { isTeacher } = useAuth();
   const { user } = useUser();
   const { profile } = useProfile();
 
   const navigate = useNavigate();
 
   if (!profile) return <p>Waiting for profile to load...</p>;
-  const userRole = profile.length === 0 ? "guest" : profile?.at(0).role;
 
   // async function handleSendEmail() {
   //   try {
@@ -54,8 +56,14 @@ export default function Calendar() {
         <ShowCurrentMonth />
         <ShowNextMonth />
       </div>
-      {userRole === "teacher" && (
-        <button onClick={() => navigate("/planner")}>plan your lessons</button>
+      {isTeacher && (
+        <button
+          onClick={() =>
+            navigate(`/teacher/${toParamStr(profile?.full_name)}/planner`)
+          }
+        >
+          plan your lessons
+        </button>
       )}
       {!user && (
         <p>"You are not logged in, please log in to book your lessons!"</p>

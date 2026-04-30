@@ -7,6 +7,8 @@ import { TimeSelector } from "../ui/TimeSelector";
 import { DurationSelector } from "../ui/DurationSelector";
 import { useNavigate } from "react-router-dom";
 import useInsertlots from "../api/features/useInsertSlots";
+import useProfile from "../api/features/useProfile";
+import { toParamStr } from "../helpers/features";
 
 export default function Planner() {
   const [noDatesError, setNoDatesError] = useState(false);
@@ -14,6 +16,8 @@ export default function Planner() {
   const [noHoursError, setNoHoursError] = useState(false);
   const [noDurationError, setNoDurationError] = useState(false);
   const { insert, isInserting } = useInsertlots();
+
+  const { profile } = useProfile();
 
   const {
     startDate,
@@ -74,10 +78,11 @@ export default function Planner() {
 
     const filteredSlots = filterAvailableSlots(generatedSlots, bookedSlots);
 
-    // console.log(filteredSlots);
-
-    insert(filteredSlots);
-    navigate("/dashboard");
+    insert(filteredSlots, {
+      onSuccess: () => {
+        navigate(`/teacher/${toParamStr(profile?.full_name)}`);
+      },
+    });
   }
 
   return (

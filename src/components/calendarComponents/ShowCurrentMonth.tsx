@@ -4,8 +4,10 @@ import { useCalendar } from "../../contexts/CalendarContext";
 import SmallBlock from "../../ui/SmallBlock";
 import type { JSX } from "@emotion/react/jsx-runtime";
 import { useLessons } from "../../api/features/useLessons";
+import { useAuth } from "../../contexts/useAuth";
 
 export default function ShowCurrentMonth() {
+  const { isTeacher } = useAuth();
   const { currentMonth, daysInMonth, isToday } = useCalendar();
   const [searchParams, serSearchParams] = useSearchParams();
   const { lessons } = useLessons();
@@ -39,6 +41,10 @@ export default function ShowCurrentMonth() {
   const days: JSX.Element[] = [];
 
   daysArr.forEach((day, i) => {
+    const bookedSlots = lessons?.some(
+      (slot: Slot) => slot.start_time.substring(0, 10) === day.id,
+    );
+
     const greenSlots = lessons?.some(
       (slot: Slot) =>
         slot.start_time.substring(0, 10) === day.id &&
@@ -47,8 +53,10 @@ export default function ShowCurrentMonth() {
 
     days.push(
       <SmallBlock
-        styles={`${isToday(i + 1) ? "font-semibold" : ""} ${greenSlots && "text-green-day cursor-pointer"} mb-7`}
-        onClick={greenSlots ? () => handleSelectedDay(day.id) : () => null}
+        styles={`${isToday(i + 1) ? "font-semibold" : ""} ${isTeacher && bookedSlots && "cursor-pointer"} ${greenSlots && "text-green-day cursor-pointer"}  mb-7`}
+        onClick={
+          greenSlots || isTeacher ? () => handleSelectedDay(day.id) : () => null
+        }
         key={i}
       >
         {i + 1}

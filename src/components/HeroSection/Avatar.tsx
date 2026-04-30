@@ -16,7 +16,7 @@ export default function Avatar() {
         <img
           src={avatar}
           alt="Teacher Avatar"
-          className="w-44 h-44 object-cover rounded-xl "
+          className="w-44 h-44 object-cover rounded-xl"
         />
       </div>
       <div className="flex gap-3 mt-2">

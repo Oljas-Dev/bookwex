@@ -5,18 +5,25 @@ import utc from "dayjs/plugin/utc";
 import { ArrowLeft } from "react-bootstrap-icons";
 import { useLessons } from "../../api/features/useLessons";
 import { useBookings } from "../../contexts/useBookings";
-import React, { useRef } from "react";
+import PopUpDialog from "./ui/PopUpDialog";
+import useBookedSlots from "../../api/features/useBookedSlots";
+import { useAuth } from "../../contexts/useAuth";
+import useProfile from "../../api/features/useProfile";
+import { toParamStr } from "../../helpers/features";
 
 dayjs.extend(utc);
 
 export default function CheckTimeSlots() {
+  const { profile } = useProfile();
+  const { isStudent } = useAuth();
   const { lessons } = useLessons();
-  const { noUserError, setSelectedSlot, selectedSlot } = useBookings();
-  const { dayId } = useParams();
+  const { noUserError, setSelectedSlot, dialogRef, selectedSlot, closeDialog } =
+    useBookings();
+  const { bookedSlots } = useBookedSlots();
+  const { dayId, teacherName } = useParams();
 
   const navigate = useNavigate();
   const now = dayjs().format("YYYY-MM-DD HH:mm");
-  const dialogRef = useRef<HTMLDialogElement | null>(null);
 
   if (!lessons) return <p>waiting for lessons to load...</p>;
 
@@ -34,38 +41,45 @@ export default function CheckTimeSlots() {
         Number(dayjs.utc(b.start_time).format("HH")),
     );
 
+  const slot = currentSlots.find((slot) => slot?.id === selectedSlot);
+
+  // Get current students name to show in pop up
+  const currentStudent = bookedSlots?.find(
+    (slot) => slot?.slot_id === selectedSlot,
+  );
+  const studentsName = currentStudent?.full_name;
+
+  const currentUserName = isStudent ? teacherName : studentsName;
+  // console.log(currentUserName);
+
+  // Get the lesson slot status to show correct pop up
+  const bookedSlot = () => {
+    return slot?.status === "booked";
+  };
+
   // Open dialog window
   function openDialog(slotId: string) {
     setSelectedSlot(slotId);
-    dialogRef.current?.showModal();
+    dialogRef?.current?.showModal();
   }
 
-  // Close by clicking on button
-  const closeDialog = (): void => {
-    dialogRef.current?.close();
-    setSelectedSlot(null);
-  };
-
-  // Close dialog when clicking outside
-  const handleClickOutside = (e: React.MouseEvent<HTMLDialogElement>) => {
-    const dialog = dialogRef.current;
-    if (dialog && e.target === dialog) {
-      closeDialog();
-    }
-  };
-
-  // Delete current lesson slot
+  // handle current lesson slot
   function handleDelete() {
     if (!selectedSlot) return;
 
-    console.log("slot was not deleted, it is just a test");
+    // Depending on lesson slot status open a chat room for discussions, or deleting it
+    if (bookedSlot()) {
+      navigate(`/teacher/${toParamStr(profile?.full_name)}/chat-room`);
+    } else {
+      console.log("slot was not deleted, it is just a test");
+    }
 
     // deleteSlot(selectedSlot.id); // your API call
     closeDialog();
   }
 
   return (
-    <div className="w-[50%]">
+    <div className="w-[50%] relative">
       <div className="bg-jet/20 max-w-fit px-2 rounded-lg hover:bg-jet/10">
         <ArrowLeft
           style={{
@@ -73,7 +87,7 @@ export default function CheckTimeSlots() {
             marginBottom: "16px",
             cursor: "pointer",
           }}
-          onClick={() => navigate("/dashboard")}
+          onClick={() => navigate(`/teacher/${teacherName}`)}
         />
       </div>
       <div className="flex flex-col gap-2">
@@ -101,13 +115,12 @@ export default function CheckTimeSlots() {
           </p>
         )}
       </div>
-      <dialog ref={dialogRef} onClick={handleClickOutside}>
-        <div className="w-50 h-25 ">
-          <p>Do you really want to delete lesson from 07:00 - 08:00?</p>
-          <button onClick={closeDialog}>close</button>
-          <button onClick={handleDelete}>delete</button>
-        </div>
-      </dialog>
+      <PopUpDialog
+        h2={`${bookedSlot() ? "Connect with " + currentUserName : "Delete lesson"}`}
+        popUpMessage={`${bookedSlot() ? "If you want to make changes to the booking you can start a discussion" : "Do you really want to delete lesson from 07:00 - 08:00?"}`}
+        btnText={`${bookedSlot() ? "open discussion" : "delete"}`}
+        fn={() => handleDelete()}
+      />
     </div>
   );
 }

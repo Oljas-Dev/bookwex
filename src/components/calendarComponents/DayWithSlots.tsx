@@ -4,6 +4,8 @@ import type { Slot } from "../../contexts/BookingContextData";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useBookings } from "../../contexts/useBookings";
 import { useUser } from "../../api/features/useUser";
+import { useAuth } from "../../contexts/useAuth";
+import useBookedSlots from "../../api/features/useBookedSlots";
 
 dayjs.extend(utc);
 
@@ -15,20 +17,32 @@ export default function DayWithSlots({
   openDialog: (slotId: string) => void;
 }) {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { isAuthenticated, isStudent, isTeacher } = useAuth();
   const { setNoUserError } = useBookings();
+  const { bookedSlots } = useBookedSlots();
   const { user } = useUser();
 
   const navigate = useNavigate();
-  const booked = slot.status === "booked";
+
+  // if (!user) return <p>please wait...</p>;
+
+  // Authentication checks and permissions
+  const booked = slot?.status === "booked";
+
+  // Students can work only with own bookings
+  const findCurrentUserBooking = bookedSlots?.some(
+    (bookedSlot) => bookedSlot.slot_id === slot.id,
+  );
+
   const startTime = dayjs.utc(slot.start_time).format("HH:mm");
   const endTime = dayjs.utc(slot.end_time).format("HH:mm");
-  //   console.log(date);
 
   function handleSlotClick() {
     if (!user) {
       setNoUserError(true);
       return;
     }
+
     searchParams.set("lessonId", slot.id);
     setSearchParams(searchParams);
     navigate(searchParams.toString());
@@ -46,15 +60,28 @@ export default function DayWithSlots({
           <p>
             {startTime} - {endTime} {slot.status}
           </p>
-          <button
-            className="iconBtn"
-            onClick={(e) => {
-              e.stopPropagation();
-              openDialog(slot.id);
-            }}
-          >
-            <i className="bi bi-trash3-fill icon"></i>
-          </button>
+          {booked && isAuthenticated && findCurrentUserBooking && (
+            <button
+              className="iconBtn"
+              onClick={(e) => {
+                e.stopPropagation();
+                openDialog(slot.id);
+              }}
+            >
+              <i className="bi bi-card-text icon"></i>
+            </button>
+          )}
+          {isTeacher && !isStudent && !booked && (
+            <button
+              className="iconBtn"
+              onClick={(e) => {
+                e.stopPropagation();
+                openDialog(slot.id);
+              }}
+            >
+              <i className="bi bi-trash3-fill icon"></i>
+            </button>
+          )}
         </div>
       </div>
     </>

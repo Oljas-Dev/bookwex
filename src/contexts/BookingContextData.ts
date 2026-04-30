@@ -23,6 +23,7 @@ type Slot = {
 };
 
 interface BookingTypes {
+  dialogRef: React.RefObject<HTMLDialogElement> | null;
   availableSlots: Slot[];
   startDate: string;
   endDate: string;
@@ -42,6 +43,9 @@ interface BookingTypes {
   setSelectedDays: Dispatch<SetStateAction<number[]>>;
   setDuration: Dispatch<SetStateAction<0 | 30 | 60 | 45>>;
   setBuffer: Dispatch<SetStateAction<number>>;
+
+  // Functions
+  closeDialog: () => void;
 
   // Testing slots generation form
   generateSlots: (form: RecurringFormState) => Slot[];
