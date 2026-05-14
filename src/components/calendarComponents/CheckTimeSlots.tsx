@@ -21,7 +21,6 @@ export default function CheckTimeSlots() {
     useBookings();
   const { bookedSlots } = useBookedSlots();
   const { dayId, teacherName } = useParams();
-
   const navigate = useNavigate();
   const now = dayjs().format("YYYY-MM-DD HH:mm");
 
@@ -59,8 +58,8 @@ export default function CheckTimeSlots() {
 
   // Open dialog window
   function openDialog(slotId: string) {
-    setSelectedSlot(slotId);
     dialogRef?.current?.showModal();
+    setSelectedSlot(slotId);
   }
 
   // handle current lesson slot
@@ -69,7 +68,9 @@ export default function CheckTimeSlots() {
 
     // Depending on lesson slot status open a chat room for discussions, or deleting it
     if (bookedSlot()) {
-      navigate(`/teacher/${toParamStr(profile?.full_name)}/chat-room`);
+      navigate(
+        `/teacher/${toParamStr(profile?.full_name)}/chat-room/${slot.id}`,
+      );
     } else {
       console.log("slot was not deleted, it is just a test");
     }

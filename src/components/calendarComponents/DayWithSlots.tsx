@@ -24,8 +24,6 @@ export default function DayWithSlots({
 
   const navigate = useNavigate();
 
-  // if (!user) return <p>please wait...</p>;
-
   // Authentication checks and permissions
   const booked = slot?.status === "booked";
 
@@ -51,7 +49,7 @@ export default function DayWithSlots({
   return (
     <>
       <div
-        className={`flex flex-col items-center py-2 rounded ${booked ? "bg-jade-light/40 [&_p]:text-jet/50 hover:bg-jade-light/40 hover:[&_p]:text-jet/50" : "bg-jade cursor-pointer hover:bg-jet hover:[&_p]:text-jade"} card`}
+        className={`flex flex-col items-center py-2 rounded ${booked ? "bg-jade-light/40 [&_p]:text-jet/50 hover:bg-jade-light/40 hover:[&_p]:text-jet/50" : "bg-jade cursor-pointer hover:bg-jet/80 hover:[&_p]:text-jade"} card`}
         onClick={
           slot.status === "available" ? () => handleSlotClick() : () => null
         }
@@ -60,28 +58,43 @@ export default function DayWithSlots({
           <p>
             {startTime} - {endTime} {slot.status}
           </p>
-          {booked && isAuthenticated && findCurrentUserBooking && (
-            <button
-              className="iconBtn"
-              onClick={(e) => {
-                e.stopPropagation();
-                openDialog(slot.id);
-              }}
-            >
-              <i className="bi bi-card-text icon"></i>
-            </button>
-          )}
-          {isTeacher && !isStudent && !booked && (
-            <button
-              className="iconBtn"
-              onClick={(e) => {
-                e.stopPropagation();
-                openDialog(slot.id);
-              }}
-            >
-              <i className="bi bi-trash3-fill icon"></i>
-            </button>
-          )}
+          {/* Right side options */}
+          <div className="p-0">
+            {booked && isAuthenticated && findCurrentUserBooking && (
+              <>
+                <button
+                  className="iconBtn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openDialog(slot.id);
+                  }}
+                >
+                  <i className="bi bi-x-octagon icon hover:text-jade"></i>
+                </button>
+
+                <button
+                  className="iconBtn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openDialog(slot.id);
+                  }}
+                >
+                  <i className="bi bi-card-text icon hover:text-jade"></i>
+                </button>
+              </>
+            )}
+            {isTeacher && !isStudent && !booked && (
+              <button
+                className="iconBtn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openDialog(slot.id);
+                }}
+              >
+                <i className="bi bi-trash3-fill icon hover:text-jade"></i>
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </>

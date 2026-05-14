@@ -17,6 +17,8 @@ import SignUp from "./components/authentication/signup/SignUp";
 import { AuthContext } from "./contexts/AuthContext";
 import StudentDashboard from "./components/student/StudentDashboard";
 import Chats from "./components/chats/Chats";
+import { MessagesProvider } from "./contexts/MessagesContext";
+import MyChats from "./components/chats/MyChat";
 
 function App() {
   return (
@@ -24,55 +26,61 @@ function App() {
       <AuthContext>
         <CalendarProvider>
           <BookingContextProvider>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <main className="flex flex-col justify-center items-center min-h-screen text-3xl bg-main-bg pb-20">
-                <Routes>
-                  <Route path="login" element={<SignIn />} />
-                  <Route
-                    path="teacher/:teacherName/logout"
-                    element={<LogOut />}
+            <MessagesProvider>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <main className="flex flex-col justify-center items-center min-h-screen text-3xl bg-main-bg pb-20">
+                  <Routes>
+                    <Route path="login" element={<SignIn />} />
+                    <Route
+                      path="teacher/:teacherName/logout"
+                      element={<LogOut />}
+                    />
+                    <Route path="signup" element={<SignUp />} />
+                    <Route path="/" element={<Applayout />}>
+                      <Route
+                        index
+                        element={<Navigate replace to="teacher/:teacherName" />}
+                      />
+                      <Route
+                        path="teacher/:teacherName"
+                        element={<Dashboard />}
+                      />
+                      <Route
+                        path="teacher/:teacherName/planner"
+                        element={<Planner />}
+                      />
+                      <Route
+                        path="teacher/:teacherName/bookLesson/:dayId"
+                        element={<CheckTimeSlots />}
+                      />
+                      <Route
+                        path="teacher/:teacherName/bookLesson/:dayId/:lessonId"
+                        element={<BookingConfirmation />}
+                      />
+                      <Route path="student" element={<StudentDashboard />} />
+                      <Route
+                        path="teacher/:teacherName/chat-room/:lessonId"
+                        element={<Chats />}
+                      />
+                      <Route
+                        path="teacher/:teacherName/chat-room"
+                        element={<MyChats />}
+                      />
+                    </Route>
+                  </Routes>
+                  <Toaster
+                    toastOptions={{
+                      duration: 3000,
+                      style: {
+                        fontSize: "14px",
+                        background: "#abd1c6",
+                        color: "#312f2c",
+                      },
+                    }}
                   />
-                  <Route path="signup" element={<SignUp />} />
-                  <Route path="/" element={<Applayout />}>
-                    <Route
-                      index
-                      element={<Navigate replace to="teacher/:teacherName" />}
-                    />
-                    <Route
-                      path="teacher/:teacherName"
-                      element={<Dashboard />}
-                    />
-                    <Route
-                      path="teacher/:teacherName/planner"
-                      element={<Planner />}
-                    />
-                    <Route
-                      path="teacher/:teacherName/bookLesson/:dayId"
-                      element={<CheckTimeSlots />}
-                    />
-                    <Route
-                      path="teacher/:teacherName/bookLesson/:dayId/:lessonId"
-                      element={<BookingConfirmation />}
-                    />
-                    <Route path="student" element={<StudentDashboard />} />
-                    <Route
-                      path="teacher/:teacherName/chat-room"
-                      element={<Chats />}
-                    />
-                  </Route>
-                </Routes>
-                <Toaster
-                  toastOptions={{
-                    duration: 3000,
-                    style: {
-                      fontSize: "14px",
-                      background: "#abd1c6",
-                      color: "#312f2c",
-                    },
-                  }}
-                />
-              </main>
-            </LocalizationProvider>
+                </main>
+              </LocalizationProvider>
+            </MessagesProvider>
           </BookingContextProvider>
         </CalendarProvider>
       </AuthContext>

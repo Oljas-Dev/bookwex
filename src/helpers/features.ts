@@ -13,8 +13,6 @@ function capitalizeAllFirst(strArr: string | undefined) {
   const firstName = getFirstName(strArr);
   const lastName = getLastName(strArr);
 
-  console.log(firstName, lastName);
-
   return capitalizeFirst(firstName) + " " + capitalizeFirst(lastName);
 }
 

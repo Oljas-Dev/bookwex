@@ -1,16 +1,21 @@
-import { Link, useNavigate } from "react-router-dom";
-import { HouseDoorFill } from "react-bootstrap-icons";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { Envelope, EnvelopeOpen, PersonFill } from "react-bootstrap-icons";
 import useStudent from "../../api/features/useStudent";
 import useProfile from "../../api/features/useProfile";
 import { toParamStr } from "../../helpers/features";
+import { useMsgContext } from "../../contexts/useMsgContext";
 
 export default function Navigation() {
   const { profile } = useProfile();
   const { user } = useStudent();
+  const { teacherName } = useParams();
+  const { hasUnreadMessages, isLoadingMsg } = useMsgContext();
   const isAuthenticated = user?.role === "authenticated";
 
   const navigate = useNavigate();
   const username = toParamStr(profile?.full_name);
+
+  if (isLoadingMsg) return <p>loading messages</p>;
 
   return (
     <nav className="grid grid-cols-[80%_20%] justify-items-center items-center w-full text-2xl my-6 px-4 cursor-pointer">
@@ -25,11 +30,18 @@ export default function Navigation() {
           <Link to={"#"}>plans</Link>
         </li>
       </ul>
-      <ul className="flex gap-5 text-xl">
+      <ul className="flex gap-5 text-xl [&_li]:hover:scale-110 [&_li]active:scale-90">
         {isAuthenticated ? (
           <>
+            <li onClick={() => navigate(`/teacher/${teacherName}/chat-room`)}>
+              {hasUnreadMessages ? (
+                <Envelope color="green" />
+              ) : (
+                <EnvelopeOpen />
+              )}
+            </li>
             <li onClick={() => navigate("/student")}>
-              <HouseDoorFill />
+              <PersonFill />
             </li>
             <li>
               <Link to={`/teacher/${username}/logout`}>log out</Link>

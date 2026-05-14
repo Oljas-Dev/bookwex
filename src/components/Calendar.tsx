@@ -17,6 +17,8 @@ export default function Calendar() {
 
   const navigate = useNavigate();
 
+  // console.log(isTeacher);
+
   if (!profile) return <p>Waiting for profile to load...</p>;
 
   // async function handleSendEmail() {
