@@ -1,15 +1,14 @@
 import useLogout from "../../../api/features/useLogout";
-import { useNavigate } from "react-router-dom";
-import useProfile from "../../../api/features/useProfile";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function LogOut() {
-  const { profile } = useProfile();
+  const { teacherName } = useParams();
   const { logout, isLoginout } = useLogout();
 
   const navigate = useNavigate();
 
   function handleSignOut() {
-    logout({ teacherSlug: profile?.full_name });
+    logout({ teacherSlug: teacherName });
   }
   return (
     <div className="flex-center gap-2 text-center">

@@ -1,15 +1,17 @@
-import useStudent from "../../api/features/useStudent";
+import useProfile from "../../api/features/useProfile";
+import type { MyTeacherProps } from "../../contexts/AuthContextData";
+import { useAuth } from "../../contexts/useAuth";
+import { AvatarPlaceholder } from "../avatars/features/AvatarPlaceholder";
+import { getAvatarUrl } from "../avatars/features/useAvatar";
 import MyTeachers from "./MyTeachers";
 
-interface MyTeacherProps {
-  full_name: string;
-  subject: string;
-}
-
 export default function StudentDashboard() {
-  const { student, isLoading } = useStudent();
+  const { profile } = useProfile();
+  const { profile: student, loading } = useAuth();
 
-  if (isLoading) return <p>loading student's data...</p>;
+  if (loading) return <p>loading student's data...</p>;
+
+  const avatarUrl = getAvatarUrl(student?.avatar_url);
 
   return (
     <>
@@ -25,6 +27,7 @@ export default function StudentDashboard() {
                 key={i}
                 teacherName={name.full_name}
                 subject={name.subject}
+                avatarUrl={profile?.avatar_url || null}
               />
             ))}
           </ul>
@@ -32,10 +35,10 @@ export default function StudentDashboard() {
         <aside className="flex flex-col items-center gap-4 [&_h3]:text-center">
           <div>
             <h3>My profile</h3>
-            <img
-              src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzB8fHBlb3BsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500"
-              alt="profile image"
-              className="w-44 h-44 object-cover rounded-xl border-4 border-peach"
+            <AvatarPlaceholder
+              name={student?.full_name || ""}
+              avatarUrl={avatarUrl || null}
+              styles="w-44 h-44 text-5xl"
             />
           </div>
 

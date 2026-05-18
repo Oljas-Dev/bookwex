@@ -1,10 +1,10 @@
 import { type ReactNode } from "react";
 import { useMessageStatus } from "../components/chats/features/useMessageStatus";
 import { MessagesContext } from "./MessagesContextData";
-import { useUser } from "../api/features/useUser";
+import { useAuth } from "./useAuth";
 
 export function MessagesProvider({ children }: { children: ReactNode }) {
-  const { user } = useUser();
+  const { user } = useAuth();
   const { msgStatus, isPending: isLoadingMsg } = useMessageStatus();
 
   // const myMessages = msgStatus?.filter(

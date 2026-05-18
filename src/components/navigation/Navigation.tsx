@@ -1,19 +1,15 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Envelope, EnvelopeOpen, PersonFill } from "react-bootstrap-icons";
-import useStudent from "../../api/features/useStudent";
-import useProfile from "../../api/features/useProfile";
-import { toParamStr } from "../../helpers/features";
 import { useMsgContext } from "../../contexts/useMsgContext";
+import { useAuth } from "../../contexts/useAuth";
 
 export default function Navigation() {
-  const { profile } = useProfile();
-  const { user } = useStudent();
+  const { user } = useAuth();
   const { teacherName } = useParams();
   const { hasUnreadMessages, isLoadingMsg } = useMsgContext();
   const isAuthenticated = user?.role === "authenticated";
 
   const navigate = useNavigate();
-  const username = toParamStr(profile?.full_name);
 
   if (isLoadingMsg) return <p>loading messages</p>;
 
@@ -44,16 +40,16 @@ export default function Navigation() {
               <PersonFill />
             </li>
             <li>
-              <Link to={`/teacher/${username}/logout`}>log out</Link>
+              <Link to={`/teacher/${teacherName}/logout`}>log out</Link>
             </li>
           </>
         ) : (
           <>
             <li>
-              <Link to={"/login"}>login</Link>
+              <Link to={`/teacher/${teacherName}/login`}>login</Link>
             </li>
             <li>
-              <Link to={"/signup"}>sign up</Link>
+              <Link to={`/teacher/${teacherName}/signup`}>sign up</Link>
             </li>
           </>
         )}

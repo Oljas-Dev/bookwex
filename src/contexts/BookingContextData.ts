@@ -23,7 +23,7 @@ type Slot = {
 };
 
 interface BookingTypes {
-  dialogRef: React.RefObject<HTMLDialogElement> | null;
+  dialogRef: React.RefObject<HTMLDialogElement | null>;
   availableSlots: Slot[];
   startDate: string;
   endDate: string;

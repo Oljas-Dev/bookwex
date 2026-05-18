@@ -24,6 +24,11 @@ function toNormalStr(str: string | undefined) {
   return str?.toLowerCase().replace("-", " ");
 }
 
+// Random id for images function
+function generateImgId() {
+  return crypto.randomUUID().slice(0, 6);
+}
+
 export {
   getFirstName,
   getLastName,
@@ -31,4 +36,5 @@ export {
   toParamStr,
   toNormalStr,
   capitalizeAllFirst,
+  generateImgId,
 };

@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { logout as logoutApi } from "../authentication/apiAuth";
 import { useNavigate } from "react-router-dom";
-import { toParamStr } from "../../helpers/features";
+// import { toParamStr } from "../../helpers/features";
 import toast from "react-hot-toast";
 
-type LogoutVariables = {
-  teacherSlug?: string;
-};
+// type LogoutVariables = {
+//   teacherSlug?: string;
+// };
 
 export default function useLogout() {
   const queryClient = useQueryClient();
@@ -15,14 +15,14 @@ export default function useLogout() {
   const { mutate: logout, isPending: isLoginout } = useMutation<
     void,
     Error,
-    LogoutVariables
+    { teacherSlug?: string }
   >({
     mutationFn: logoutApi,
-    onSuccess: (_, variables) => {
-      const teacherSlug = toParamStr(variables?.teacherSlug);
+    onSuccess: (_, { teacherSlug }) => {
+      // const teacherSlug = toParamStr(variables?.teacherSlug);
 
-      navigate(`/teacher/${teacherSlug}`);
-      queryClient.removeQueries();
+      queryClient.clear();
+      navigate(teacherSlug ? `/teacher/${teacherSlug}` : "/");
       toast.success("Hope to see you soon again!");
     },
   });

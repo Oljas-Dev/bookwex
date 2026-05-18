@@ -44,9 +44,9 @@
     transition: color 0.2s ease;
   }
 
-  .card:hover .icon {
-    /* color: #abd1c6; */
-  }
+  /* .card:hover .icon {
+    color: #abd1c6;
+  } */
 
   .icon {
     font-size: 18px;

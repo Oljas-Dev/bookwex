@@ -1,13 +1,22 @@
 import { supabase } from "../supabase/supabase";
 
+interface myTeachersProps {
+  subject: string;
+  full_name: string | undefined;
+}
+
 export async function signup({
   email,
   password,
   full_name = "",
+  avatar_url = "",
+  my_teachers,
 }: {
   email: string;
   password: string;
   full_name: string;
+  avatar_url: string;
+  my_teachers: myTeachersProps[];
 }) {
   const { data, error } = await supabase.auth.signUp({
     email,
@@ -15,7 +24,8 @@ export async function signup({
     options: {
       data: {
         full_name,
-        avatar_url: "",
+        avatar_url,
+        my_teachers,
       },
     },
   });

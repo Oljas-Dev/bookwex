@@ -2,6 +2,7 @@ import { ArrowLeft } from "react-bootstrap-icons";
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSignUp } from "../../../api/features/useSignUp";
+import { toNormalStr } from "../../../helpers/features";
 
 export default function SignUp() {
   const { teacherName } = useParams();
@@ -33,7 +34,20 @@ export default function SignUp() {
       setError("Passwords need to match. Please check your passwords fields.");
       return;
     }
-    signup({ email, password, full_name });
+    const myTeachers = [
+      {
+        subject: "english",
+        full_name: toNormalStr(teacherName),
+      },
+    ];
+
+    signup({
+      email,
+      password,
+      full_name,
+      avatar_url: "",
+      my_teachers: myTeachers,
+    });
     navigate(`/teacher/${teacherName}`);
   }
 
@@ -41,7 +55,7 @@ export default function SignUp() {
     <div className="flex flex-col justify-center gap-6 mx-auto w-[50%] h-screen">
       <ArrowLeft
         style={{ alignSelf: "start", cursor: "pointer" }}
-        onClick={() => navigate("/dashboard")}
+        onClick={() => navigate(-1)}
       />
       <div className="text-center">Sign up to become a student</div>
       <div>
@@ -101,7 +115,8 @@ export default function SignUp() {
       {error && <p className="text-red-600">{error}</p>}
       <div className="flex flex-col items-center gap-2">
         <p>
-          Already have account? <Link to={"/login"}>Sign in</Link>
+          Already have account?{" "}
+          <Link to={`/teacher/${teacherName}/login`}>Sign in</Link>
         </p>
       </div>
     </div>

@@ -1,13 +1,17 @@
 import { useState, type SubmitEvent } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useLogin } from "../../../api/features/useSingIn";
 import { ArrowLeft } from "react-bootstrap-icons";
 import toast from "react-hot-toast";
+import useStudent from "../../../api/features/useStudent";
 
 export default function SignIn() {
+  const { user } = useStudent();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const { teacherName } = useParams();
 
   const { login, isPending } = useLogin();
   const navigate = useNavigate();
@@ -16,7 +20,7 @@ export default function SignIn() {
     e.preventDefault();
 
     if (!email) {
-      setError("Your email is requred");
+      setError("Your email is required");
     } else if (!password) {
       setError("Please enter your password");
     }
@@ -30,6 +34,7 @@ export default function SignIn() {
       },
     );
     toast.success("Successfully logged in!");
+    console.log(user);
 
     // If current user is teacher then navigate to /teacher/${teacherName} and if student then to /student.
 
@@ -73,7 +78,7 @@ export default function SignIn() {
             className="bg-jet-500 text-jade-500 hover:bg-jet-500/80 active:bg-jet-500"
             disabled={isPending}
           >
-            {isPending ? "creating user" : "sign in"}
+            {isPending ? "signing in" : "sign in"}
           </button>
         </form>
       </div>
@@ -83,7 +88,8 @@ export default function SignIn() {
           Forgot your <Link to={"/forgot-password"}>password</Link>?{" "}
         </p>
         <p>
-          Don't have account yet? <Link to={"/signup"}>Sign up</Link>
+          Don't have account yet?{" "}
+          <Link to={`/teacher/${teacherName}/signup`}>Sign up</Link>
         </p>
       </div>
     </div>

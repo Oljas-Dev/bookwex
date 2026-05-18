@@ -12,6 +12,7 @@ export async function apiGetBookedSlots() {
 
 export async function updateBookedSlots({
   slot_id,
+  user_id,
   full_name,
   booked_by,
   start_time,
@@ -21,6 +22,7 @@ export async function updateBookedSlots({
   const { data, error } = await supabase.from("bookings").insert({
     full_name,
     slot_id,
+    user_id,
     booked_by,
     start_time,
     duration,

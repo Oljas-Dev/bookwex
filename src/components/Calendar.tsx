@@ -5,14 +5,12 @@ import ShowCurrentMonth from "./calendarComponents/ShowCurrentMonth";
 import ShowNextMonth from "./calendarComponents/ShowNextMonth";
 import ShowPreviousMonth from "./calendarComponents/ShowPreviousMonth";
 import WeekDays from "./calendarComponents/WeekDays";
-import { useUser } from "../api/features/useUser";
 import useProfile from "../api/features/useProfile";
 import { useAuth } from "../contexts/useAuth";
 import { toParamStr } from "../helpers/features";
 
 export default function Calendar() {
-  const { isTeacher } = useAuth();
-  const { user } = useUser();
+  const { isTeacher, user } = useAuth();
   const { profile } = useProfile();
 
   const navigate = useNavigate();

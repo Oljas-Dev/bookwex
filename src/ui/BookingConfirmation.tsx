@@ -5,13 +5,13 @@ import { useLessons } from "../api/features/useLessons";
 import { useBookLesson } from "../api/features/useBookLesson";
 import type { Slot } from "../contexts/BookingContextData";
 import useUpdateBookedSlots from "../api/features/useUpdateBookedSlots";
-import useStudent from "../api/features/useStudent";
+import { useAuth } from "../contexts/useAuth";
 
 dayjs.extend(utc);
 
 export default function BookingConfirmation() {
   const { lessons } = useLessons();
-  const { student } = useStudent();
+  const { profile: student } = useAuth();
   const { bookLesson, isBooking } = useBookLesson();
   const { updateBookedSlots } = useUpdateBookedSlots();
   const { lessonId } = useParams();
@@ -39,11 +39,17 @@ export default function BookingConfirmation() {
 
   // Changes status in 'slots' to 'booked' and creates new row in 'bookings' table with students data
   function handleBooking(id: Slot[]) {
+    // Showing or sending message of cancellation deadline
+    const cancellationDeadline = dayjs(currentLesson[0].start_time)
+      .subtract(12, "hour")
+      .format("MMMM D, HH:mm");
+
     const lessonId = id[0].id;
     const bookingData = {
       slot_id: slotId,
-      full_name: student.full_name,
-      booked_by: student.id,
+      user_id: currentLesson[0].user_id,
+      full_name: student?.full_name,
+      booked_by: student?.id,
       start_time,
       duration,
       type: "lesson",
@@ -52,6 +58,7 @@ export default function BookingConfirmation() {
     updateBookedSlots(bookingData);
 
     navigate(-1);
+    console.log(`Cancellations close on ${cancellationDeadline}`);
   }
   return (
     <div className="flex flex-col gap-4 w-[50%] text-center">

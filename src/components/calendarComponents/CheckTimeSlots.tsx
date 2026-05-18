@@ -8,26 +8,72 @@ import { useBookings } from "../../contexts/useBookings";
 import PopUpDialog from "./ui/PopUpDialog";
 import useBookedSlots from "../../api/features/useBookedSlots";
 import { useAuth } from "../../contexts/useAuth";
-import useProfile from "../../api/features/useProfile";
-import { toParamStr } from "../../helpers/features";
+import { useState } from "react";
+import { useCancelBooking } from "./features/useCancelBooking";
+import { useDeleteSlot } from "./features/useDeleteSlot";
 
 dayjs.extend(utc);
 
+interface DialogDataProps {
+  h2: string;
+  popUpMessage: string;
+  btnText: string;
+}
+
+export interface DialogStateProps {
+  delete: DialogDataProps;
+  chat: DialogDataProps;
+  cancel: DialogDataProps;
+}
+
 export default function CheckTimeSlots() {
-  const { profile } = useProfile();
-  const { isStudent } = useAuth();
+  const [dialogState, setDialogState] =
+    useState<keyof DialogStateProps>("chat");
+
+  const { isStudent, user } = useAuth();
   const { lessons } = useLessons();
   const { noUserError, setSelectedSlot, dialogRef, selectedSlot, closeDialog } =
     useBookings();
+  const { cancelBooking } = useCancelBooking();
+  const { deleteSlot } = useDeleteSlot();
   const { bookedSlots } = useBookedSlots();
   const { dayId, teacherName } = useParams();
+
   const navigate = useNavigate();
   const now = dayjs().format("YYYY-MM-DD HH:mm");
 
   if (!lessons) return <p>waiting for lessons to load...</p>;
 
+  // Get current students name to show in pop up
+  const currentBookedSlot = bookedSlots?.find(
+    (slot) => slot?.slot_id === selectedSlot,
+  );
+  const studentsName = currentBookedSlot?.full_name;
+
+  const currentUserName = isStudent ? teacherName : studentsName;
+  // console.log(currentUserName);
+
   const currentDay = dayId?.slice(-10);
   const formatedCurrentDay = dayjs(currentDay).format("MMMM D");
+
+  const dialogData = {
+    delete: {
+      h2: "Delete lesson",
+      popUpMessage: `Do you really want to delete lesson from ${formatedCurrentDay}?`,
+      btnText: "delete",
+    },
+    chat: {
+      h2: "Connect with " + currentUserName,
+      popUpMessage:
+        "If you want to make changes to the booking you can start a discussion",
+      btnText: "open discussion",
+    },
+    cancel: {
+      h2: `Cancel your lesson on ${formatedCurrentDay}`,
+      popUpMessage: "By proceeding you cancel your booking",
+      btnText: "cancel booking",
+    },
+  };
 
   const currentSlots = lessons
     .filter((slot) =>
@@ -42,20 +88,6 @@ export default function CheckTimeSlots() {
 
   const slot = currentSlots.find((slot) => slot?.id === selectedSlot);
 
-  // Get current students name to show in pop up
-  const currentStudent = bookedSlots?.find(
-    (slot) => slot?.slot_id === selectedSlot,
-  );
-  const studentsName = currentStudent?.full_name;
-
-  const currentUserName = isStudent ? teacherName : studentsName;
-  // console.log(currentUserName);
-
-  // Get the lesson slot status to show correct pop up
-  const bookedSlot = () => {
-    return slot?.status === "booked";
-  };
-
   // Open dialog window
   function openDialog(slotId: string) {
     dialogRef?.current?.showModal();
@@ -63,19 +95,18 @@ export default function CheckTimeSlots() {
   }
 
   // handle current lesson slot
-  function handleDelete() {
+  function handleDialog() {
     if (!selectedSlot) return;
 
-    // Depending on lesson slot status open a chat room for discussions, or deleting it
-    if (bookedSlot()) {
-      navigate(
-        `/teacher/${toParamStr(profile?.full_name)}/chat-room/${slot.id}`,
-      );
+    // Depending on dialogState status open a chat room for discussions, cancellation window or deletion window
+    if (dialogState === "chat") {
+      navigate(`/teacher/${teacherName}/chat-room/${slot.id}`);
+    } else if (dialogState === "cancel") {
+      cancelBooking({ bookingId: currentBookedSlot?.id });
     } else {
-      console.log("slot was not deleted, it is just a test");
+      deleteSlot({ userId: user?.id, slotId: slot.id });
     }
 
-    // deleteSlot(selectedSlot.id); // your API call
     closeDialog();
   }
 
@@ -96,7 +127,12 @@ export default function CheckTimeSlots() {
         <p className="font-semibold">Available time slots</p>
         {currentSlots!.length > 0 ? (
           currentSlots?.map((slot) => (
-            <DayWithSlots slot={slot} openDialog={openDialog} key={slot.id} />
+            <DayWithSlots
+              slot={slot}
+              openDialog={openDialog}
+              setDialogState={setDialogState}
+              key={slot.id}
+            />
           ))
         ) : (
           <div className="text-xl">All lessons have expired</div>
@@ -105,11 +141,17 @@ export default function CheckTimeSlots() {
         {noUserError && (
           <p>
             Please{" "}
-            <Link to={"/login"} className="text-blue-800">
+            <Link
+              to={`/teacher/${teacherName}/login`}
+              className="text-blue-800"
+            >
               login
             </Link>{" "}
             or{" "}
-            <Link to={"/signup"} className="text-blue-800">
+            <Link
+              to={`/teacher/${teacherName}/signup`}
+              className="text-blue-800"
+            >
               sign up
             </Link>{" "}
             to continue with booking
@@ -117,10 +159,10 @@ export default function CheckTimeSlots() {
         )}
       </div>
       <PopUpDialog
-        h2={`${bookedSlot() ? "Connect with " + currentUserName : "Delete lesson"}`}
-        popUpMessage={`${bookedSlot() ? "If you want to make changes to the booking you can start a discussion" : "Do you really want to delete lesson from 07:00 - 08:00?"}`}
-        btnText={`${bookedSlot() ? "open discussion" : "delete"}`}
-        fn={() => handleDelete()}
+        h2={dialogData[dialogState].h2}
+        popUpMessage={dialogData[dialogState].popUpMessage}
+        btnText={dialogData[dialogState].btnText}
+        fn={() => handleDialog()}
       />
     </div>
   );

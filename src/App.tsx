@@ -14,7 +14,7 @@ import BookingConfirmation from "./ui/BookingConfirmation";
 import SignIn from "./components/authentication/login/SignIn";
 import LogOut from "./components/authentication/logout/LogOut";
 import SignUp from "./components/authentication/signup/SignUp";
-import { AuthContext } from "./contexts/AuthContext";
+import { AuthProvider } from "./contexts/AuthContext";
 import StudentDashboard from "./components/student/StudentDashboard";
 import Chats from "./components/chats/Chats";
 import { MessagesProvider } from "./contexts/MessagesContext";
@@ -23,19 +23,25 @@ import MyChats from "./components/chats/MyChat";
 function App() {
   return (
     <BrowserRouter>
-      <AuthContext>
+      <AuthProvider>
         <CalendarProvider>
           <BookingContextProvider>
             <MessagesProvider>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <main className="flex flex-col justify-center items-center min-h-screen text-3xl bg-main-bg pb-20">
                   <Routes>
-                    <Route path="login" element={<SignIn />} />
+                    <Route
+                      path="teacher/:teacherName/login"
+                      element={<SignIn />}
+                    />
                     <Route
                       path="teacher/:teacherName/logout"
                       element={<LogOut />}
                     />
-                    <Route path="signup" element={<SignUp />} />
+                    <Route
+                      path="teacher/:teacherName/signup"
+                      element={<SignUp />}
+                    />
                     <Route path="/" element={<Applayout />}>
                       <Route
                         index
@@ -83,7 +89,7 @@ function App() {
             </MessagesProvider>
           </BookingContextProvider>
         </CalendarProvider>
-      </AuthContext>
+      </AuthProvider>
     </BrowserRouter>
   );
 }

@@ -1,14 +1,16 @@
 import { Link } from "react-router-dom";
 
-import avatar from "../../assets/avatar.png";
 import { capitalizeFirst, toParamStr } from "../../helpers/features";
+import { AvatarPlaceholder } from "../avatars/features/AvatarPlaceholder";
 
 export default function MyTeachers({
   teacherName,
   subject,
+  avatarUrl,
 }: {
   teacherName: string;
   subject: string;
+  avatarUrl: string;
 }) {
   const divideFullName = teacherName.split(" ");
 
@@ -23,10 +25,15 @@ export default function MyTeachers({
         to={`/teacher/${toParamStr(teacherName)}`}
         className="flex items-center gap-2 text-lg"
       >
-        <img
+        <AvatarPlaceholder
+          name={formattedName || ""}
+          avatarUrl={avatarUrl || null}
+          styles="w-12 h-12"
+        />
+        {/* <img
           src={avatar}
           className="w-12 h-12 object-cover rounded-full border-2 border-peach"
-        />
+        /> */}
         {formattedName}
       </Link>
       <p>teaching you: {subject}</p>

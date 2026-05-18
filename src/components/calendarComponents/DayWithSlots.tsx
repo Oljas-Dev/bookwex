@@ -6,15 +6,19 @@ import { useBookings } from "../../contexts/useBookings";
 import { useUser } from "../../api/features/useUser";
 import { useAuth } from "../../contexts/useAuth";
 import useBookedSlots from "../../api/features/useBookedSlots";
+import type { Dispatch, SetStateAction } from "react";
+import type { DialogStateProps } from "./CheckTimeSlots";
 
 dayjs.extend(utc);
 
 export default function DayWithSlots({
   slot,
   openDialog,
+  setDialogState,
 }: {
   slot: Slot;
   openDialog: (slotId: string) => void;
+  setDialogState: Dispatch<SetStateAction<keyof DialogStateProps>>;
 }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const { isAuthenticated, isStudent, isTeacher } = useAuth();
@@ -34,6 +38,11 @@ export default function DayWithSlots({
 
   const startTime = dayjs.utc(slot.start_time).format("HH:mm");
   const endTime = dayjs.utc(slot.end_time).format("HH:mm");
+
+  // Users cannot cancel their bookings 12 hours before the lesson starts
+  const hoursLeft = dayjs(slot?.start_time).diff(dayjs(), "minute") / 60;
+
+  const canCancel = hoursLeft >= 12;
 
   function handleSlotClick() {
     if (!user) {
@@ -60,34 +69,39 @@ export default function DayWithSlots({
           </p>
           {/* Right side options */}
           <div className="p-0">
-            {booked && isAuthenticated && findCurrentUserBooking && (
-              <>
+            {booked &&
+              isAuthenticated &&
+              findCurrentUserBooking &&
+              canCancel && (
                 <button
                   className="iconBtn"
                   onClick={(e) => {
                     e.stopPropagation();
+                    setDialogState("cancel");
                     openDialog(slot.id);
                   }}
                 >
                   <i className="bi bi-x-octagon icon hover:text-jade"></i>
                 </button>
-
-                <button
-                  className="iconBtn"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    openDialog(slot.id);
-                  }}
-                >
-                  <i className="bi bi-card-text icon hover:text-jade"></i>
-                </button>
-              </>
+              )}
+            {booked && isAuthenticated && findCurrentUserBooking && (
+              <button
+                className="iconBtn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setDialogState("chat");
+                  openDialog(slot.id);
+                }}
+              >
+                <i className="bi bi-card-text icon hover:text-jade"></i>
+              </button>
             )}
             {isTeacher && !isStudent && !booked && (
               <button
                 className="iconBtn"
                 onClick={(e) => {
                   e.stopPropagation();
+                  setDialogState("delete");
                   openDialog(slot.id);
                 }}
               >

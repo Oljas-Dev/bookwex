@@ -6,7 +6,7 @@ import {
   type RecurringFormState,
   type Slot,
 } from "./BookingContextData";
-import { useUser } from "../api/features/useUser";
+import { useAuth } from "./useAuth";
 // import { getHoursAndMinutes } from "../helpers/functions";
 
 dayjs.extend(utc);
@@ -24,7 +24,7 @@ export function BookingContextProvider({ children }: { children: ReactNode }) {
   // Dialog window
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
 
-  const { user } = useUser();
+  const { user } = useAuth();
 
   // Pop Up window logic
   const dialogRef = useRef<HTMLDialogElement | null>(null);
