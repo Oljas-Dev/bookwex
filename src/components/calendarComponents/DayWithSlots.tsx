@@ -1,9 +1,8 @@
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import type { Slot } from "../../contexts/BookingContextData";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useBookings } from "../../contexts/useBookings";
-import { useUser } from "../../api/features/useUser";
 import { useAuth } from "../../contexts/useAuth";
 import useBookedSlots from "../../api/features/useBookedSlots";
 import type { Dispatch, SetStateAction } from "react";
@@ -21,15 +20,21 @@ export default function DayWithSlots({
   setDialogState: Dispatch<SetStateAction<keyof DialogStateProps>>;
 }) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { isAuthenticated, isStudent, isTeacher } = useAuth();
+  const { isAuthenticated, isStudent, isTeacher, user, currentTeacher } =
+    useAuth();
   const { setNoUserError } = useBookings();
   const { bookedSlots } = useBookedSlots();
-  const { user } = useUser();
+  const { teacherName } = useParams();
+  // const { user } = useUser();
 
   const navigate = useNavigate();
 
   // Authentication checks and permissions
   const booked = slot?.status === "booked";
+
+  // Other teachers cannot see delete button of other teachers
+  const currentTeacherCheck =
+    isTeacher && user?.id === currentTeacher(teacherName)?.id;
 
   // Students can work only with own bookings
   const findCurrentUserBooking = bookedSlots?.some(
@@ -96,7 +101,7 @@ export default function DayWithSlots({
                 <i className="bi bi-card-text icon hover:text-jade"></i>
               </button>
             )}
-            {isTeacher && !isStudent && !booked && (
+            {currentTeacherCheck && !isStudent && !booked && (
               <button
                 className="iconBtn"
                 onClick={(e) => {

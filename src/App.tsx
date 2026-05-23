@@ -19,6 +19,10 @@ import StudentDashboard from "./components/student/StudentDashboard";
 import Chats from "./components/chats/Chats";
 import { MessagesProvider } from "./contexts/MessagesContext";
 import MyChats from "./components/chats/MyChat";
+import AuthCallback from "./components/authentication/AuthCallback";
+import ChangePasswordDialog from "./components/authentication/change-password/ChangePassword";
+import ForgotPassword from "./components/authentication/forgot-password/ForgotPassword";
+import ResetPassword from "./components/authentication/forgot-password/ResetPassword";
 
 function App() {
   return (
@@ -30,14 +34,21 @@ function App() {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <main className="flex flex-col justify-center items-center min-h-screen text-3xl bg-main-bg pb-20">
                   <Routes>
-                    <Route
-                      path="teacher/:teacherName/login"
-                      element={<SignIn />}
-                    />
+                    <Route path="/auth/callback" element={<AuthCallback />} />
+                    <Route path="login" element={<SignIn />} />
                     <Route
                       path="teacher/:teacherName/logout"
                       element={<LogOut />}
                     />
+                    <Route
+                      path="change-password"
+                      element={<ChangePasswordDialog />}
+                    />
+                    <Route
+                      path="forgot-password"
+                      element={<ForgotPassword />}
+                    />
+                    <Route path="reset-password" element={<ResetPassword />} />
                     <Route
                       path="teacher/:teacherName/signup"
                       element={<SignUp />}

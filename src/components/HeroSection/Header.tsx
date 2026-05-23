@@ -1,4 +1,5 @@
 import useProfile from "../../api/features/useProfile";
+import { capitalizeAllFirst } from "../../helpers/features";
 import Stars from "./ui/Stars";
 
 export default function Header() {
@@ -6,7 +7,7 @@ export default function Header() {
 
   if (!profile) return <p>Waiting for profile to load...</p>;
 
-  const fullName = profile?.full_name || "Guest";
+  const fullName = capitalizeAllFirst(profile?.full_name) || "Guest";
   const userRole = !profile ? "guest" : profile?.role;
 
   return (

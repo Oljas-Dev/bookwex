@@ -85,11 +85,17 @@ export default function SignIn() {
       {error && <p className="text-red-600">{error}</p>}
       <div className="flex flex-col items-center gap-2">
         <p>
-          Forgot your <Link to={"/forgot-password"}>password</Link>?{" "}
+          Forgot your{" "}
+          <Link to={"/forgot-password"}>
+            <strong>password</strong>
+          </Link>
+          ?{" "}
         </p>
         <p>
           Don't have account yet?{" "}
-          <Link to={`/teacher/${teacherName}/signup`}>Sign up</Link>
+          <Link to={`/teacher/${teacherName}/signup`}>
+            <strong>Sign up</strong>
+          </Link>
         </p>
       </div>
     </div>

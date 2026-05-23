@@ -3,14 +3,12 @@ import { UsersContext } from "./AuthContextData";
 import type { User } from "@supabase/supabase-js";
 import { supabase } from "../api/supabase/supabase";
 import { useQuery } from "@tanstack/react-query";
-// import useProfile from "../api/features/useProfile";
+import { toNormalStr } from "../helpers/features";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   // AUTH STATE
   const [user, setUser] = useState<User | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
-
-  // const { student, user } = useStudent();
 
   // INITIAL SESSION + LISTENER
   useEffect(() => {
@@ -49,8 +47,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     enabled: !!user,
   });
 
+  // All public profiles query
+  const { data: profiles, isPending: profilesLoading } = useQuery({
+    queryKey: ["profiles", user?.id],
+
+    queryFn: async () => {
+      const { data, error } = await supabase.from("profiles").select("*");
+
+      if (error) throw error;
+
+      return data;
+    },
+  });
+
+  const currentTeacher = (teacherName: string | undefined) => {
+    return profiles?.find(
+      (teacher) => teacher.full_name === toNormalStr(teacherName),
+    );
+  };
+
   // LOADING
-  const loading = authLoading || profileLoading;
+  const loading = authLoading || profileLoading || profilesLoading;
 
   // FLAGS
   // User is authenticated
@@ -74,10 +91,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       value={{
         user,
         profile,
+        profiles,
         loading,
         isAuthenticated,
         isStudent,
         isTeacher,
+        currentTeacher,
       }}
     >
       {children}

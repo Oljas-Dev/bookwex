@@ -6,7 +6,9 @@ function getLastName(str: string | undefined) {
 }
 
 function capitalizeFirst(str: string | undefined) {
-  return str!.charAt(0).toUpperCase() + str!.slice(1).toLowerCase();
+  if (!str) return;
+
+  return str?.charAt(0).toUpperCase() + str?.slice(1).toLowerCase();
 }
 
 function capitalizeAllFirst(strArr: string | undefined) {

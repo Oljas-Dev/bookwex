@@ -6,6 +6,13 @@ export interface MyTeacherProps {
   subject: string;
 }
 
+export type Profile = {
+  id: string;
+  full_name: string | null;
+  avatar_url: string | null;
+  my_teachers: string[] | null;
+};
+
 type ProfileType = {
   id: string;
   email: string;
@@ -14,14 +21,16 @@ type ProfileType = {
   full_name: string;
   avatar_url: string;
   is_public: boolean;
-  my_teachers: MyTeacherProps[];
+  my_teachers: string[];
 };
 
 type AuthContextType = {
   user: User | null;
   profile: ProfileType | null;
-  loading: boolean;
+  profiles: ProfileType[] | undefined;
+  currentTeacher: (teacherName: string | undefined) => ProfileType;
 
+  loading: boolean;
   isAuthenticated: boolean;
   isStudent: boolean;
   isTeacher: boolean;

@@ -46,7 +46,7 @@ export default function Navigation() {
         ) : (
           <>
             <li>
-              <Link to={`/teacher/${teacherName}/login`}>login</Link>
+              <Link to={`/login`}>login</Link>
             </li>
             <li>
               <Link to={`/teacher/${teacherName}/signup`}>sign up</Link>

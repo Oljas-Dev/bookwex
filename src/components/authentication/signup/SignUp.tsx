@@ -2,18 +2,23 @@ import { ArrowLeft } from "react-bootstrap-icons";
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSignUp } from "../../../api/features/useSignUp";
-import { toNormalStr } from "../../../helpers/features";
+import { useAuth } from "../../../contexts/useAuth";
 
 export default function SignUp() {
   const { teacherName } = useParams();
+  const { currentTeacher } = useAuth();
+
+  const navigate = useNavigate();
+
+  const { signup, isPending } = useSignUp(() => {
+    navigate(`/teacher/${teacherName}`);
+  });
+
   const [email, setEmail] = useState("");
   const [full_name, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [error, setError] = useState("");
-
-  const { signup, isPending } = useSignUp();
-  const navigate = useNavigate();
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -34,21 +39,21 @@ export default function SignUp() {
       setError("Passwords need to match. Please check your passwords fields.");
       return;
     }
-    const myTeachers = [
-      {
-        subject: "english",
-        full_name: toNormalStr(teacherName),
-      },
-    ];
+
+    const teacherId = currentTeacher(teacherName)?.id;
+
+    if (!teacherId) {
+      setError("Teacher not found");
+      return;
+    }
 
     signup({
-      email,
+      email: email.trim(),
       password,
-      full_name,
+      full_name: full_name.toLowerCase(),
       avatar_url: "",
-      my_teachers: myTeachers,
+      my_teachers: [teacherId],
     });
-    navigate(`/teacher/${teacherName}`);
   }
 
   return (
@@ -116,7 +121,9 @@ export default function SignUp() {
       <div className="flex flex-col items-center gap-2">
         <p>
           Already have account?{" "}
-          <Link to={`/teacher/${teacherName}/login`}>Sign in</Link>
+          <Link to={`/login`}>
+            <strong>Sign in</strong>
+          </Link>
         </p>
       </div>
     </div>

@@ -30,7 +30,7 @@ export default function CheckTimeSlots() {
   const [dialogState, setDialogState] =
     useState<keyof DialogStateProps>("chat");
 
-  const { isStudent, user } = useAuth();
+  const { user } = useAuth();
   const { lessons } = useLessons();
   const { noUserError, setSelectedSlot, dialogRef, selectedSlot, closeDialog } =
     useBookings();
@@ -48,9 +48,9 @@ export default function CheckTimeSlots() {
   const currentBookedSlot = bookedSlots?.find(
     (slot) => slot?.slot_id === selectedSlot,
   );
-  const studentsName = currentBookedSlot?.full_name;
+  // const studentsName = currentBookedSlot?.full_name;
 
-  const currentUserName = isStudent ? teacherName : studentsName;
+  // const currentUserName = isStudent ? teacherName : studentsName;
   // console.log(currentUserName);
 
   const currentDay = dayId?.slice(-10);
@@ -63,7 +63,8 @@ export default function CheckTimeSlots() {
       btnText: "delete",
     },
     chat: {
-      h2: "Connect with " + currentUserName,
+      // h2: "Connect with " + currentUserName,
+      h2: "Open chat",
       popUpMessage:
         "If you want to make changes to the booking you can start a discussion",
       btnText: "open discussion",
@@ -141,10 +142,7 @@ export default function CheckTimeSlots() {
         {noUserError && (
           <p>
             Please{" "}
-            <Link
-              to={`/teacher/${teacherName}/login`}
-              className="text-blue-800"
-            >
+            <Link to={`/login`} className="text-blue-800">
               login
             </Link>{" "}
             or{" "}
