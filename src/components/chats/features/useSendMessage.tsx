@@ -1,19 +1,21 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../../../api/supabase/supabase";
 import { useUser } from "../../../api/features/useUser";
+import type { Profile } from "../../../contexts/AuthContextData";
 
 export type Message = {
   id: string;
-  lesson_id: string | undefined;
+  lesson_id: string;
   sender_id: string | undefined;
   text: string | undefined;
   created_at: string;
   optimistic?: boolean;
   is_read?: boolean;
+  sender?: Partial<Profile> | undefined;
 };
 
 type SendMessageInput = {
-  lessonId: string | undefined;
+  lessonId: string;
   text: string | undefined;
 };
 
@@ -89,6 +91,9 @@ export function useSendMessage() {
 
       queryClient.invalidateQueries({
         queryKey: context.queryKey,
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["messages"],
       });
     },
   });

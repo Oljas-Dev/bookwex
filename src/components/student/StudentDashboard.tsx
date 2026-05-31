@@ -1,119 +1,79 @@
-import type { JSX } from "@emotion/react/jsx-runtime";
 import { useAuth } from "../../contexts/useAuth";
-import { AvatarPlaceholder } from "../avatars/features/AvatarPlaceholder";
-import { getAvatarUrl } from "../avatars/features/useAvatar";
-import MyTeachers from "./MyTeachers";
 import EditPersonalInfo from "./features/EditPersonalInfo";
-import { useRef } from "react";
-import { capitalizeAllFirst, toParamStr } from "../../helpers/features";
-import { useTeachers } from "../../api/features/useTeachers";
-import useStudent from "../../api/features/useStudent";
-import { Link } from "react-router-dom";
-import { useStudentLessons } from "./features/useStudentLessons";
-import MyLessons from "./MyLessons";
+import { toParamStr } from "../../helpers/features";
+import { useNavigate } from "react-router-dom";
+import type { DialogStateProps } from "../calendarComponents/CheckTimeSlots";
+import { useBookings } from "../../contexts/useBookings";
+import useBookedSlots from "../../api/features/useBookedSlots";
+import { useCancelBooking } from "../calendarComponents/features/useCancelBooking";
+import PopUpDialog from "../calendarComponents/ui/PopUpDialog";
+import { rawDialogData } from "../../helpers/variables";
+import { useProfileById } from "../../api/features/useProfileById";
+import dayjs from "dayjs";
+import LessonsSection from "./LessonsSection";
+import ProfileSection from "./ProfileSection";
 
 export default function StudentDashboard() {
-  const { isTeacher, loading } = useAuth();
-  const { profiles, profilesLoading } = useTeachers();
-  const { student, isPendingStudent } = useStudent();
-  const { studentLessons, isPending } = useStudentLessons();
+  const { loading } = useAuth();
 
-  const dialogFormRef = useRef<HTMLDialogElement | null>(null);
-  const support = "oljasmedetbaev@gmail.com";
-  // const [lessons] = useState(studentLessons ? studentLessons : []);
+  const { closeDialog, dialogConfig, dialogFormRef } = useBookings();
+  const { cancelBooking } = useCancelBooking();
+  const { bookedSlots } = useBookedSlots();
 
-  if (loading || profilesLoading || isPendingStudent || isPending) {
-    return <p>loading student's data...</p>;
+  const navigate = useNavigate();
+
+  const currentBookedSlot = bookedSlots?.find(
+    (slot) => slot?.slot_id === dialogConfig?.lessonId,
+  );
+
+  const { teacher: currentTeacher } = useProfileById(
+    currentBookedSlot?.user_id,
+  );
+
+  if (loading) return <p>loading student's data...</p>;
+
+  const formattedCurrentDay = dayjs(currentBookedSlot?.start_time).format(
+    "MMMM DD",
+  );
+
+  const dialogData: DialogStateProps = {
+    ...rawDialogData,
+    cancel: {
+      ...rawDialogData.cancel,
+      h2: `Cancel your lesson on ${formattedCurrentDay}`,
+    },
+  };
+
+  function handleDialog() {
+    if (!dialogConfig) return;
+
+    if (dialogConfig.type === "chat") {
+      navigate(
+        `/teacher/${toParamStr(currentTeacher?.full_name)}/chat-room/${dialogConfig.lessonId}`,
+      );
+    }
+
+    if (dialogConfig.type === "cancel") {
+      cancelBooking({
+        bookingId: currentBookedSlot?.id,
+      });
+    }
+
+    closeDialog();
   }
-
-  const lessons = studentLessons ? studentLessons : [];
-
-  const myTeacher: JSX.Element[] = [];
-
-  student?.my_teachers?.forEach((teacherId: string) => {
-    const teacher = profiles?.find((t) => t.id === teacherId);
-
-    if (!teacher) return;
-
-    myTeacher.push(
-      <MyTeachers
-        key={teacherId}
-        teacherName={teacher?.full_name}
-        avatarUrl={getAvatarUrl(teacher?.avatar_url)}
-        subject="English"
-      />,
-    );
-  });
-
-  const avatarUrl = getAvatarUrl(student?.avatar_url);
 
   return (
     <>
-      <section className="grid grid-cols-[70%_30%] w-full bg-jade px-10 py-6 mb-8 [&_p]:text-lg">
-        <div className="flex flex-col gap-3">
-          <h2>Hi👋, {capitalizeAllFirst(student?.full_name)}</h2>
-          {myTeacher.length > 0 ? (
-            <div>
-              <p>Let's start learning, please, choose your teacher</p>
-              <p>My teachers:</p>
-              <ul className="mt-2">{myTeacher}</ul>
-            </div>
-          ) : (
-            <p>
-              No teachers were found, please report the issue to{" "}
-              <a href={`mailto:${support}`} className="text-blue-500 underline">
-                support
-              </a>
-            </p>
-          )}
-          {isTeacher && (
-            <div>
-              <a href={`teacher/${toParamStr(student?.full_name)}`}>
-                <button className="hover:text-amber-100">
-                  go to your dashboard
-                </button>
-              </a>
-            </div>
-          )}
-        </div>
-        <aside className="flex flex-col items-center gap-2 [&_h3]:text-center">
-          <div>
-            <h3>My profile</h3>
-            <div onClick={() => dialogFormRef?.current?.showModal()}>
-              <AvatarPlaceholder
-                name={student?.full_name || ""}
-                avatarUrl={avatarUrl || null}
-                styles="w-44 h-44 text-5xl transition-all duration-200 hover:scale-101 hover:shadow-[2px_2px_3px_var(--shadow-dark-card)] active:scale-95 active:shadow-none cursor-pointer"
-              />
-            </div>
-          </div>
-
-          <div
-            onClick={() => dialogFormRef?.current?.showModal()}
-            className="cursor-pointer"
-          >
-            <p className="hover:text-amber-100">edit profile</p>
-          </div>
-          <Link to="/change-password" className="text-lg hover:text-amber-100">
-            change password
-          </Link>
-
-          {/* <h3>Home tasks</h3>
-            <p>There are no home tasks for now. You are all up to date!</p> */}
-        </aside>
-      </section>
-      <section>
-        {lessons.length > 0 && (
-          <>
-            <h2>Your booked lessons:</h2>
-            {lessons?.map((lesson, i) => (
-              <MyLessons key={i} lessons={lesson} />
-            ))}
-          </>
-        )}
-      </section>
-
+      <ProfileSection />
+      <LessonsSection />
       <EditPersonalInfo dialogFormRef={dialogFormRef} />
+
+      <PopUpDialog
+        h2={dialogData[dialogConfig?.type || "chat"]?.h2}
+        popUpMessage={dialogData[dialogConfig?.type || "chat"]?.popUpMessage}
+        btnText={dialogData[dialogConfig?.type || "chat"]?.btnText}
+        fn={handleDialog}
+      />
     </>
   );
 }

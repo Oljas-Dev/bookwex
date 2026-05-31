@@ -7,7 +7,16 @@ export function useMessageStatus() {
   const { data: msgStatus, isPending } = useQuery({
     queryKey: ["messages"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("messages").select("*");
+      const { data, error } = await supabase.from("messages").select(`
+    *,
+    
+    sender:profiles!messages_sender_id_fkey (
+      id,
+      full_name,
+      avatar_url,
+      role
+    )
+  `);
 
       if (error) {
         console.error(error.message);

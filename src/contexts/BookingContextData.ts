@@ -1,4 +1,5 @@
 import { createContext, type Dispatch, type SetStateAction } from "react";
+import type { DialogStateProps } from "../components/calendarComponents/CheckTimeSlots";
 
 type Exception =
   | {
@@ -20,10 +21,29 @@ type Slot = {
   duration: number;
   buffer?: number;
   status: string;
+  booked_by?: string;
 };
+
+interface Booking {
+  id: string;
+  slot_id: string;
+  booked_by: string;
+  start_time: string;
+  duration: number;
+  type: string;
+}
+
+interface BookingWithStudent extends Booking {
+  student: {
+    fullName: string;
+    avatarUrl: string | null;
+  };
+}
 
 interface BookingTypes {
   dialogRef: React.RefObject<HTMLDialogElement | null>;
+  dialogConfig: DialogConfigTypes | null;
+  dialogFormRef: React.RefObject<HTMLDialogElement | null>;
   availableSlots: Slot[];
   startDate: string;
   endDate: string;
@@ -46,6 +66,7 @@ interface BookingTypes {
 
   // Functions
   closeDialog: () => void;
+  openDialog: (lessonId: string, type: keyof DialogStateProps) => void;
 
   // Testing slots generation form
   generateSlots: (form: RecurringFormState) => Slot[];
@@ -65,7 +86,12 @@ type RecurringFormState = {
   exceptions?: Exception[];
 };
 
-export type WeekFormState = {
+interface DialogConfigTypes {
+  lessonId: string;
+  type: keyof DialogStateProps;
+}
+
+type WeekFormState = {
   weekStart: string; // ISO date (Monday)
   selectedDays: number[]; // [1, 3, 5] => Mon, Wed, Fri
   startTime: string;
@@ -74,8 +100,15 @@ export type WeekFormState = {
   buffer: number;
 };
 
-export type { Slot, RecurringFormState };
-export type { BookingTypes };
+export type {
+  Slot,
+  RecurringFormState,
+  DialogConfigTypes,
+  Booking,
+  BookingTypes,
+  BookingWithStudent,
+  WeekFormState,
+};
 
 export const BookingContext = createContext<BookingTypes | undefined>(
   undefined,

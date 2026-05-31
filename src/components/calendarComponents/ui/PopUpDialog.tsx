@@ -7,9 +7,9 @@ export default function PopUpDialog({
   btnText,
   fn,
 }: {
-  h2: string;
-  popUpMessage: string;
-  btnText: string;
+  h2: string | undefined;
+  popUpMessage: string | undefined;
+  btnText: string | undefined;
   fn: () => void;
 }) {
   const { dialogRef, setSelectedSlot, closeDialog } = useBookings();

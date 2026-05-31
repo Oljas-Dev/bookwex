@@ -7,7 +7,7 @@ export default function ChatsMessages({ message }: { message: Message }) {
   const { user } = useUser();
 
   const messageFromMe = user?.id === message.sender_id;
-  const created_at = dayjs(message.created_at).format("HH:mm");
+  const createdAt = dayjs(message.created_at).format("HH:mm");
 
   return (
     <div
@@ -15,7 +15,7 @@ export default function ChatsMessages({ message }: { message: Message }) {
     >
       <p className="text-base">{message.text}</p>
       <span className="flex justify-end gap-1">
-        <p className="text-jet/50">{created_at}</p>
+        <p className="text-jet/50">{createdAt}</p>
         {/* show if messages from you were read 
             for later: status: "sending" | "sent" | "delivered" | "seen"
             | Status    | UI      

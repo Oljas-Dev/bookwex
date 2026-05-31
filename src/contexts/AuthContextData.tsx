@@ -8,12 +8,12 @@ export interface MyTeacherProps {
 
 export type Profile = {
   id: string;
-  full_name: string | null;
+  full_name: string | undefined;
   avatar_url: string | null;
   my_teachers: string[] | null;
 };
 
-type ProfileType = {
+export type ProfileType = {
   id: string;
   email: string;
   role: string;

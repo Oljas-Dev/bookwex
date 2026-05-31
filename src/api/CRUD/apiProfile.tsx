@@ -20,16 +20,10 @@ export async function getProfile({
 }
 
 export async function getStudent(userId: string) {
-  // const {
-  //   data: { user },
-  // } = await supabase.auth.getUser();
-  // console.log(user);
-
   const { data: student, error } = await supabase
     .from("profiles")
     .select("*")
     .eq("id", userId)
-    // .eq("role", "student")
     .single();
 
   if (error) {

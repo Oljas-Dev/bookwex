@@ -10,6 +10,7 @@ export function useLogin() {
 
     onSuccess: (user) => {
       queryClient.setQueryData(["user"], user?.user);
+      queryClient.invalidateQueries({ queryKey: ["messages"] });
     },
     onError: (err) => {
       console.error("ERROR", err.message);

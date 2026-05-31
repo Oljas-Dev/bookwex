@@ -21,7 +21,7 @@ interface DialogDataProps {
 }
 
 export interface DialogStateProps {
-  delete: DialogDataProps;
+  delete?: DialogDataProps;
   chat: DialogDataProps;
   cancel: DialogDataProps;
 }
@@ -48,10 +48,6 @@ export default function CheckTimeSlots() {
   const currentBookedSlot = bookedSlots?.find(
     (slot) => slot?.slot_id === selectedSlot,
   );
-  // const studentsName = currentBookedSlot?.full_name;
-
-  // const currentUserName = isStudent ? teacherName : studentsName;
-  // console.log(currentUserName);
 
   const currentDay = dayId?.slice(-10);
   const formatedCurrentDay = dayjs(currentDay).format("MMMM D");

@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { capitalizeAllFirst, toNormalStr } from "../../helpers/features";
+// import { capitalizeAllFirst, toNormalStr } from "../../helpers/features";
 import {
   ArrowLeft,
   CalendarEvent,
@@ -12,9 +12,10 @@ import { useState } from "react";
 import { useSendMessage } from "./features/useSendMessage";
 import { useMessages } from "./features/useMessages";
 import ChatsMessages from "./ui/ChatsMessages";
+import { formatLessonDate } from "../../helpers/features";
 
 export default function Chats() {
-  const [messageInput, setMessageInput] = useState<string>();
+  const [messageInput, setMessageInput] = useState("");
   const { teacherName, lessonId } = useParams();
   const { lessons } = useLessons();
 
@@ -22,21 +23,26 @@ export default function Chats() {
   const { data: messages, isLoading } = useMessages(lessonId);
 
   const navigate = useNavigate();
-  const username = toNormalStr(teacherName);
 
-  const formattedName = capitalizeAllFirst(username);
+  if (!lessonId) {
+    return <p>Lesson not found</p>;
+  }
 
-  const currentLesson = lessons?.find((lesson) => lesson.id === lessonId);
+  const safeLessonId = lessonId;
+
+  const currentLesson = lessons?.find((lesson) => lesson.id === safeLessonId);
   const currentDay = dayjs.utc(currentLesson?.start_time).format("MMMM D");
 
-  const startTime = dayjs.utc(currentLesson?.start_time).format("HH:mm");
-  const endTime = dayjs.utc(currentLesson?.end_time).format("HH:mm");
+  console.log(formatLessonDate(currentLesson?.start_time));
+
+  const startTime = formatLessonDate(currentLesson?.start_time, "HH:mm");
+  const endTime = formatLessonDate(currentLesson?.end_time, "HH:mm");
 
   // Send message
   function handleSendMessage() {
     sendMessage({
-      lessonId,
-      text: messageInput?.trim(),
+      lessonId: safeLessonId,
+      text: messageInput.trim(),
     });
     setMessageInput("");
   }
@@ -46,12 +52,10 @@ export default function Chats() {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
 
-      const trimmed = messageInput?.trim();
-
-      if (!trimmed) return;
+      const trimmed = messageInput.trim();
 
       sendMessage({
-        lessonId,
+        lessonId: safeLessonId,
         text: trimmed,
       });
 
@@ -85,7 +89,7 @@ export default function Chats() {
 
         {/* Chats header */}
         <div className="text-center">
-          Chat with {formattedName} about your lesson on {currentDay} <br />
+          Discuss your lesson on {currentDay} <br />
           from {startTime} - {endTime}
         </div>
       </div>

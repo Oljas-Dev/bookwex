@@ -3,10 +3,12 @@ import utc from "dayjs/plugin/utc";
 import { useRef, useState, type ReactNode } from "react";
 import {
   BookingContext,
+  type DialogConfigTypes,
   type RecurringFormState,
   type Slot,
 } from "./BookingContextData";
 import { useAuth } from "./useAuth";
+import type { DialogStateProps } from "../components/calendarComponents/CheckTimeSlots";
 // import { getHoursAndMinutes } from "../helpers/functions";
 
 dayjs.extend(utc);
@@ -24,10 +26,16 @@ export function BookingContextProvider({ children }: { children: ReactNode }) {
   // Dialog window
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
 
+  const [dialogConfig, setDialogConfig] = useState<DialogConfigTypes | null>(
+    null,
+  );
+
   const { user } = useAuth();
 
-  // Pop Up window logic
+  // Dialogs used in app
   const dialogRef = useRef<HTMLDialogElement | null>(null);
+
+  const dialogFormRef = useRef<HTMLDialogElement | null>(null);
 
   // Close by clicking on button
   const closeDialog = (): void => {
@@ -88,6 +96,15 @@ export function BookingContextProvider({ children }: { children: ReactNode }) {
     },
   ];
 
+  function openDialog(lessonId: string, type: keyof DialogStateProps) {
+    setDialogConfig({
+      lessonId,
+      type,
+    });
+
+    dialogRef?.current?.showModal();
+  }
+
   // generate free slots in schedule
   function generateSlots(form: RecurringFormState): Slot[] {
     if (!form) {
@@ -131,8 +148,8 @@ export function BookingContextProvider({ children }: { children: ReactNode }) {
         const startTime = isOverride ? exception.startTime : form.startTime;
         const endTime = isOverride ? exception.endTime : form.endTime;
 
-        let currentTime = dayjs.utc(`${dateStr}T${startTime}:00`);
-        const dayEndTime = dayjs.utc(`${dateStr}T${endTime}:00`);
+        let currentTime = dayjs.utc(`${dateStr}T${startTime}:00Z`);
+        const dayEndTime = dayjs.utc(`${dateStr}T${endTime}:00Z`);
 
         while (true) {
           const slotEnd = currentTime.add(form.duration, "minute");
@@ -206,6 +223,8 @@ export function BookingContextProvider({ children }: { children: ReactNode }) {
       value={{
         selectedSlot,
         dialogRef,
+        dialogConfig,
+        dialogFormRef,
         uniqueSelectedDays,
         bookedSlots,
         availableSlots,
@@ -229,6 +248,7 @@ export function BookingContextProvider({ children }: { children: ReactNode }) {
         generateSlots,
         filterAvailableSlots,
         closeDialog,
+        openDialog,
       }}
     >
       {children}

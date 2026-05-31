@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
-
-import { capitalizeFirst, toParamStr } from "../../helpers/features";
-import { AvatarPlaceholder } from "../avatars/features/AvatarPlaceholder";
+import { AvatarPlaceholder } from "../../avatars/features/AvatarPlaceholder";
+import { capitalizeFirst, toParamStr } from "../../../helpers/features";
 
 type MyTeachersProps = {
   teacherName?: string;

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 // import { sendEmail } from "../api/emails/useResendEmail";
 import MonthsSlider from "./calendarComponents/MonthsSlider";
 import ShowCurrentMonth from "./calendarComponents/ShowCurrentMonth";
@@ -7,17 +7,22 @@ import ShowPreviousMonth from "./calendarComponents/ShowPreviousMonth";
 import WeekDays from "./calendarComponents/WeekDays";
 import useProfile from "../api/features/useProfile";
 import { useAuth } from "../contexts/useAuth";
-import { toParamStr } from "../helpers/features";
+import { toNormalStr, toParamStr } from "../helpers/features";
+import useStudent from "../api/features/useStudent";
 
 export default function Calendar() {
   const { isTeacher, user } = useAuth();
   const { profile } = useProfile();
+  const { student, isPendingStudent } = useStudent();
+  const { teacherName } = useParams();
 
   const navigate = useNavigate();
 
-  // console.log(isTeacher);
+  if (!profile || isPendingStudent)
+    return <p>Waiting for profile to load...</p>;
 
-  if (!profile) return <p>Waiting for profile to load...</p>;
+  const showScheduleBtn =
+    isTeacher && student?.full_name === toNormalStr(teacherName);
 
   // async function handleSendEmail() {
   //   try {
@@ -56,7 +61,7 @@ export default function Calendar() {
         <ShowCurrentMonth />
         <ShowNextMonth />
       </div>
-      {isTeacher && (
+      {showScheduleBtn && (
         <button
           onClick={() =>
             navigate(`/teacher/${toParamStr(profile?.full_name)}/planner`)

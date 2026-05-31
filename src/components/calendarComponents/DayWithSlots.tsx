@@ -1,12 +1,13 @@
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import type { Slot } from "../../contexts/BookingContextData";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useBookings } from "../../contexts/useBookings";
 import { useAuth } from "../../contexts/useAuth";
 import useBookedSlots from "../../api/features/useBookedSlots";
 import type { Dispatch, SetStateAction } from "react";
 import type { DialogStateProps } from "./CheckTimeSlots";
+import useProfile from "../../api/features/useProfile";
 
 dayjs.extend(utc);
 
@@ -20,12 +21,10 @@ export default function DayWithSlots({
   setDialogState: Dispatch<SetStateAction<keyof DialogStateProps>>;
 }) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { isAuthenticated, isStudent, isTeacher, user, currentTeacher } =
-    useAuth();
+  const { isAuthenticated, isStudent, isTeacher, user } = useAuth();
+  const { profile } = useProfile();
   const { setNoUserError } = useBookings();
   const { bookedSlots } = useBookedSlots();
-  const { teacherName } = useParams();
-  // const { user } = useUser();
 
   const navigate = useNavigate();
 
@@ -33,8 +32,7 @@ export default function DayWithSlots({
   const booked = slot?.status === "booked";
 
   // Other teachers cannot see delete button of other teachers
-  const currentTeacherCheck =
-    isTeacher && user?.id === currentTeacher(teacherName)?.id;
+  const currentTeacherCheck = isTeacher && user?.id === profile?.id;
 
   // Students can work only with own bookings
   const findCurrentUserBooking = bookedSlots?.some(

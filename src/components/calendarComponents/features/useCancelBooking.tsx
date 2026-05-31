@@ -25,6 +25,7 @@ export function useCancelBooking() {
       queryClient.invalidateQueries({
         queryKey: ["bookings"],
       });
+      queryClient.invalidateQueries({ queryKey: ["teacher-bookings"] });
       toast.success("Booking was successfully canceled");
     },
   });

@@ -1,12 +1,21 @@
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(relativeTime);
+
 function getFirstName(str: string | undefined) {
   return str?.split(" ").at(0);
 }
 function getLastName(str: string | undefined) {
-  return str?.split(" ").at(1);
+  return str?.split(" ").at(1) ?? "";
 }
 
 function capitalizeFirst(str: string | undefined) {
-  if (!str) return;
+  if (!str) return "";
 
   return str?.charAt(0).toUpperCase() + str?.slice(1).toLowerCase();
 }
@@ -31,6 +40,14 @@ function generateImgId() {
   return crypto.randomUUID().slice(0, 6);
 }
 
+// Detecting Timezones
+function formatLessonDate(
+  date: string | undefined,
+  format = "DD MMM YYYY HH:mm",
+) {
+  return dayjs.utc(date).tz(dayjs.tz.guess()).format(format);
+}
+
 export {
   getFirstName,
   getLastName,
@@ -39,4 +56,5 @@ export {
   toNormalStr,
   capitalizeAllFirst,
   generateImgId,
+  formatLessonDate,
 };
