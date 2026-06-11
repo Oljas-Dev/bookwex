@@ -36,7 +36,7 @@ export default function Navigation() {
                 <EnvelopeOpen />
               )}
             </li>
-            <li onClick={() => navigate("/student")}>
+            <li onClick={() => navigate("/profile")}>
               <PersonFill />
             </li>
             <li>

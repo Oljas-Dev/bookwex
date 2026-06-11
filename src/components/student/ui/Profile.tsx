@@ -3,10 +3,10 @@ import { capitalizeAllFirst, toParamStr } from "../../../helpers/features";
 import MyTeachers from "./MyTeachers";
 import { getAvatarUrl } from "../../avatars/features/useAvatar";
 import { useAuth } from "../../../contexts/useAuth";
-import type { Profile } from "../../../contexts/AuthContextData";
+import type { Profile, ProfileType } from "../../../contexts/AuthContextData";
 import { useTeachers } from "../../../api/features/useTeachers";
 
-export default function Profile({ user }: { user: Profile }) {
+export default function Profile({ user }: { user: ProfileType | null }) {
   const { isTeacher } = useAuth();
   const { profiles, profilesLoading } = useTeachers();
 

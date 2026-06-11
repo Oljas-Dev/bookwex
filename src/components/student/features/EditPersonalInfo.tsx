@@ -19,6 +19,7 @@ export default function EditPersonalInfo({
   const { user, profile } = useAuth();
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [fullName, setFullName] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
 
@@ -45,6 +46,8 @@ export default function EditPersonalInfo({
     e.preventDefault();
 
     if (!user?.id) return;
+
+    setLoading(true);
 
     try {
       const updates: Partial<Profile> = {};
@@ -86,6 +89,8 @@ export default function EditPersonalInfo({
 
       toast.error("Failed to update profile");
     }
+
+    setLoading(false);
   }
 
   return (
@@ -117,7 +122,9 @@ export default function EditPersonalInfo({
               onChange={(e) => setAvatarFile(e.target.files?.[0] || null)}
               className="rounded"
             />
-            <button type="submit">save changes</button>
+            <button type="submit" disabled={loading}>
+              {loading ? "updating..." : "save changes"}
+            </button>
             <button type="reset" onClick={handleCancel}>
               cancel
             </button>

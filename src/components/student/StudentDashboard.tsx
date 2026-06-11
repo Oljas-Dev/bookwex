@@ -4,35 +4,32 @@ import { toParamStr } from "../../helpers/features";
 import { useNavigate } from "react-router-dom";
 import type { DialogStateProps } from "../calendarComponents/CheckTimeSlots";
 import { useBookings } from "../../contexts/useBookings";
-import useBookedSlots from "../../api/features/useBookedSlots";
 import { useCancelBooking } from "../calendarComponents/features/useCancelBooking";
 import PopUpDialog from "../calendarComponents/ui/PopUpDialog";
 import { rawDialogData } from "../../helpers/variables";
-import { useProfileById } from "../../api/features/useProfileById";
 import dayjs from "dayjs";
 import LessonsSection from "./LessonsSection";
 import ProfileSection from "./ProfileSection";
+import { useBookedSlots } from "../../api/features/useBookedSlots";
 
 export default function StudentDashboard() {
   const { loading } = useAuth();
 
   const { closeDialog, dialogConfig, dialogFormRef } = useBookings();
   const { cancelBooking } = useCancelBooking();
-  const { bookedSlots } = useBookedSlots();
+  const { data } = useBookedSlots();
 
   const navigate = useNavigate();
 
-  const currentBookedSlot = bookedSlots?.find(
+  const currentBookedSlot = data?.find(
     (slot) => slot?.slot_id === dialogConfig?.lessonId,
   );
 
-  const { teacher: currentTeacher } = useProfileById(
-    currentBookedSlot?.user_id,
-  );
+  const currentTeacher = currentBookedSlot?.teacher;
 
   if (loading) return <p>loading student's data...</p>;
 
-  const formattedCurrentDay = dayjs(currentBookedSlot?.start_time).format(
+  const formattedCurrentDay = dayjs(currentBookedSlot?.startTime).format(
     "MMMM DD",
   );
 
@@ -49,7 +46,7 @@ export default function StudentDashboard() {
 
     if (dialogConfig.type === "chat") {
       navigate(
-        `/teacher/${toParamStr(currentTeacher?.full_name)}/chat-room/${dialogConfig.lessonId}`,
+        `/teacher/${toParamStr(currentTeacher?.name)}/chat-room/${dialogConfig.lessonId}`,
       );
     }
 
@@ -65,7 +62,7 @@ export default function StudentDashboard() {
   return (
     <>
       <ProfileSection />
-      <LessonsSection />
+      <LessonsSection bookedLessons={data} />
       <EditPersonalInfo dialogFormRef={dialogFormRef} />
 
       <PopUpDialog

@@ -4,7 +4,7 @@ import type { Slot } from "../../contexts/BookingContextData";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useBookings } from "../../contexts/useBookings";
 import { useAuth } from "../../contexts/useAuth";
-import useBookedSlots from "../../api/features/useBookedSlots";
+import { useBookedSlots } from "../../api/features/useBookedSlots";
 import type { Dispatch, SetStateAction } from "react";
 import type { DialogStateProps } from "./CheckTimeSlots";
 import useProfile from "../../api/features/useProfile";
@@ -24,7 +24,9 @@ export default function DayWithSlots({
   const { isAuthenticated, isStudent, isTeacher, user } = useAuth();
   const { profile } = useProfile();
   const { setNoUserError } = useBookings();
-  const { bookedSlots } = useBookedSlots();
+  const { data: bookedSlots } = useBookedSlots();
+
+  console.log(bookedSlots);
 
   const navigate = useNavigate();
 

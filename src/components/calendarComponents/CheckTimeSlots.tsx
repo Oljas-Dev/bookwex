@@ -6,7 +6,7 @@ import { ArrowLeft } from "react-bootstrap-icons";
 import { useLessons } from "../../api/features/useLessons";
 import { useBookings } from "../../contexts/useBookings";
 import PopUpDialog from "./ui/PopUpDialog";
-import useBookedSlots from "../../api/features/useBookedSlots";
+import { useBookedSlots } from "../../api/features/useBookedSlots";
 import { useAuth } from "../../contexts/useAuth";
 import { useState } from "react";
 import { useCancelBooking } from "./features/useCancelBooking";

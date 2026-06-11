@@ -4,16 +4,12 @@ import utc from "dayjs/plugin/utc";
 import { useLessons } from "../api/features/useLessons";
 import { useBookLesson } from "../api/features/useBookLesson";
 import type { Slot } from "../contexts/BookingContextData";
-import useUpdateBookedSlots from "../api/features/useUpdateBookedSlots";
-import { useAuth } from "../contexts/useAuth";
 
 dayjs.extend(utc);
 
 export default function BookingConfirmation() {
   const { lessons } = useLessons();
-  const { profile: student } = useAuth();
   const { bookLesson, isBooking } = useBookLesson();
-  const { updateBookedSlots } = useUpdateBookedSlots();
   const { lessonId } = useParams();
   const navigate = useNavigate();
 
@@ -35,8 +31,6 @@ export default function BookingConfirmation() {
     .format("HH:mm");
   const currentLessonDuration = currentLesson![0].duration;
 
-  const { id: slotId, start_time, duration } = currentLesson[0];
-
   // Changes status in 'slots' to 'booked' and creates new row in 'bookings' table with students data
   function handleBooking(id: Slot[]) {
     // Showing or sending message of cancellation deadline
@@ -45,17 +39,7 @@ export default function BookingConfirmation() {
       .format("MMMM D, HH:mm");
 
     const lessonId = id[0].id;
-    const bookingData = {
-      slot_id: slotId,
-      user_id: currentLesson[0].user_id,
-      full_name: student?.full_name,
-      booked_by: student?.id,
-      start_time,
-      duration,
-      type: "lesson",
-    };
     bookLesson({ lessonId });
-    updateBookedSlots(bookingData);
 
     navigate(-1);
     console.log(`Cancellations close on ${cancellationDeadline}`);

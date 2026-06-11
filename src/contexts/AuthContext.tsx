@@ -2,13 +2,16 @@ import { useEffect, useState, type ReactNode } from "react";
 import { UsersContext } from "./AuthContextData";
 import type { User } from "@supabase/supabase-js";
 import { supabase } from "../api/supabase/supabase";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { toNormalStr } from "../helpers/features";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   // AUTH STATE
   const [user, setUser] = useState<User | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
+
+  // Current teacher id state for main page data loading
+  const [currentTeacherId, setCurrentTeacherId] = useState("");
 
   // INITIAL SESSION + LISTENER
   useEffect(() => {
@@ -60,9 +63,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
   });
 
+  const updateTimezone = useMutation({
+    mutationFn: async (timezone: string) => {
+      const { error } = await supabase
+        .from("profiles")
+        .update({ timezone })
+        .eq("id", user!.id);
+
+      if (error) throw error;
+    },
+  });
+
+  useEffect(() => {
+    if (!profile) return;
+
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    if (profile.timezone !== timezone) {
+      updateTimezone.mutate(timezone);
+    }
+  }, [profile, updateTimezone]);
+
   const currentTeacher = (teacherName: string | undefined) => {
     return profiles?.find(
-      (teacher) => teacher.full_name === toNormalStr(teacherName),
+      (teacher) => toNormalStr(teacher.full_name) === toNormalStr(teacherName),
     );
   };
 
@@ -72,24 +96,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // FLAGS
   // User is authenticated
   const isAuthenticated = !!user;
-  // const isAuthenticated = user?.role === "authenticated";
 
   // User logged in as a student
-  // const isStudent = student?.id === user?.id && student?.role === "student";
   const isStudent = profile?.role === "student";
 
   // User logged in as a teacher
-  // const isTeacher = student?.id === user?.id && student?.role === "teacher";
   const isTeacher = profile?.role === "teacher";
 
   // console.log(user);
-
-  // console.log("student: ", isStudent, "teacher :", isTeacher);
 
   return (
     <UsersContext.Provider
       value={{
         user,
+        currentTeacherId,
+        setCurrentTeacherId,
         profile,
         profiles,
         loading,

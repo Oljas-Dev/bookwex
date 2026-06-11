@@ -1,14 +1,12 @@
-import useProfile from "../../api/features/useProfile";
 import { capitalizeAllFirst } from "../../helpers/features";
 import Stars from "./ui/Stars";
 
-export default function Header() {
-  const { profile } = useProfile();
-
-  if (!profile) return <p>Waiting for profile to load...</p>;
-
-  const fullName = capitalizeAllFirst(profile?.full_name) || "Guest";
-  const userRole = !profile ? "guest" : profile?.role;
+export default function Header({
+  teachersName,
+}: {
+  teachersName: string | undefined;
+}) {
+  const fullName = capitalizeAllFirst(teachersName) || "Guest";
 
   return (
     <div>
@@ -16,7 +14,7 @@ export default function Header() {
         <h1>{fullName}</h1>
         <Stars />
       </div>
-      <p className="font-semibold">{userRole}</p>
+      <p className="font-semibold">teacher</p>
     </div>
   );
 }

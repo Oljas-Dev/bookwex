@@ -121,7 +121,7 @@ export default function SignUp() {
       <div className="flex flex-col items-center gap-2">
         <p>
           Already have account?{" "}
-          <Link to={`/login`}>
+          <Link to={`/teacher/${teacherName}/login`}>
             <strong>Sign in</strong>
           </Link>
         </p>

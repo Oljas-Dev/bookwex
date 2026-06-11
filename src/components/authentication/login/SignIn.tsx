@@ -3,10 +3,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useLogin } from "../../../api/features/useSingIn";
 import { ArrowLeft } from "react-bootstrap-icons";
 import toast from "react-hot-toast";
-import useStudent from "../../../api/features/useStudent";
 
 export default function SignIn() {
-  const { user } = useStudent();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -16,7 +14,7 @@ export default function SignIn() {
   const { login, isPending } = useLogin();
   const navigate = useNavigate();
 
-  function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
+  async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (!email) {
@@ -33,12 +31,12 @@ export default function SignIn() {
         },
       },
     );
+
     toast.success("Successfully logged in!");
-    console.log(user);
 
     // If current user is teacher then navigate to /teacher/${teacherName} and if student then to /student.
 
-    navigate(`/student`);
+    navigate(`/profile`);
   }
 
   return (

@@ -31,6 +31,17 @@ interface Booking {
   start_time: string;
   duration: number;
   type: string;
+  user_id: string;
+}
+
+interface bookedSlots {
+  id?: string;
+  teacher_id: string;
+  student_id: string | undefined;
+  start_time: string;
+  slot_id: string;
+  duration: number;
+  type: string;
 }
 
 interface BookingWithStudent extends Booking {
@@ -106,6 +117,7 @@ export type {
   DialogConfigTypes,
   Booking,
   BookingTypes,
+  bookedSlots,
   BookingWithStudent,
   WeekFormState,
 };

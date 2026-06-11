@@ -69,6 +69,8 @@
   --color-green-day: #40a056;
   --color-peach: #ffb993;
   --color-stroke-light: #f3f9ff;
+  --color-disabled-link: #a1c1b8;
+  --color-empty-sec-btn-stroke: #ccd5d7;
 
   --shadow-dark: 2px 2px 3px rgb(0, 0, 0, 0.25);
   --shadow-dark-card: rgb(0, 0, 0, 0.25);

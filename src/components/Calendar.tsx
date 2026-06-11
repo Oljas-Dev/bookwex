@@ -8,21 +8,18 @@ import WeekDays from "./calendarComponents/WeekDays";
 import useProfile from "../api/features/useProfile";
 import { useAuth } from "../contexts/useAuth";
 import { toNormalStr, toParamStr } from "../helpers/features";
-import useStudent from "../api/features/useStudent";
 
 export default function Calendar() {
   const { isTeacher, user } = useAuth();
   const { profile } = useProfile();
-  const { student, isPendingStudent } = useStudent();
   const { teacherName } = useParams();
 
   const navigate = useNavigate();
 
-  if (!profile || isPendingStudent)
-    return <p>Waiting for profile to load...</p>;
+  if (!profile) return <p>Waiting for profile to load...</p>;
 
   const showScheduleBtn =
-    isTeacher && student?.full_name === toNormalStr(teacherName);
+    isTeacher && profile?.full_name === toNormalStr(teacherName);
 
   // async function handleSendEmail() {
   //   try {

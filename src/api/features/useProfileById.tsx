@@ -2,8 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../supabase/supabase";
 
 export function useProfileById(userId?: string) {
+  // if (!userId) return;
   const { data: teacher, isPending } = useQuery({
     queryKey: ["profiles", userId],
+    enabled: !!userId,
 
     queryFn: async () => {
       if (!userId) return null;
@@ -22,8 +24,6 @@ export function useProfileById(userId?: string) {
 
       return data;
     },
-
-    enabled: !!userId,
   });
 
   return { teacher, isPending };

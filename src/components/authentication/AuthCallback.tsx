@@ -6,14 +6,15 @@ export default function AuthCallback() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(window.location.href);
     async function handleAuth() {
       await supabase.auth.getSession();
 
-      navigate("/login");
+      navigate("/profile");
     }
 
     handleAuth();
   }, [navigate]);
 
-  return <p>Confirming account...</p>;
+  return <p>Signing you in...</p>;
 }

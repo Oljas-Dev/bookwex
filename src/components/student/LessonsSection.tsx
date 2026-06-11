@@ -1,28 +1,28 @@
-import useStudent from "../../api/features/useStudent";
 import { useAuth } from "../../contexts/useAuth";
-import type { BookedCard, LessonCard } from "../../types/ui";
-import { useTeachersLessons } from "./features/useTeachersLessons";
+import type { BookedCard, LessonCard, MapperBooking } from "../../types/ui";
+// import { useTeachersLessons } from "./features/useTeachersLessons";
 import LessonCardsContainer from "./ui/lessons-card/LessonCardsContainer";
 import StudentLessons from "./ui/lessons-card/StudentLessons";
 import TeacherLessons from "./ui/teachers-card/TeacherLessons";
 
-export default function LessonsSection() {
-  const { isTeacher } = useAuth();
-  const { bookedLessons, loadingTeachersLessons } = useTeachersLessons();
-  const { student, isPendingStudent } = useStudent();
+export default function LessonsSection({
+  bookedLessons,
+}: {
+  bookedLessons: MapperBooking[] | undefined;
+}) {
+  const { profile, loading, isTeacher } = useAuth();
 
-  if (loadingTeachersLessons || isPendingStudent)
-    return <p>loading your lessons...</p>;
+  if (loading) return <p>loading your lessons...</p>;
 
   const bookedCards: BookedCard[] | undefined = bookedLessons?.map(
     (booking) => ({
       lessonId: booking.id,
       slotId: booking.slot_id,
-      teacherId: booking.user_id,
-      studentName: booking.full_name,
-      startTime: booking.start_time,
+      teacherId: booking.teacher?.id,
+      studentName: booking.student?.name,
+      startTime: booking.startTime,
       duration: booking.duration,
-      studentsAvatar: booking.student.avatar_url,
+      studentsAvatar: booking.student?.avatar,
       hasUnreadMessages: false,
     }),
   );
@@ -31,14 +31,15 @@ export default function LessonsSection() {
     (lesson) => ({
       lessonId: lesson.id,
       slotId: lesson.slot_id,
-      teacherId: lesson.user_id,
-      startTime: lesson.start_time,
+      teacherId: lesson.teacher?.id,
+      startTime: lesson.startTime,
       duration: lesson.duration,
     }),
   );
   const teachersLessons = bookedCards ? bookedCards : [];
-  const filteredTeachersLessons = teachersLessons?.filter(
-    (l) => l?.teacherId === student?.id,
+
+  const filteredTeachersLessons = teachersLessons.filter(
+    (l) => l?.teacherId === profile?.id,
   );
 
   return (
@@ -49,7 +50,7 @@ export default function LessonsSection() {
         </LessonCardsContainer>
       )}
 
-      {lessonCards && (
+      {lessonCards !== undefined && lessonCards?.length > 0 && (
         <LessonCardsContainer h2={"Your lessons:"}>
           <StudentLessons lessons={lessonCards} />
         </LessonCardsContainer>

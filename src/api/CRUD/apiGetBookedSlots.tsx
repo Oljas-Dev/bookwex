@@ -1,29 +1,43 @@
+import type { bookedSlots } from "../../contexts/BookingContextData";
 import { supabase } from "../supabase/supabase";
 
-export async function apiGetBookedSlots() {
-  const { data: bookings, error } = await supabase.from("bookings").select("*");
+export async function apiGetBookings() {
+  const { data, error } = await supabase.from("bookings").select(`
+      id,
+      start_time,
+      duration,
+      type,
 
-  if (error) {
-    console.error(error.message);
-  }
+      teacher:teacher_id (
+        id,
+        full_name,
+        avatar_url
+      ),
 
-  return bookings;
+      student:student_id (
+        id,
+        full_name,
+        avatar_url
+      )
+    `);
+
+  if (error) throw error;
+
+  return data;
 }
 
 export async function updateBookedSlots({
   slot_id,
-  user_id,
-  full_name,
-  booked_by,
+  teacher_id,
+  student_id,
   start_time,
   duration,
   type,
-}) {
+}: bookedSlots) {
   const { data, error } = await supabase.from("bookings").insert({
-    full_name,
     slot_id,
-    user_id,
-    booked_by,
+    teacher_id,
+    student_id,
     start_time,
     duration,
     type,

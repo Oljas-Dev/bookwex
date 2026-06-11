@@ -1,5 +1,5 @@
 import type { User } from "@supabase/supabase-js";
-import { createContext } from "react";
+import { createContext, type Dispatch, type SetStateAction } from "react";
 
 export interface MyTeacherProps {
   full_name: string;
@@ -11,6 +11,7 @@ export type Profile = {
   full_name: string | undefined;
   avatar_url: string | null;
   my_teachers: string[] | null;
+  timezone?: string | undefined;
 };
 
 export type ProfileType = {
@@ -29,6 +30,8 @@ type AuthContextType = {
   profile: ProfileType | null;
   profiles: ProfileType[] | undefined;
   currentTeacher: (teacherName: string | undefined) => ProfileType;
+  currentTeacherId: string;
+  setCurrentTeacherId: Dispatch<SetStateAction<string>>;
 
   loading: boolean;
   isAuthenticated: boolean;

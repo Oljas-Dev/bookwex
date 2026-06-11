@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useBookings } from "../../../contexts/useBookings";
 import { AvatarPlaceholder } from "../../avatars/features/AvatarPlaceholder";
 import { getAvatarUrl } from "../../avatars/features/useAvatar";
-import type { Profile } from "../../../contexts/AuthContextData";
+import type { ProfileType } from "../../../contexts/AuthContextData";
 import { useAuth } from "../../../contexts/useAuth";
 import { useProfileById } from "../../../api/features/useProfileById";
 import { toParamStr } from "../../../helpers/features";
@@ -11,11 +11,11 @@ export default function Settings({
   user,
   status,
 }: {
-  user: Profile;
+  user: ProfileType | null;
   status: boolean;
 }) {
-  const { isTeacher, user: currentTeacher } = useAuth();
-  const { teacher, isPending } = useProfileById(currentTeacher?.id);
+  const { isTeacher, user: currentUser } = useAuth();
+  const { teacher, isPending } = useProfileById(currentUser?.id);
   const { dialogFormRef } = useBookings();
 
   if (status || isPending) return <p>loading user...</p>;
@@ -52,6 +52,14 @@ export default function Settings({
           className="text-lg hover:text-amber-100"
         >
           schedule new lessons
+        </Link>
+      )}
+      {!isTeacher && (
+        <Link
+          to={`/teacher/${toParamStr(teacher?.full_name)}/become-teacher`}
+          className="text-lg hover:text-amber-100"
+        >
+          become a teacher
         </Link>
       )}
     </aside>

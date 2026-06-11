@@ -70,7 +70,7 @@ export default function ChangePasswordDialog() {
             />
 
             <button type="submit">
-              {isChangingPassword ? "updating password" : "change password"}
+              {isChangingPassword ? "updating password..." : "change password"}
             </button>
             <button type="reset" onClick={handleCancel}>
               cancel

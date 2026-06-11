@@ -10,6 +10,8 @@ export default function TeacherLessons({
 }) {
   const lessonsJSX: JSX.Element[] = [];
 
+  console.log(lessons);
+
   lessons?.forEach((lesson, i) => {
     lessonsJSX.push(
       <div
