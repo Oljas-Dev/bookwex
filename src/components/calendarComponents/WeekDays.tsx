@@ -50,13 +50,13 @@ export default function WeekDays({
   return (
     <div className={`calendar-grid ${styles}`}>
       {weekdaysArr.map((day, i) => (
-        <p
-          key={i}
+        <div
+          className={`${selectedDays.some((day) => day === weekdaysArr[i].id) && "font-semibold underline bg-jet/15"} flex items-center justify-center w-8 h-8  rounded-full`}
           onClick={fn ? () => handleSelectDays(i) : () => null}
-          className={`${selectedDays.some((day) => day === weekdaysArr[i].id) && "font-semibold underline"}`}
+          key={i}
         >
-          {day.name}
-        </p>
+          <p>{day.name}</p>
+        </div>
       ))}
     </div>
   );

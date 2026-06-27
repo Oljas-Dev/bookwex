@@ -1,10 +1,10 @@
 import { useUpdateTeacherOffers } from "../../../components/MyOfferSection/features/hooks/useUpdateTeacherOffers";
-import type { TeacherLesson } from "../../../types/ui";
+
 import { useDashboard } from "../../useTeacherData";
 import { useDialog } from "../dashboard-dialog/useDialog";
 
 export default function EmptyOfferDialog({ id }: { id: string }) {
-  const { active, lessons, setLessons, dialogDashboard } = useDashboard();
+  const { active, lessons, dialogDashboard } = useDashboard();
   const { closeDialog } = useDialog();
   const { updateLessons } = useUpdateTeacherOffers();
 
@@ -16,17 +16,17 @@ export default function EmptyOfferDialog({ id }: { id: string }) {
 
   // console.log(cards);
 
-  function updateLessonField(
-    lessonId: string,
-    field: keyof TeacherLesson,
-    value: string | number,
-  ) {
-    setLessons((prev) =>
-      prev?.map((lesson) =>
-        lesson.id === lessonId ? { ...lesson, [field]: value } : lesson,
-      ),
-    );
-  }
+  // function updateLessonField(
+  //   lessonId: string,
+  //   field: keyof TeacherLesson,
+  //   value: string | number,
+  // ) {
+  //   setLessons((prev) =>
+  //     prev?.map((lesson) =>
+  //       lesson.id === lessonId ? { ...lesson, [field]: value } : lesson,
+  //     ),
+  //   );
+  // }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();

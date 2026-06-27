@@ -45,7 +45,7 @@ export async function signin({
 
   if (error) {
     alert(error.message);
-    return;
+    throw new Error("failed to login, please check your credentials");
   }
   return data;
 }

@@ -5,7 +5,7 @@ import { capitalizeFirst, toParamStr } from "../../../helpers/features";
 type MyTeachersProps = {
   teacherName?: string;
   subject?: string;
-  avatarUrl: string | null;
+  avatarUrl: string | undefined;
 };
 
 export default function MyTeachers({
@@ -22,7 +22,7 @@ export default function MyTeachers({
   const formattedName = `${firstName} ${lastName}`.trim();
 
   return (
-    <li className="flex justify-between items-center border-t border-jet py-2 pr-2 last:border-b">
+    <li className="flex justify-between items-center border-jet py-2 pr-2 last:border-b">
       <Link
         to={`/teacher/${toParamStr(teacherName ?? "")}`}
         className="flex items-center gap-2 text-lg hover:text-amber-100"

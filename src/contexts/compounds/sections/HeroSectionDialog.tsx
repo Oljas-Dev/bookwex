@@ -1,6 +1,12 @@
 import { useDashboard } from "../../useTeacherData";
 import { useDialog } from "../dashboard-dialog/useDialog";
 import { useUpdateHeroSection } from "../../../components/HeroSection/features/hooks/useUpdateHeroSection";
+import { useState } from "react";
+import {
+  isValidYear,
+  normalizeSocialLink,
+  validateHeroSection,
+} from "../../../helpers/features";
 
 type HeroSectionDialogProps = {
   id: string;
@@ -29,6 +35,8 @@ export default function HeroSectionDialog({
   const { active, dialogDashboard } = useDashboard();
   const { closeDialog } = useDialog();
   const { updateHero } = useUpdateHeroSection();
+  const [error, setError] = useState("");
+  const [hoursError, setHoursError] = useState(true);
 
   if (id !== active) return null;
 
@@ -42,22 +50,40 @@ export default function HeroSectionDialog({
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
+    const validation = validateHeroSection({
+      startYear: startYear ?? "",
+      languages: languages ?? "",
+      hours: hours ?? "",
+      title: title ?? "",
+      content: content ?? "",
+    });
+
+    if (!validation.valid) {
+      setError(validation.message);
+      setHoursError(validation.message.includes("Hours"));
+      return;
+    }
+
+    setError("");
+    setHoursError(false);
+
+    const normalizedSocialLinks = socialLinks.map((link) => ({
+      ...link,
+      url: normalizeSocialLink(link.platform, link.url),
+    }));
+
     updateHero({
       teacherId,
-
       formData: {
         start_year: Number(startYear),
-
         languages: languages
           .split(",")
           .map((lang) => lang.trim())
           .filter(Boolean),
-
-        hours: Number(hours),
-
-        title,
-        content,
-        social_links: socialLinks,
+        hours: validation.hoursNumber,
+        title: title.trim(),
+        content: content.trim(),
+        social_links: normalizedSocialLinks,
       },
     });
 
@@ -67,8 +93,9 @@ export default function HeroSectionDialog({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-6 min-w-150 px-4 py-6 [&_input]:rounded"
+      className="flex flex-col gap-6 min-w-75 px-4 py-6 [&_input]:rounded"
     >
+      <h2>Let students know you better</h2>
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <label htmlFor="year">When did you start as a teacher</label>
@@ -77,17 +104,25 @@ export default function HeroSectionDialog({
             value={startYear}
             placeholder="year in format YYYY"
             onChange={(e) => setStartYear(e.target.value)}
+            className={`${!isValidYear(startYear) && "border-red-600"}`}
           />
+          <p className="text-jet/50">
+            {isValidYear(startYear) ? "" : "Choose year between 1900 and 2026"}
+          </p>
         </div>
 
         <div className="flex flex-col gap-2">
-          <label htmlFor="languages">Languages</label>
+          <label htmlFor="languages">
+            {languages
+              ? "Separate languages you speak using coma"
+              : "Languages"}
+          </label>
           <input
             id="languages"
             type="text"
             value={languages}
             onChange={(e) => setLanguages(e.target.value)}
-            placeholder="List languages you speak using coma"
+            placeholder="Separate languages you speak using coma"
           />
         </div>
 
@@ -96,10 +131,14 @@ export default function HeroSectionDialog({
           <input
             id="hoursAsTeacher"
             type="number"
+            min={0}
             value={hours}
             onChange={(e) => setHours(e.target.value)}
             placeholder="Hours taught"
           />
+          <p className="text-jet/50">
+            {hoursError && "Should be positive number"}
+          </p>
         </div>
 
         <div className="flex flex-col gap-2">
@@ -107,6 +146,7 @@ export default function HeroSectionDialog({
           <input
             id="teacherTitle"
             type="text"
+            max={100}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Your strong title"
@@ -117,6 +157,7 @@ export default function HeroSectionDialog({
           <textarea
             id="teacherDescription"
             value={content}
+            maxLength={1000}
             onChange={(e) => setContent(e.target.value)}
             placeholder="Your description here"
             className="text-[16px] min-h-10"
@@ -134,6 +175,7 @@ export default function HeroSectionDialog({
           />
         </div>
       ))}
+      <p className="text-red-600">{error}</p>
 
       <button type="submit" className="bg-jade hover:bg-jade-light">
         save changes

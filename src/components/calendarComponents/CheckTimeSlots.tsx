@@ -36,7 +36,7 @@ export default function CheckTimeSlots() {
     useBookings();
   const { cancelBooking } = useCancelBooking();
   const { deleteSlot } = useDeleteSlot();
-  const { bookedSlots } = useBookedSlots();
+  const { data: bookedSlots } = useBookedSlots();
   const { dayId, teacherName } = useParams();
 
   const navigate = useNavigate();
@@ -79,8 +79,7 @@ export default function CheckTimeSlots() {
     .filter((slot) => slot.start_time.substring(0, 10) === currentDay)
     .sort(
       (a, b) =>
-        Number(dayjs.utc(a.start_time).format("HH")) -
-        Number(dayjs.utc(b.start_time).format("HH")),
+        dayjs.utc(a.start_time).valueOf() - dayjs.utc(b.start_time).valueOf(),
     );
 
   const slot = currentSlots.find((slot) => slot?.id === selectedSlot);

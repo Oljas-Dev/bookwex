@@ -8,10 +8,10 @@ export function TeacherDataProvider({ children }: { children: ReactNode }) {
 
   // Statefull logic for a HeroSectionDialog
   const [startYear, setStartYear] = useState<string | undefined>("");
-  const [languages, setLanguages] = useState<string | undefined>("");
+  const [languages, setLanguages] = useState("");
   const [hours, setHours] = useState<string | undefined>("");
-  const [title, setTitle] = useState<string | undefined>("");
-  const [content, setContent] = useState<string | undefined>("");
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const [socialLinks, setSocialLinks] = useState<SocialLink[] | []>([]);
 
   // Statefull logic for an Offer Section Dialog

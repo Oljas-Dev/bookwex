@@ -11,6 +11,8 @@ export default function ChangePasswordDialog() {
 
   const navigate = useNavigate();
 
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
   function handleCancel() {
     navigate(-1);
   }
@@ -20,6 +22,12 @@ export default function ChangePasswordDialog() {
 
     if (!password) {
       setError("New password is required");
+      return;
+    }
+    if (!passwordRegex.test(password)) {
+      setError(
+        "Password must be at least 8 characters and include uppercase, lowercase, and a number",
+      );
       return;
     }
     if (password !== passwordConfirm) {
@@ -43,14 +51,6 @@ export default function ChangePasswordDialog() {
         <h2>Change your password</h2>
         <form onSubmit={handleSubmit} className="flex gap-2 min-w-75">
           <div className="flex flex-col gap-2 w-full">
-            {/* <label htmlFor="oldPass">Old password confirmation:</label>
-            <input
-              id="oldPass"
-              type="password"
-              placeholder="enter your old password"
-              className="rounded"
-            /> */}
-
             <label htmlFor="newPass">New password:</label>
             <input
               id="newPass"

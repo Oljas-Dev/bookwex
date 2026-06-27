@@ -1,7 +1,6 @@
-import DisplayLessonInfo from "../lessons-card/DisplayLessonInfo";
-import UserDisplay from "../lessons-card/UserDiplay";
+import DisplayLessonInfo from "./DisplayLessonInfo";
+import UserDisplay from "./UserDiplay";
 import type { LessonCard } from "../../../../types/ui";
-import { useProfileById } from "../../../../api/features/useProfileById";
 
 export type StudentCard =
   | {
@@ -11,8 +10,6 @@ export type StudentCard =
   | undefined;
 
 export default function StudentLessonGroup({ lesson }: { lesson: LessonCard }) {
-  const { teacher } = useProfileById(lesson.teacherId);
-
   const user: StudentCard = {
     fullName: teacher?.full_name,
     avatarUrl: teacher?.avatar_url,

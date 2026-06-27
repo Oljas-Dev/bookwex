@@ -1,5 +1,6 @@
 import { createContext, type Dispatch, type SetStateAction } from "react";
 import type { DialogStateProps } from "../components/calendarComponents/CheckTimeSlots";
+import type { Dayjs } from "dayjs";
 
 type Exception =
   | {
@@ -55,11 +56,12 @@ interface BookingTypes {
   dialogRef: React.RefObject<HTMLDialogElement | null>;
   dialogConfig: DialogConfigTypes | null;
   dialogFormRef: React.RefObject<HTMLDialogElement | null>;
+  dialogReviewForm: React.RefObject<HTMLDialogElement | null>;
   availableSlots: Slot[];
   startDate: string;
   endDate: string;
-  startTime: string;
-  endTime: string;
+  startTime: Dayjs | null;
+  endTime: Dayjs | null;
   selectedDays: number[];
   duration: 0 | 30 | 60 | 45;
   buffer: number;
@@ -69,15 +71,18 @@ interface BookingTypes {
   setNoUserError: Dispatch<SetStateAction<boolean>>;
   setStartDate: Dispatch<SetStateAction<string>>;
   setEndDate: Dispatch<SetStateAction<string>>;
-  setStartTime: Dispatch<SetStateAction<string>>;
-  setEndTime: Dispatch<SetStateAction<string>>;
+  setStartTime: Dispatch<SetStateAction<Dayjs | null>>;
+  setEndTime: Dispatch<SetStateAction<Dayjs | null>>;
   setSelectedDays: Dispatch<SetStateAction<number[]>>;
   setDuration: Dispatch<SetStateAction<0 | 30 | 60 | 45>>;
   setBuffer: Dispatch<SetStateAction<number>>;
 
   // Functions
   closeDialog: () => void;
-  openDialog: (lessonId: string, type: keyof DialogStateProps) => void;
+  openDialog: (
+    lessonId: string | undefined,
+    type: keyof DialogStateProps,
+  ) => void;
 
   // Testing slots generation form
   generateSlots: (form: RecurringFormState) => Slot[];
@@ -90,15 +95,15 @@ type RecurringFormState = {
   startDate: string;
   endDate: string;
   selectedDays: number[];
-  startTime: string;
-  endTime: string;
+  startTime: Dayjs | null;
+  endTime: Dayjs | null;
   duration: 0 | 30 | 60 | 45;
   buffer: number;
   exceptions?: Exception[];
 };
 
 interface DialogConfigTypes {
-  lessonId: string;
+  lessonId: string | undefined;
   type: keyof DialogStateProps;
 }
 

@@ -9,13 +9,10 @@ export function useSignUp(onSuccessCallback?: () => void) {
     onError: (err: Error) => {
       console.error(err.message);
       toast.error(err.message);
+      throw new Error(err.message);
     },
 
     onSuccess: () => {
-      toast.success(
-        "Success! Confirmation email was sent. Please check your email to proceed.",
-      );
-
       onSuccessCallback?.();
     },
   });

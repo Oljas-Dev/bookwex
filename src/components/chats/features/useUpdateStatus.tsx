@@ -8,16 +8,16 @@ export function useUpdateStatus() {
   const { mutate: changeStatus, isPending } = useMutation({
     mutationKey: ["messages"],
     mutationFn: async ({
-      lessonId,
+      bookingId,
       userId,
     }: {
-      lessonId: string | undefined;
+      bookingId: string | undefined;
       userId: string | undefined;
     }) => {
       const { data, error } = await supabase
         .from("messages")
         .update({ is_read: true })
-        .eq("lesson_id", lessonId)
+        .eq("booking_id", bookingId)
         .neq("sender_id", userId)
         .select();
 
@@ -27,8 +27,8 @@ export function useUpdateStatus() {
       }
       return data;
     },
-    onSuccess: (_, { lessonId }) => {
-      queryClient.setQueryData(["messages", lessonId], (old: Message[] = []) =>
+    onSuccess: (_, { bookingId }) => {
+      queryClient.setQueryData(["messages", bookingId], (old: Message[] = []) =>
         old.map((msg) => ({
           ...msg,
           is_read: true,

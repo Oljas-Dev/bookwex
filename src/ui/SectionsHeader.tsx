@@ -10,18 +10,20 @@ export default function SectionsHeader({
   options,
   fnTeacher,
   fnStudent,
+  teacherId,
 }: {
   title: string;
   options?: Options;
   fnTeacher?: () => void;
   fnStudent?: () => void;
+  teacherId?: string;
 }) {
-  const { isTeacher } = useAuth();
+  const { canEditProfile } = useAuth();
   return (
     <div className="flex justify-between items-center">
       <h2 className="text-4xl font-bold">{title}</h2>
 
-      {isTeacher ? (
+      {canEditProfile(teacherId) ? (
         <span className="cursor-pointer" onClick={fnTeacher}>
           <p>{options?.teacherOption}</p>
         </span>

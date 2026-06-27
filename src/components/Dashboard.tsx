@@ -19,15 +19,15 @@ export default function Dashboard() {
     (teacher) => toNormalStr(teacher.full_name) === toNormalStr(teacherName),
   );
 
-  const { data: teacherData } = useTeacherProfile(currentTeacher?.id);
+  const { data: teacherData, isLoading } = useTeacherProfile(
+    currentTeacher?.id,
+  );
 
-  if (profilesLoading) return <p>waiting for teacher's data</p>;
-
-  // console.log(teacherData);
+  if (profilesLoading || isLoading) return <p>waiting for teacher's data</p>;
 
   return (
     <>
-      <Navigation />
+      <Navigation teacherId={currentTeacher?.id} />
       {/* Conditional rendering of Hero section based on available data  */}
       {teacherData?.descriptions ? (
         <Hero teacherData={teacherData} />
@@ -38,12 +38,15 @@ export default function Dashboard() {
       {/* Review section renders only if there are reviews */}
       {teacherData?.reviews !== undefined &&
         teacherData?.reviews?.length > 0 && (
-          <ReviewsSection reviews={teacherData?.reviews} />
+          <ReviewsSection teacherId={teacherData?.id} />
         )}
 
       {/* Conditional rendering of Video section based on available data  */}
       {teacherData?.video_intro ? (
-        <VideoIntro src={teacherData?.video_intro || undefined} />
+        <VideoIntro
+          src={teacherData?.video_intro || undefined}
+          teacherId={teacherData?.id}
+        />
       ) : (
         <EmptySection
           sectionId="emptyVideoSection"
@@ -56,18 +59,20 @@ export default function Dashboard() {
       {/* Conditional rendering of MyOffer section based on available data  */}
       {teacherData?.lessons !== undefined &&
       teacherData?.lessons?.length > 0 ? (
-        <MyOffer lessonOffers={teacherData?.lessons} />
+        <MyOffer
+          lessonOffers={teacherData?.lessons}
+          teacherId={teacherData?.id}
+        />
       ) : (
         <EmptySection
           sectionId="emptyVideoSection"
-          btnText="let people know what
- do you offer"
+          btnText="let people know what do you offer"
           h2="Your offer section is empty"
           dialogId="emptyOfferDialog"
         />
       )}
 
-      <Calendar />
+      <Calendar teacherId={teacherData?.id} />
 
       <Dialogs>
         <Dialogs.VideoSection id="videoDialog" />

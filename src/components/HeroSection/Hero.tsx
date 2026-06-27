@@ -12,7 +12,7 @@ export default function Hero({
 }: {
   teacherData: TeacherProfile | undefined;
 }) {
-  const { isTeacher } = useAuth();
+  const { canEditProfile } = useAuth();
   const {
     setActive,
     openDialog,
@@ -24,8 +24,6 @@ export default function Hero({
     setTitle,
     setSocialLinks,
   } = useDashboard();
-
-  // console.log(teacherData);
 
   function handleHero() {
     setActive("heroesDialog");
@@ -63,7 +61,7 @@ export default function Hero({
       id="heroSection"
       className="grid grid-cols-[70%_30%] w-full bg-jade px-10 py-6 mb-8 relative"
     >
-      {isTeacher && (
+      {canEditProfile(teacherData?.id) && (
         <Gear
           size={20}
           className="absolute top-3 right-3 cursor-pointer hover:rotate-45"
@@ -71,7 +69,10 @@ export default function Hero({
         />
       )}
       <div className="flex flex-col gap-5">
-        <Header teachersName={teacherData?.full_name} />
+        <Header
+          teachersName={teacherData?.full_name}
+          rating={teacherData?.rating_calc}
+        />
         <Achievements experience={teacherData?.experience} />
         <AboutMeText description={teacherData?.descriptions} />
       </div>

@@ -25,6 +25,7 @@ import ForgotPassword from "./components/authentication/forgot-password/ForgotPa
 import ResetPassword from "./components/authentication/forgot-password/ResetPassword";
 import { TeacherDataProvider } from "./contexts/TeacherDataContext";
 import BecomeTeacher from "./components/authentication/become-teacher/BecomeTeacher";
+import SignUpSuccess from "./ui/SignUpSuccess";
 
 function App() {
   return (
@@ -40,7 +41,7 @@ function App() {
                       <Route path="/auth/callback" element={<AuthCallback />} />
                       <Route path="login" element={<SignIn />} />
                       <Route
-                        path="teacher/:teacherName/become-teacher"
+                        path="profile/become-teacher"
                         element={<BecomeTeacher />}
                       />
                       <Route
@@ -59,14 +60,15 @@ function App() {
                         path="reset-password"
                         element={<ResetPassword />}
                       />
+                      <Route path="signup" element={<SignUp />} />
                       <Route
-                        path="teacher/:teacherName/signup"
-                        element={<SignUp />}
+                        path="success-signup"
+                        element={<SignUpSuccess />}
                       />
                       <Route path="/" element={<Applayout />}>
                         <Route
                           index
-                          element={<Navigate replace to="profile" />}
+                          element={<Navigate replace to="login" />}
                         />
                         <Route
                           path="teacher/:teacherName"
@@ -85,14 +87,8 @@ function App() {
                           element={<BookingConfirmation />}
                         />
                         <Route path="profile" element={<StudentDashboard />} />
-                        <Route
-                          path="teacher/:teacherName/chat-room/:lessonId"
-                          element={<Chats />}
-                        />
-                        <Route
-                          path="teacher/:teacherName/chat-room"
-                          element={<MyChats />}
-                        />
+                        <Route path="chat-room/:lessonId" element={<Chats />} />
+                        <Route path="chat-room" element={<MyChats />} />
                       </Route>
                     </Routes>
                     <Toaster

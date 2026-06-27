@@ -40,13 +40,43 @@
     @apply flex flex-col justify-center;
   }
 
+  .tab {
+    @apply max-w-fit pt-4 pb-5 px-6 rounded-t-lg;
+  }
+
+  .active-tab {
+    @apply bg-peach translate-y-0 border border-ocean border-b-0;
+  }
+
+  .disabled-tab {
+    @apply translate-y-2 bg-jade/50;
+  }
+
   .card {
     transition: color 0.2s ease;
   }
 
-  /* .card:hover .icon {
-    color: #abd1c6;
-  } */
+  .gradient-border {
+    position: relative;
+  }
+
+  .gradient-border::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+
+    background:
+      linear-gradient(var(--color-ocean), var(--color-secondary-bg)) left/1px
+        100% no-repeat,
+      linear-gradient(var(--color-ocean), var(--color-secondary-bg)) right/1px
+        100% no-repeat,
+      linear-gradient(90deg, var(--color-ocean), var(--color-ocean)) top/100%
+        1px no-repeat;
+
+    pointer-events: none;
+  }
 
   .icon {
     font-size: 18px;
@@ -68,9 +98,12 @@
   --color-reflection: #f3f9ff;
   --color-green-day: #40a056;
   --color-peach: #ffb993;
+  --color-stars: #dd9b0e;
   --color-stroke-light: #f3f9ff;
   --color-disabled-link: #a1c1b8;
   --color-empty-sec-btn-stroke: #ccd5d7;
+
+  --color-ocean: #338f9a;
 
   --shadow-dark: 2px 2px 3px rgb(0, 0, 0, 0.25);
   --shadow-dark-card: rgb(0, 0, 0, 0.25);

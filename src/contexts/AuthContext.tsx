@@ -3,7 +3,6 @@ import { UsersContext } from "./AuthContextData";
 import type { User } from "@supabase/supabase-js";
 import { supabase } from "../api/supabase/supabase";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { toNormalStr } from "../helpers/features";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   // AUTH STATE
@@ -84,11 +83,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [profile, updateTimezone]);
 
-  const currentTeacher = (teacherName: string | undefined) => {
-    return profiles?.find(
-      (teacher) => toNormalStr(teacher.full_name) === toNormalStr(teacherName),
-    );
-  };
+  function canEditProfile(profileId: string | undefined) {
+    return user?.id === profileId;
+  }
 
   // LOADING
   const loading = authLoading || profileLoading || profilesLoading;
@@ -117,7 +114,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isAuthenticated,
         isStudent,
         isTeacher,
-        currentTeacher,
+        canEditProfile,
       }}
     >
       {children}

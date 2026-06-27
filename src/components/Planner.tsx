@@ -30,6 +30,7 @@ export default function Planner() {
     generateSlots,
     filterAvailableSlots,
     bookedSlots,
+    setSelectedDays,
   } = useBookings();
 
   const navigate = useNavigate();
@@ -46,6 +47,13 @@ export default function Planner() {
       return;
     } else setNoWeekDayError(false);
     if (!startTime || !endTime) {
+      setNoHoursError(true);
+      return;
+    } else if (
+      !startTime.isValid() ||
+      !endTime.isValid() ||
+      !endTime.isAfter(startTime)
+    ) {
       setNoHoursError(true);
       return;
     } else setNoHoursError(false);
@@ -80,6 +88,7 @@ export default function Planner() {
 
     insert(filteredSlots, {
       onSuccess: () => {
+        setSelectedDays([]);
         navigate(`/teacher/${toParamStr(profile?.full_name)}`);
       },
     });
@@ -109,7 +118,10 @@ export default function Planner() {
 
         <TimeSelector />
         {noHoursError && (
-          <p className="text-red-400 -mb-8">Please choose your working hours</p>
+          <p className="text-red-400 -mb-8">
+            Please select a valid time range. The end time must be later than
+            the start time
+          </p>
         )}
         <hr className={`${noHoursError ? "border-red-400" : ""}`} />
 
@@ -121,7 +133,11 @@ export default function Planner() {
         )}
 
         <div className="flex flex-col gap-4">
-          <button type="submit" className="cursor-pointer py-1">
+          <button
+            type="submit"
+            className="cursor-pointer py-1"
+            disabled={isInserting}
+          >
             {isInserting ? "creating new lessons..." : "save"}
           </button>
           <button type="reset" className="py-1" onClick={() => navigate(-1)}>

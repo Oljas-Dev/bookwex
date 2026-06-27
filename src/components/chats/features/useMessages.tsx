@@ -3,16 +3,16 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../../../api/supabase/supabase";
 import type { Message } from "./useSendMessage";
 
-export function useMessages(lessonId: string | undefined) {
+export function useMessages(bookingId: string | undefined) {
   const queryClient = useQueryClient();
 
   const query = useQuery({
-    queryKey: ["messages", lessonId],
+    queryKey: ["messages", bookingId],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("messages")
         .select("*")
-        .eq("lesson_id", lessonId)
+        .eq("booking_id", bookingId)
         .order("created_at", { ascending: true });
 
       if (error) throw error;
@@ -22,21 +22,21 @@ export function useMessages(lessonId: string | undefined) {
 
   // ⚡ REALTIME SUBSCRIPTION
   useEffect(() => {
-    if (!lessonId) return;
+    if (!bookingId) return;
 
     const channel = supabase
-      .channel(`messages-${lessonId}`)
+      .channel(`messages-${bookingId}`)
       .on(
         "postgres_changes",
         {
           event: "INSERT",
           schema: "public",
           table: "messages",
-          filter: `lesson_id=eq.${lessonId}`,
+          filter: `lesson_id=eq.${bookingId}`,
         },
         (payload) => {
           queryClient.setQueryData(
-            ["messages", lessonId],
+            ["messages", bookingId],
             (old: Message[] = []) => {
               const exists = old.some((m) => m.id === payload.new.id);
               if (exists) return old;
@@ -52,7 +52,7 @@ export function useMessages(lessonId: string | undefined) {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [lessonId, queryClient]);
+  }, [bookingId, queryClient]);
 
   return query;
 }

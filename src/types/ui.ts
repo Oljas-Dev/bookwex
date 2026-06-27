@@ -1,27 +1,39 @@
 // Types for user's Profile's LessonSection
+
+import type { Platform } from "../helpers/features";
+
 // Student lessons
 export interface LessonCard {
-  lessonId: string;
-  slotId: string;
+  lessonId: string | undefined;
+  slotId: string | undefined;
   teacherId: string | undefined;
+  teacherName: string | undefined;
+  teacherAvatar: string | null | undefined;
   studentName?: string | undefined;
+  viewerRole: viewerRoleType;
+  status?: bookingStatus;
 
   startTime: string;
   endTime?: string;
   duration: number;
+  studentOutcome: "pending" | "completed" | "no_show" | undefined;
 
   hasUnreadMessages?: boolean;
-
-  status?: "available" | "booked";
+  teacherOutcome: "pending" | "completed" | "no_show" | undefined;
 }
+
+export type viewerRoleType = "teacher" | "student";
 
 // Teacher lessons
 export interface BookedCard {
-  lessonId: string;
-  slotId: string;
+  lessonId: string | undefined;
+  slotId: string | undefined;
   teacherId: string | undefined;
   studentName: string | undefined;
+  teacherName: string | undefined;
   studentsAvatar: string | null | undefined;
+  viewerRole: viewerRoleType;
+  rating: number;
 
   startTime: string;
   endTime?: string;
@@ -29,7 +41,15 @@ export interface BookedCard {
 
   hasUnreadMessages: boolean;
 
-  status?: "available" | "booked";
+  status?: bookingStatus;
+  teacherOutcome: "pending" | "completed" | "no_show" | undefined;
+  studentOutcome: "pending" | "completed" | "no_show" | undefined;
+}
+
+export interface ratingCalc {
+  average_rating: number;
+
+  review_count: number;
 }
 
 // Types for Teacher's main dashboard(main page types)
@@ -51,6 +71,8 @@ export interface TeacherProfile {
   reviews: TeacherReview[];
 
   experience: TeacherExperience;
+
+  rating_calc: ratingCalc;
 }
 
 // description type
@@ -121,11 +143,11 @@ export interface HeroSectionFormData {
 
 export interface SocialLink {
   id: string;
-  platform: string;
+  platform: Platform;
   url: string;
 }
 
-type BookingPerson = {
+export type BookingPerson = {
   id: string;
   full_name: string;
   avatar_url: string | null;
@@ -133,10 +155,20 @@ type BookingPerson = {
 
 export type BookingWithRelations = {
   id: string;
-  slot_id: string;
+  slot_id?: string;
   start_time: string;
   duration: number;
   type: string;
+  status: bookingStatus;
+  teacher_outcome?: "pending" | "completed" | "no_show";
+  student_outcome?: "pending" | "completed" | "no_show";
+  rating: number;
+
+  teacher_unread_count: number;
+  student_unread_count: number;
+
+  last_message: string | null;
+  last_message_at: string | null;
 
   teacher: BookingPerson | null;
   student: BookingPerson | null;
@@ -144,10 +176,17 @@ export type BookingWithRelations = {
 
 export type MapperBooking = {
   id: string;
-  slot_id: string;
+  slot_id?: string;
   startTime: string;
   duration: number;
   type: string;
+  status: bookingStatus;
+  teacher_outcome?: "pending" | "completed" | "no_show";
+  student_outcome?: "pending" | "completed" | "no_show";
+  student_unread_count?: number;
+  teacher_unread_count?: number;
+  viewerRole: viewerRoleType;
+  rating: number;
 
   teacher: {
     id: string;
@@ -161,3 +200,34 @@ export type MapperBooking = {
     avatar: string | null;
   } | null;
 };
+
+// Review types
+
+// bookings statuses
+export type bookingStatus =
+  | "booked"
+  | "awaiting_confirmation"
+  | "completed"
+  | "cancelled"
+  | "disputed";
+
+export type LessonOutcome = "completed" | "no_show" | "pending";
+
+export type BookingUIState =
+  | "upcoming"
+  | "starting_soon"
+  | "in_progress"
+  | "awaiting_confirmation"
+  | "completed"
+  | "disputed"
+  | "cancelled";
+
+export type ValidationResult =
+  | {
+      valid: true;
+      hoursNumber: number;
+    }
+  | {
+      valid: false;
+      message: string;
+    };

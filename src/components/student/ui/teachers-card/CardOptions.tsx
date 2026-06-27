@@ -1,21 +1,18 @@
 import dayjs from "dayjs";
 import { useBookings } from "../../../../contexts/useBookings";
-import { useMsgContext } from "../../../../contexts/useMsgContext";
-import { useProfileById } from "../../../../api/features/useProfileById";
-import { toParamStr } from "../../../../helpers/features";
 import { Link } from "react-router-dom";
 import type { BookedCard } from "../../../../types/ui";
+import { useConversations } from "../../../chats/features/useConversations";
 
 export default function CardOptions({ lesson }: { lesson: BookedCard }) {
-  const { incomingMessages } = useMsgContext();
+  const { data: conversations } = useConversations();
   const { openDialog } = useBookings();
-  const { teacher: teacherProfile } = useProfileById(lesson.teacherId);
 
-  const hasUnreadLessonMessages = incomingMessages?.some(
-    (m) => m.lesson_id === lesson.slotId && !m.is_read,
+  const conversation = conversations?.find(
+    (c) => c.bookingId === lesson.lessonId,
   );
 
-  const teacherName = teacherProfile?.full_name;
+  const hasUnreadLessonMessages = (conversation?.unreadCount ?? 0) > 0;
 
   // Users cannot cancel their bookings 12 hours before the lesson starts
   const hoursLeft = dayjs(lesson.startTime).diff(dayjs(), "minute") / 60;
@@ -37,20 +34,17 @@ export default function CardOptions({ lesson }: { lesson: BookedCard }) {
           </button>
         )}
 
-        {hasUnreadLessonMessages ? (
-          <Link to={`/teacher/${toParamStr(teacherName)}/chat-room`}>
-            <button className="iconBtn">
-              <i className="bi bi-envelope icon text-green-700"></i>
-            </button>
-          </Link>
-        ) : (
-          <button
-            className="iconBtn"
-            onClick={() => openDialog(lesson.slotId, "chat")}
-          >
-            <i className="bi bi-card-text icon hover:text-amber-100"></i>
+        <Link to={`/chat-room/${lesson.lessonId}`}>
+          <button className="iconBtn">
+            <i
+              className={`bi bi-envelope icon ${
+                hasUnreadLessonMessages
+                  ? "text-green-700"
+                  : "hover:text-amber-100"
+              }`}
+            />
           </button>
-        )}
+        </Link>
       </div>
     </div>
   );

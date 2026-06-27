@@ -1,13 +1,13 @@
 import dayjs from "dayjs";
-import { useUser } from "../../../api/features/useUser";
-import type { Message } from "../features/useSendMessage";
 import { Check2, Check2All } from "react-bootstrap-icons";
+import type { Message } from "../../../types/chats";
+import { useAuth } from "../../../contexts/useAuth";
 
 export default function ChatsMessages({ message }: { message: Message }) {
-  const { user } = useUser();
+  const { user } = useAuth();
 
-  const messageFromMe = user?.id === message.sender_id;
-  const createdAt = dayjs(message.created_at).format("HH:mm");
+  const messageFromMe = user?.id === message.senderId;
+  const createdAt = dayjs(message.createdAt).format("HH:mm");
 
   return (
     <div
@@ -27,7 +27,7 @@ export default function ChatsMessages({ message }: { message: Message }) {
 
         */}
         {messageFromMe &&
-          (message.is_read ? <Check2All size={16} /> : <Check2 size={16} />)}
+          (message.isRead ? <Check2All size={16} /> : <Check2 size={16} />)}
       </span>
     </div>
   );

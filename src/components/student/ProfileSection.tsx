@@ -1,16 +1,16 @@
-import { useAuth } from "../../contexts/useAuth";
+import useCurrentUser from "../../api/features/useCurrentUser";
 import Profile from "./ui/Profile";
 import Settings from "./ui/Settings";
 
 export default function ProfileSection() {
-  const { profile, loading } = useAuth();
+  const { data: currentUser, isLoading } = useCurrentUser();
 
-  if (loading) return <p>data's loading...</p>;
+  if (isLoading) return <p>data's loading...</p>;
 
   return (
     <section className="grid grid-cols-[70%_30%] w-full bg-jade px-10 py-6 mb-8 [&_p]:text-lg">
-      <Profile user={profile} />
-      <Settings user={profile} status={loading} />
+      <Profile user={currentUser} />
+      <Settings user={currentUser} />
     </section>
   );
 }

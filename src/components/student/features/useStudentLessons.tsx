@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../../api/supabase/supabase";
-import useStudent from "../../../api/features/useStudent";
+import useStudent from "../../../api/features/useCurrentUser";
 
 export function useStudentLessons() {
   const { student } = useStudent();

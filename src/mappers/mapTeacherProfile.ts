@@ -21,5 +21,11 @@ export function mapTeacherProfile(data: any): TeacherProfile {
     reviews: data.teacher_reviews,
 
     experience: data.teacher_experience,
+
+    rating_calc: {
+      average_rating: data.average_rating,
+
+      review_count: data.review_count,
+    },
   };
 }

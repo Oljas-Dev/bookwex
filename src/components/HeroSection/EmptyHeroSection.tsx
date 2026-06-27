@@ -10,7 +10,7 @@ export default function EmptyHeroSection({
 }: {
   teacherData: TeacherProfile | undefined;
 }) {
-  const { isTeacher } = useAuth();
+  const { canEditProfile } = useAuth();
   const { setActive, dialogDashboard, openDialog } = useDashboard();
 
   function handleOpenDialog() {
@@ -23,7 +23,7 @@ export default function EmptyHeroSection({
       id="emptyHeroSection"
       className="grid grid-cols-[70%_30%] w-full bg-jade px-10 py-6 mb-8 relative"
     >
-      {isTeacher && (
+      {canEditProfile(teacherData?.id) && (
         <Gear
           size={20}
           className="absolute top-3 right-3 cursor-pointer hover:rotate-45"
@@ -31,14 +31,19 @@ export default function EmptyHeroSection({
         />
       )}
       <div className="flex flex-col gap-5">
-        <Header teachersName={teacherData?.full_name} />
+        <Header
+          teachersName={teacherData?.full_name}
+          rating={teacherData?.rating_calc}
+        />
         <h2>Introduce yourself</h2>
         <span>
-          <p>"Tell students about your experience and teaching style."</p>
+          <p>Tell students about your experience and teaching style.</p>
         </span>
-        <button className="max-w-fit" onClick={handleOpenDialog}>
-          edit profile
-        </button>
+        {canEditProfile(teacherData?.id) && (
+          <button className="max-w-fit" onClick={handleOpenDialog}>
+            edit profile
+          </button>
+        )}
       </div>
       <Avatar teacherData={teacherData} />
     </section>

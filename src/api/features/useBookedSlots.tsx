@@ -1,8 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../supabase/supabase";
 import { mapBooking } from "../../mappers/mapBookings";
+import { useAuth } from "../../contexts/useAuth";
 
 export function useBookedSlots() {
+  const { user } = useAuth();
+
   return useQuery({
     queryKey: ["bookings"],
     queryFn: async () => {
@@ -12,6 +15,10 @@ export function useBookedSlots() {
       start_time,
       duration,
       type,
+      status,
+      teacher_outcome,
+      student_outcome,
+      rating,
 
       teacher:teacher_id (
         id,
@@ -28,7 +35,8 @@ export function useBookedSlots() {
 
       if (error) throw error;
 
-      return data.map(mapBooking);
+      return data.map((b) => mapBooking(b, user?.id));
     },
+    enabled: !!user,
   });
 }

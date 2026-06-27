@@ -29,6 +29,7 @@ export default function BookingConfirmation() {
   const currentLessonEndTime = dayjs
     .utc(currentLesson![0].end_time)
     .format("HH:mm");
+
   const currentLessonDuration = currentLesson![0].duration;
 
   // Changes status in 'slots' to 'booked' and creates new row in 'bookings' table with students data

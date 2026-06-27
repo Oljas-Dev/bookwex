@@ -23,13 +23,14 @@ export type ProfileType = {
   avatar_url: string;
   is_public: boolean;
   my_teachers: string[];
+  timezone: string;
 };
 
 type AuthContextType = {
   user: User | null;
   profile: ProfileType | null;
   profiles: ProfileType[] | undefined;
-  currentTeacher: (teacherName: string | undefined) => ProfileType;
+  canEditProfile: (profileId: string | undefined) => boolean;
   currentTeacherId: string;
   setCurrentTeacherId: Dispatch<SetStateAction<string>>;
 

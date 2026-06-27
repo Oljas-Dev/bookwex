@@ -1,5 +1,4 @@
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
+import dayjs, { Dayjs } from "dayjs";
 import { useRef, useState, type ReactNode } from "react";
 import {
   BookingContext,
@@ -9,16 +8,20 @@ import {
 } from "./BookingContextData";
 import { useAuth } from "./useAuth";
 import type { DialogStateProps } from "../components/calendarComponents/CheckTimeSlots";
-// import { getHoursAndMinutes } from "../helpers/functions";
+
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 
 dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export function BookingContextProvider({ children }: { children: ReactNode }) {
+  const { profile } = useAuth();
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
+  const [startTime, setStartTime] = useState<Dayjs | null>(null);
+  const [endTime, setEndTime] = useState<Dayjs | null>(null);
   const [duration, setDuration] = useState<0 | 30 | 60 | 45>(30);
   const [buffer, setBuffer] = useState<number>(0);
   // Errors with booking
@@ -30,38 +33,21 @@ export function BookingContextProvider({ children }: { children: ReactNode }) {
     null,
   );
 
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
 
   // Dialogs used in app
   const dialogRef = useRef<HTMLDialogElement | null>(null);
 
   const dialogFormRef = useRef<HTMLDialogElement | null>(null);
 
+  const dialogReviewForm = useRef<HTMLDialogElement | null>(null);
+
+  if (loading) return <p>user is loading...</p>;
   // Close by clicking on button
   const closeDialog = (): void => {
     dialogRef?.current?.close();
     setSelectedSlot(null);
   };
-
-  // function expiredSlotsCheck() {
-  //   const now = dayjs().format("YYYY-MM-DD HH:mm");
-  //   const slotsFromStorage = JSON.parse(localStorage.getItem("slots"));
-
-  //   if (!slotsFromStorage) return [];
-
-  //   const newSlots: Slot[] = [];
-
-  //   // Check whether the slot is outdated
-  //   const noExpiredSlots = slotsFromStorage.forEach((slot: Slot) => {
-  //     const outdatedSlot = dayjs(now).add(5, "minute").isAfter(slot.start);
-  //     if (outdatedSlot) {
-  //       slot.status = "expired";
-  //     }
-  //     newSlots.push(slot);
-  //   });
-
-  //   return newSlots;
-  // }
 
   // Getting rid of repeating numbers in selectedDays array
   const uniqueSelectedDays: number[] = [...new Set(selectedDays)];
@@ -96,7 +82,10 @@ export function BookingContextProvider({ children }: { children: ReactNode }) {
     },
   ];
 
-  function openDialog(lessonId: string, type: keyof DialogStateProps) {
+  function openDialog(
+    lessonId: string | undefined,
+    type: keyof DialogStateProps,
+  ) {
     setDialogConfig({
       lessonId,
       type,
@@ -111,6 +100,10 @@ export function BookingContextProvider({ children }: { children: ReactNode }) {
       throw new Error("Form contain no values");
     }
 
+    if (!user) {
+      throw new Error("User not found");
+    }
+
     const slots: Slot[] = [];
 
     if (
@@ -118,13 +111,18 @@ export function BookingContextProvider({ children }: { children: ReactNode }) {
       !form.endDate ||
       !form.startTime ||
       !form.endTime ||
+      !form.startTime.isValid() ||
+      !form.endTime.isValid() ||
       form.duration <= 0
     ) {
-      return slots;
+      return [];
     }
 
-    let currentDate = dayjs.utc(form.startDate);
-    const endDate = dayjs.utc(form.endDate);
+    let currentDate = dayjs.tz(form.startDate, profile?.timezone);
+
+    const endDate = dayjs.tz(form.endDate, profile?.timezone);
+    const defaultStartTime = form.startTime.format("HH:mm");
+    const defaultEndTime = form.endTime.format("HH:mm");
 
     while (currentDate.isBefore(endDate) || currentDate.isSame(endDate)) {
       const dateStr = currentDate.format("YYYY-MM-DD");
@@ -145,11 +143,24 @@ export function BookingContextProvider({ children }: { children: ReactNode }) {
       const isOverride = exception?.type === "override";
 
       if (isSelectedDay || isOverride) {
-        const startTime = isOverride ? exception.startTime : form.startTime;
-        const endTime = isOverride ? exception.endTime : form.endTime;
+        const startTime =
+          isOverride && exception.startTime
+            ? exception.startTime
+            : defaultStartTime;
+        const endTime =
+          isOverride && exception.endTime ? exception.endTime : defaultEndTime;
 
-        let currentTime = dayjs.utc(`${dateStr}T${startTime}:00Z`);
-        const dayEndTime = dayjs.utc(`${dateStr}T${endTime}:00Z`);
+        let currentTime = dayjs.tz(
+          `${dateStr} ${startTime}`,
+          "YYYY-MM-DD HH:mm",
+          profile?.timezone,
+        );
+
+        const dayEndTime = dayjs.tz(
+          `${dateStr} ${endTime}`,
+          "YYYY-MM-DD HH:mm",
+          profile?.timezone,
+        );
 
         while (true) {
           const slotEnd = currentTime.add(form.duration, "minute");
@@ -159,7 +170,7 @@ export function BookingContextProvider({ children }: { children: ReactNode }) {
 
           slots.push({
             id: crypto.randomUUID(),
-            user_id: user!.id,
+            user_id: user.id,
             start_time: currentTime.toISOString(),
             end_time: slotEnd.toISOString(),
             duration: form.duration,
@@ -201,23 +212,6 @@ export function BookingContextProvider({ children }: { children: ReactNode }) {
 
   const availableSlots = filterAvailableSlots(generatedSlots, bookedSlots);
 
-  // const testTiming = (timeArr: Slot[]) => {
-  //   const res = timeArr.map(
-  //     (slot) =>
-  //       " from " +
-  //       getHoursAndMinutes(new Date(Date.parse(slot.start))) +
-  //       " till " +
-  //       getHoursAndMinutes(new Date(Date.parse(slot.end))),
-  //   );
-
-  //   return res;
-  // };
-
-  // const isPast = dayjs().isAfter(dayjs("2026-03-27T16:54:00.000Z"));
-
-  // console.log(isPast);
-  // console.log(availableSlots);
-
   return (
     <BookingContext.Provider
       value={{
@@ -225,6 +219,7 @@ export function BookingContextProvider({ children }: { children: ReactNode }) {
         dialogRef,
         dialogConfig,
         dialogFormRef,
+        dialogReviewForm,
         uniqueSelectedDays,
         bookedSlots,
         availableSlots,

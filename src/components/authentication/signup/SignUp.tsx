@@ -1,17 +1,19 @@
 import { ArrowLeft } from "react-bootstrap-icons";
 import { useState, type FormEvent } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSignUp } from "../../../api/features/useSignUp";
 import { useAuth } from "../../../contexts/useAuth";
+import { isNameAvailable } from "./isNameAvailable";
+import { useEmailAvailability } from "./useEmailAvailability";
+import PasswordStrengthMeter from "./PasswordStrengthMeter";
 
 export default function SignUp() {
-  const { teacherName } = useParams();
-  const { currentTeacher } = useAuth();
+  const { currentTeacherId } = useAuth();
 
   const navigate = useNavigate();
 
   const { signup, isPending } = useSignUp(() => {
-    navigate(`/teacher/${teacherName}`);
+    navigate(`/success-signup`);
   });
 
   const [email, setEmail] = useState("");
@@ -19,6 +21,11 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [error, setError] = useState("");
+
+  const { isAvailable, isLoading } = useEmailAvailability(email);
+
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -31,8 +38,18 @@ export default function SignUp() {
       setError("Your email is required");
       return;
     }
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
     if (!password) {
       setError("Your password is required");
+      return;
+    }
+    if (!passwordRegex.test(password)) {
+      setError(
+        "Password must be at least 8 characters and include uppercase, lowercase, and a number",
+      );
       return;
     }
     if (password !== passwordConfirm) {
@@ -40,10 +57,16 @@ export default function SignUp() {
       return;
     }
 
-    const teacherId = currentTeacher(teacherName)?.id;
-
-    if (!teacherId) {
+    if (!currentTeacherId) {
       setError("Teacher not found");
+      return;
+    }
+
+    // existing validations...
+    const available = await isNameAvailable(full_name);
+
+    if (!available) {
+      setError("This name is already taken. Please choose another one.");
       return;
     }
 
@@ -52,7 +75,7 @@ export default function SignUp() {
       password,
       full_name: full_name.toLowerCase(),
       avatar_url: "",
-      my_teachers: [teacherId],
+      my_teachers: [currentTeacherId],
     });
   }
 
@@ -76,6 +99,15 @@ export default function SignUp() {
             />
           </div>
 
+          {isLoading && <p>Checking email...</p>}
+
+          {!isLoading && email && isAvailable === false && (
+            <p className="text-red-600">Email is already taken</p>
+          )}
+
+          {!isLoading && email && isAvailable === true && (
+            <p className="text-green-600">Email is available</p>
+          )}
           <div className="flex flex-col gap-1">
             <label htmlFor="emailInput">Enter your email</label>
             <input
@@ -96,6 +128,7 @@ export default function SignUp() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+            <PasswordStrengthMeter password={password} />
           </div>
 
           <div className="flex flex-col gap-1">
@@ -121,7 +154,7 @@ export default function SignUp() {
       <div className="flex flex-col items-center gap-2">
         <p>
           Already have account?{" "}
-          <Link to={`/teacher/${teacherName}/login`}>
+          <Link to={`/login`}>
             <strong>Sign in</strong>
           </Link>
         </p>

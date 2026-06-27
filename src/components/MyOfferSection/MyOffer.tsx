@@ -6,8 +6,10 @@ import OffersContainer from "./OffersContainer";
 
 export default function MyOffer({
   lessonOffers,
+  teacherId,
 }: {
   lessonOffers: TeacherLesson[] | undefined;
+  teacherId: string;
 }) {
   const { setActive, openDialog, dialogDashboard, setLessons } = useDashboard();
 
@@ -25,6 +27,7 @@ export default function MyOffer({
         title="What do I offer"
         options={{ teacherOption: "edit", studentOption: "book lesson" }}
         fnTeacher={handleOffers}
+        teacherId={teacherId}
       />
       <OffersContainer offers={lessonOffers} />
     </AppSection>

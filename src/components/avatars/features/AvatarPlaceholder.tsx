@@ -41,7 +41,7 @@ export function AvatarPlaceholder({ name, avatarUrl, styles }: Props) {
     return (
       <img
         src={avatarUrl}
-        className={`${styles} object-cover rounded-xl border-4 border-peach`}
+        className={`${styles} object-cover object-top rounded-xl border-4 border-peach`}
         alt="avatar"
       />
     );

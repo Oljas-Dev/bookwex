@@ -1,5 +1,4 @@
 import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
 import type { Slot } from "../../contexts/BookingContextData";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useBookings } from "../../contexts/useBookings";
@@ -9,7 +8,11 @@ import type { Dispatch, SetStateAction } from "react";
 import type { DialogStateProps } from "./CheckTimeSlots";
 import useProfile from "../../api/features/useProfile";
 
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
 dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export default function DayWithSlots({
   slot,
@@ -17,18 +20,18 @@ export default function DayWithSlots({
   setDialogState,
 }: {
   slot: Slot;
-  openDialog: (slotId: string) => void;
+  openDialog: (slotId: string | undefined) => void;
   setDialogState: Dispatch<SetStateAction<keyof DialogStateProps>>;
 }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const { isAuthenticated, isStudent, isTeacher, user } = useAuth();
   const { profile } = useProfile();
   const { setNoUserError } = useBookings();
-  const { data: bookedSlots } = useBookedSlots();
-
-  console.log(bookedSlots);
+  const { data: bookedSlots, isLoading } = useBookedSlots();
 
   const navigate = useNavigate();
+
+  if (isLoading) return <p>loading bookings...</p>;
 
   // Authentication checks and permissions
   const booked = slot?.status === "booked";
@@ -41,8 +44,14 @@ export default function DayWithSlots({
     (bookedSlot) => bookedSlot.slot_id === slot.id,
   );
 
-  const startTime = dayjs.utc(slot.start_time).format("HH:mm");
-  const endTime = dayjs.utc(slot.end_time).format("HH:mm");
+  const startTime = dayjs
+    .utc(slot.start_time)
+    .tz(profile?.timezone)
+    .format("HH:mm");
+  const endTime = dayjs
+    .utc(slot.end_time)
+    .tz(profile?.timezone)
+    .format("HH:mm");
 
   // Users cannot cancel their bookings 12 hours before the lesson starts
   const hoursLeft = dayjs(slot?.start_time).diff(dayjs(), "minute") / 60;
@@ -89,18 +98,18 @@ export default function DayWithSlots({
                   <i className="bi bi-x-octagon icon hover:text-jade"></i>
                 </button>
               )}
-            {booked && isAuthenticated && findCurrentUserBooking && (
+            {/* {booked && isAuthenticated && findCurrentUserBooking && (
               <button
                 className="iconBtn"
                 onClick={(e) => {
                   e.stopPropagation();
                   setDialogState("chat");
-                  openDialog(slot.id);
+                  openDialog(currentBooking?.id);
                 }}
               >
                 <i className="bi bi-card-text icon hover:text-jade"></i>
               </button>
-            )}
+            )} */}
             {currentTeacherCheck && !isStudent && !booked && (
               <button
                 className="iconBtn"

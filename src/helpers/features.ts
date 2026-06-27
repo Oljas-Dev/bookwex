@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import relativeTime from "dayjs/plugin/relativeTime";
+import type { ValidationResult } from "../types/ui";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -43,9 +44,117 @@ function generateImgId() {
 // Detecting Timezones
 function formatLessonDate(
   date: string | undefined,
+  timezone: string | undefined,
   format = "DD MMM YYYY HH:mm",
 ) {
-  return dayjs.utc(date).tz(dayjs.tz.guess()).format(format);
+  return dayjs.utc(date).tz(timezone).format(format);
+}
+
+function scrollToSection(id: string) {
+  document.getElementById(id)?.scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+  });
+}
+
+function isValidYear(year: string | undefined) {
+  const yearRegex = /^(19\d{2}|20\d{2})$/;
+
+  if (!year) return false;
+
+  if (!yearRegex.test(year)) return false;
+
+  const numericYear = Number(year);
+  const currentYear = new Date().getFullYear();
+
+  return numericYear >= 1900 && numericYear <= currentYear;
+}
+
+function validateHeroSection({
+  startYear,
+  languages,
+  hours,
+  title,
+  content,
+}: {
+  startYear: string;
+  languages: string;
+  hours: string;
+  title: string;
+  content: string;
+}): ValidationResult {
+  const hoursNumber = Number(hours);
+
+  if (!startYear.trim())
+    return {
+      valid: false,
+      message: "Please enter the year you started teaching.",
+    };
+
+  if (!isValidYear(startYear))
+    return {
+      valid: false,
+      message: "Choose a valid year.",
+    } satisfies ValidationResult;
+
+  if (!languages.trim())
+    return { valid: false, message: "Please enter your languages." };
+
+  if (hours.trim() === "" || !Number.isInteger(hoursNumber) || hoursNumber < 0)
+    return {
+      valid: false,
+      message: "Hours taught must be a positive whole number.",
+    };
+
+  if (!title.trim()) return { valid: false, message: "Please enter a title." };
+
+  if (!content.trim())
+    return { valid: false, message: "Please write something about yourself." };
+
+  return {
+    valid: true,
+    hoursNumber,
+  } satisfies ValidationResult;
+}
+
+export type Platform = "instagram" | "facebook" | "x" | "youtube";
+
+function normalizeSocialLink(platform: Platform, value: string): string {
+  let input = value.trim();
+
+  if (!input || input === "#") return "#";
+
+  // Remove protocol
+  input = input.replace(/^https?:\/\//i, "");
+
+  // Remove www.
+  input = input.replace(/^www\./i, "");
+
+  // Remove domain if user pasted one
+  input = input.replace(
+    /^(instagram\.com|facebook\.com|x\.com|twitter\.com|youtube\.com)\//i,
+    "",
+  );
+
+  // Remove @
+  input = input.replace(/^@/, "");
+
+  // Remove trailing slash
+  input = input.replace(/\/$/, "");
+
+  switch (platform) {
+    case "instagram":
+      return `https://instagram.com/${input}`;
+
+    case "facebook":
+      return `https://facebook.com/${input}`;
+
+    case "x":
+      return `https://x.com/${input}`;
+
+    case "youtube":
+      return `https://youtube.com/@${input}`;
+  }
 }
 
 export {
@@ -57,4 +166,8 @@ export {
   capitalizeAllFirst,
   generateImgId,
   formatLessonDate,
+  scrollToSection,
+  isValidYear,
+  validateHeroSection,
+  normalizeSocialLink,
 };

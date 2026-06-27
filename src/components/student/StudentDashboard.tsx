@@ -11,11 +11,13 @@ import dayjs from "dayjs";
 import LessonsSection from "./LessonsSection";
 import ProfileSection from "./ProfileSection";
 import { useBookedSlots } from "../../api/features/useBookedSlots";
+import { LessonProvider } from "./features/context/LeesonsContext";
+import LeaveReviewForm from "./features/LeaveReviewForm";
 
 export default function StudentDashboard() {
   const { loading } = useAuth();
-
-  const { closeDialog, dialogConfig, dialogFormRef } = useBookings();
+  const { closeDialog, dialogConfig, dialogFormRef, dialogReviewForm } =
+    useBookings();
   const { cancelBooking } = useCancelBooking();
   const { data } = useBookedSlots();
 
@@ -61,8 +63,11 @@ export default function StudentDashboard() {
 
   return (
     <>
-      <ProfileSection />
-      <LessonsSection bookedLessons={data} />
+      <LessonProvider>
+        <ProfileSection />
+        <LessonsSection />
+        <LeaveReviewForm dialogFormRef={dialogReviewForm} />
+      </LessonProvider>
       <EditPersonalInfo dialogFormRef={dialogFormRef} />
 
       <PopUpDialog

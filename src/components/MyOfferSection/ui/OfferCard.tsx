@@ -17,18 +17,12 @@ export default function OfferCard({
   price: number;
 }) {
   return (
-    <CardContainer>
+    <CardContainer styles="max-w-75">
       {/* Offer card header */}
       <div className="flex flex-col items-center gap-2 bg-peach border-b-2 border-jade-light pt-4 pb-2">
         <h3>
           <strong>{title}</strong>
         </h3>
-        {/* <div className="flex justify-center gap-2">
-          <Clock size={18} />
-          <p>
-            <strong>{duration}min.</strong>
-          </p>
-        </div> */}
       </div>
 
       {/* Main content of a card */}
@@ -48,7 +42,7 @@ export default function OfferCard({
       </div>
 
       {/* Price tag */}
-      <div className="flex justify-center bg-peach py-6">
+      <div className="flex justify-center h-full bg-peach py-6">
         <p className="text-xl">
           <strong>{price}$</strong>
         </p>

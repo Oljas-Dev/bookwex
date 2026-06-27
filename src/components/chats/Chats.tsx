@@ -1,47 +1,66 @@
-import { useNavigate, useParams } from "react-router-dom";
-// import { capitalizeAllFirst, toNormalStr } from "../../helpers/features";
-import {
-  ArrowLeft,
-  CalendarEvent,
-  PersonFill,
-  Send,
-} from "react-bootstrap-icons";
-import { useLessons } from "../../api/features/useLessons";
-import dayjs from "dayjs";
-import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { Send } from "react-bootstrap-icons";
+import { useEffect, useState } from "react";
 import { useSendMessage } from "./features/useSendMessage";
-import { useMessages } from "./features/useMessages";
 import ChatsMessages from "./ui/ChatsMessages";
-import { formatLessonDate } from "../../helpers/features";
+import ChatsHeader from "./ui/ChatsHeader";
+import { useChatRoom } from "./features/useChatRoom";
+import { useAuth } from "../../contexts/useAuth";
+import { useClearUnreadCount } from "./features/useClearUnreadCount";
 
 export default function Chats() {
+  const { user } = useAuth();
+  const { lessonId } = useParams();
+  const { data: chatData, isLoading } = useChatRoom(lessonId);
+  const { clearUnread } = useClearUnreadCount();
   const [messageInput, setMessageInput] = useState("");
-  const { teacherName, lessonId } = useParams();
-  const { lessons } = useLessons();
+
+  // const viewerRole =
+  //   chatData?.booking.teacher?.id === user?.id ? "teacher" : "student";
+
+  let viewerRole: "teacher" | "student" | undefined;
+
+  if (!chatData) {
+    viewerRole = undefined;
+  } else if (chatData.booking.teacher.id === user?.id) {
+    viewerRole = "teacher";
+  } else {
+    viewerRole = "student";
+  }
 
   const { mutate: sendMessage, isPending } = useSendMessage();
-  const { data: messages, isLoading } = useMessages(lessonId);
 
-  const navigate = useNavigate();
+  function unreadCallback() {
+    if (!viewerRole) return;
+
+    clearUnread({
+      bookingId: chatData?.booking?.id,
+      role: viewerRole,
+    });
+  }
+
+  useEffect(unreadCallback, [
+    chatData,
+    viewerRole,
+    clearUnread,
+    isLoading,
+    chatData?.booking?.id,
+  ]);
 
   if (!lessonId) {
     return <p>Lesson not found</p>;
   }
 
+  if (isLoading) return <p>Loading chat...</p>;
+
+  if (!chatData) return <p>Chat not found</p>;
+
   const safeLessonId = lessonId;
-
-  const currentLesson = lessons?.find((lesson) => lesson.id === safeLessonId);
-  const currentDay = dayjs.utc(currentLesson?.start_time).format("MMMM D");
-
-  console.log(formatLessonDate(currentLesson?.start_time));
-
-  const startTime = formatLessonDate(currentLesson?.start_time, "HH:mm");
-  const endTime = formatLessonDate(currentLesson?.end_time, "HH:mm");
 
   // Send message
   function handleSendMessage() {
     sendMessage({
-      lessonId: safeLessonId,
+      bookingId: safeLessonId,
       text: messageInput.trim(),
     });
     setMessageInput("");
@@ -55,7 +74,7 @@ export default function Chats() {
       const trimmed = messageInput.trim();
 
       sendMessage({
-        lessonId: safeLessonId,
+        bookingId: safeLessonId,
         text: trimmed,
       });
 
@@ -65,37 +84,13 @@ export default function Chats() {
 
   return (
     <div className="flex flex-col gap-2 h-screen w-full px-4 py-6">
-      <div>
-        {/* Navigational panel for chats page */}
-        <div className="flex items-center gap-4 mb-4">
-          <div className="bg-jet/20 max-w-fit px-2 rounded-lg hover:bg-jet/10 cursor-pointer">
-            <ArrowLeft
-              style={{
-                alignSelf: "start",
-              }}
-              onClick={() => navigate(-1)}
-            />
-          </div>
-          <a
-            href={`/teacher/${teacherName}`}
-            className="hover:scale-110 active:scale-90"
-          >
-            <CalendarEvent size={24} />
-          </a>
-          <a href="/student" className="hover:scale-110 active:scale-90">
-            <PersonFill size={24} />
-          </a>
-        </div>
-
-        {/* Chats header */}
-        <div className="text-center">
-          Discuss your lesson on {currentDay} <br />
-          from {startTime} - {endTime}
-        </div>
-      </div>
-
+      <ChatsHeader
+        duration={chatData.booking.duration}
+        startTime={chatData.booking.start_time}
+        teacherName={chatData.booking.teacher?.full_name}
+      />
       <div className="flex-1 flex flex-col gap-2 justify-end items-end p-2 border-t border-b">
-        {messages?.map((message) => (
+        {chatData?.messages?.map((message) => (
           <ChatsMessages message={message} key={message.id} />
         ))}
       </div>
@@ -112,7 +107,7 @@ export default function Chats() {
         <button
           className="absolute right-0 top-[17%] bg-transparent border-0"
           onClick={handleSendMessage}
-          disabled={isPending || isLoading}
+          disabled={isPending}
         >
           <Send />
         </button>

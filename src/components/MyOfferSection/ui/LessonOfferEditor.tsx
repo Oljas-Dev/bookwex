@@ -18,7 +18,7 @@ export default function LessonOfferEditor({
       <h3>Your offer #{index + 1}</h3>
 
       <div className="flex flex-col gap-2">
-        <label htmlFor={`title-${lesson.id}`}>Change heading</label>
+        <label htmlFor={`title-${lesson.id}`}>Your title</label>
 
         <input
           id={`title-${lesson.id}`}
@@ -63,6 +63,7 @@ export default function LessonOfferEditor({
         <input
           id={`price-${lesson.id}`}
           type="number"
+          min={0}
           value={lesson.price}
           onChange={(e) => onChange(lesson.id, "price", Number(e.target.value))}
         />

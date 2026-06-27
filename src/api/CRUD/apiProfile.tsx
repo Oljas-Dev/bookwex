@@ -19,16 +19,15 @@ export async function getProfile({
   return profiles;
 }
 
-export async function getStudent(userId: string) {
-  const { data: student, error } = await supabase
+export async function getCurrentUser(userId: string) {
+  const { data, error } = await supabase
     .from("profiles")
-    .select("*")
-    .eq("id", userId)
-    .single();
+    .select("full_name, avatar_url, my_teachers")
+    .eq("id", userId);
 
   if (error) {
     console.error(error);
   }
 
-  return student;
+  return data;
 }

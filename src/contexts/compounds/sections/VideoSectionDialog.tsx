@@ -14,6 +14,7 @@ export default function VideoSectionDialog({ id }: { id: string }) {
   const { closeDialog } = useDialog();
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const queryClient = useQueryClient();
 
@@ -23,17 +24,17 @@ export default function VideoSectionDialog({ id }: { id: string }) {
     e.preventDefault();
 
     if (!user?.id || !videoFile) {
-      toast.error("No video or active user");
+      setError("No video or active user");
       return;
     }
 
     if (!videoFile.type.startsWith("video/")) {
-      toast.error("Please select a video");
+      setError("Please select a video");
       return;
     }
 
-    if (videoFile.size > 100 * 1024 * 1024) {
-      toast.error("Video must be under 100MB");
+    if (videoFile.size > 50 * 1024 * 1024) {
+      setError("Video must be under 100MB");
       return;
     }
 
@@ -101,6 +102,8 @@ export default function VideoSectionDialog({ id }: { id: string }) {
           {videoFile.name} ({Math.round(videoFile.size / 1024 / 1024)} MB)
         </p>
       )}
+
+      {error && <p>{error}</p>}
 
       <div className="flex flex-col gap-2">
         <button type="submit" className="bg-jade">

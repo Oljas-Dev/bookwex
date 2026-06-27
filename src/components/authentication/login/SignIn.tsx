@@ -1,5 +1,5 @@
-import { useState, type SubmitEvent } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useLogin } from "../../../api/features/useSingIn";
 import { ArrowLeft } from "react-bootstrap-icons";
 import toast from "react-hot-toast";
@@ -9,34 +9,25 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const { teacherName } = useParams();
-
-  const { login, isPending } = useLogin();
+  // const { login, isPending } = useLogin();
+  const { login, isPending } = useLogin({
+    onSuccess: () => {
+      toast.success("Successfully logged in!");
+      navigate("/profile");
+    },
+    onError: (message) => {
+      setError(message);
+    },
+  });
   const navigate = useNavigate();
 
-  async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (!email) {
-      setError("Your email is required");
-    } else if (!password) {
-      setError("Please enter your password");
-    }
-    login(
-      { email, password },
-      {
-        onError: (error) => {
-          setError(error.message);
-          return;
-        },
-      },
-    );
+    if (!email) return setError("Your email is required");
+    if (!password) return setError("Please enter your password");
 
-    toast.success("Successfully logged in!");
-
-    // If current user is teacher then navigate to /teacher/${teacherName} and if student then to /student.
-
-    navigate(`/profile`);
+    login({ email, password });
   }
 
   return (
@@ -64,7 +55,7 @@ export default function SignIn() {
             <label htmlFor="passwordInput">Enter your password</label>
             <input
               id="passwordInput"
-              type="text"
+              type="password"
               placeholder="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -91,7 +82,7 @@ export default function SignIn() {
         </p>
         <p>
           Don't have account yet?{" "}
-          <Link to={`/teacher/${teacherName}/signup`}>
+          <Link to={`/signup`}>
             <strong>Sign up</strong>
           </Link>
         </p>

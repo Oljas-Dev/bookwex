@@ -1,11 +1,11 @@
 import type { BookedCard } from "../../../../types/ui";
-import DisplayLessonInfo from "../lessons-card/DisplayLessonInfo";
-import UserDisplay from "../lessons-card/UserDiplay";
+import DisplayLessonInfo from "../students-card/DisplayLessonInfo";
+import UserDisplay from "../students-card/UserDiplay";
 
 export type StudentCard =
   | {
       fullName?: string;
-      avatarUrl?: string;
+      avatarUrl?: string | null;
     }
   | undefined;
 

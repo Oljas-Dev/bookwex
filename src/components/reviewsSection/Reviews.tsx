@@ -1,15 +1,14 @@
+import { useState } from "react";
 import { useDashboard } from "../../contexts/useTeacherData";
-import type { TeacherReview } from "../../types/ui";
 import AppSection from "../../ui/AppSection";
 import SectionsHeader from "../../ui/SectionsHeader";
+import { usePaginatedReviews } from "./features/usePageinatedReviews";
 import ReviewsContainer from "./ReviewsContainer";
 
-export default function ReviewsSection({
-  reviews,
-}: {
-  reviews: TeacherReview[] | undefined;
-}) {
+export default function ReviewsSection({ teacherId }: { teacherId: string }) {
+  const [page, setPage] = useState(1);
   const { setActive, openDialog, dialogDashboard } = useDashboard();
+  const { data: reviews } = usePaginatedReviews(teacherId, page);
 
   function handleReviews() {
     setActive("reviewsDialog");
@@ -19,10 +18,10 @@ export default function ReviewsSection({
     <AppSection sectionId="reviewsSection">
       <SectionsHeader
         title="Students reviews"
-        options={{ teacherOption: "edit", studentOption: "view all" }}
+        options={{ teacherOption: "", studentOption: "" }}
         fnTeacher={handleReviews}
       />
-      <ReviewsContainer reviews={reviews} />
+      <ReviewsContainer reviews={reviews} setPage={setPage} page={page} />
     </AppSection>
   );
 }
