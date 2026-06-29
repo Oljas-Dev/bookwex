@@ -29,8 +29,8 @@ import SignUpSuccess from "./ui/SignUpSuccess";
 
 function App() {
   return (
-    <BrowserRouter>
-      <AuthProvider>
+    <AuthProvider>
+      <BrowserRouter>
         <TeacherDataProvider>
           <CalendarProvider>
             <BookingContextProvider>
@@ -107,8 +107,8 @@ function App() {
             </BookingContextProvider>
           </CalendarProvider>
         </TeacherDataProvider>
-      </AuthProvider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

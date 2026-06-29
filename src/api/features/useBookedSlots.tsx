@@ -18,6 +18,8 @@ export function useBookedSlots() {
 
       if (error) throw error;
 
+      // console.log(data);
+
       return data.map((b) => mapBooking(b, user!.id));
     },
   });

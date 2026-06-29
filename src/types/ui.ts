@@ -12,6 +12,7 @@ export interface LessonCard {
   studentName?: string | undefined;
   viewerRole: viewerRoleType;
   status?: bookingStatus;
+  conferenceLink: string | undefined;
 
   startTime: string;
   endTime?: string;
@@ -34,6 +35,7 @@ export interface BookedCard {
   studentsAvatar: string | undefined;
   viewerRole: viewerRoleType;
   rating?: number;
+  conferenceLink?: string;
 
   startTime: string;
   endTime?: string;
@@ -151,6 +153,7 @@ export type BookingPerson = {
   id: string;
   full_name: string;
   avatar_url: string | undefined;
+  conference_link?: string | undefined;
 };
 
 export type BookingRow = {
@@ -193,6 +196,7 @@ export type MapperBooking = {
     id: string;
     name: string;
     avatar: string | undefined;
+    conferenceLink?: string | undefined;
   } | null;
 
   student: {

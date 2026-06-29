@@ -8,6 +8,8 @@ export interface currentUser {
   name: string;
   avatar: string | undefined;
   myTeachers: MyTeacher[];
+
+  conference_link?: string | undefined;
 }
 
 export interface MyTeacher {
@@ -21,4 +23,5 @@ export type CurrentUserQuery = {
   avatar_url: string | undefined;
   my_teachers: string[];
   teachers: TeacherRow[];
+  conference_link: string | undefined;
 };

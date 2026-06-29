@@ -4,7 +4,7 @@ import { useAuth } from "../../../contexts/useAuth";
 import { uploadAvatarFile } from "../../avatars/features/uploadAvatar";
 import { updateProfile } from "../../avatars/features/updateProfile";
 import { useQueryClient } from "@tanstack/react-query";
-import type { Profile } from "../../../contexts/AuthContextData";
+import type { ProfileType } from "../../../contexts/AuthContextData";
 
 export interface Updates {
   avatar_url: string | null;
@@ -16,12 +16,16 @@ export default function EditPersonalInfo({
 }: {
   dialogFormRef: React.RefObject<HTMLDialogElement | null>;
 }) {
-  const { user, profile } = useAuth();
+  const { user, profile, isTeacher } = useAuth();
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [fullName, setFullName] = useState<string>("");
+  const [conferenceLink, setConferenceLink] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
+
+  const findPermanentZoomLink =
+    "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0074318";
 
   // Close dialog function
   function closeDialog() {
@@ -50,7 +54,7 @@ export default function EditPersonalInfo({
     setLoading(true);
 
     try {
-      const updates: Partial<Profile> = {};
+      const updates: Partial<ProfileType> = {};
 
       // 1. avatar
       if (avatarFile) {
@@ -60,8 +64,12 @@ export default function EditPersonalInfo({
       }
 
       // 2. name
-      if (fullName?.trim()) {
+      if (fullName.trim()) {
         updates.full_name = fullName.trim().toLowerCase();
+      }
+
+      if (conferenceLink) {
+        updates.conference_link = conferenceLink.trim();
       }
 
       if (Object.keys(updates).length === 0) return;
@@ -70,9 +78,9 @@ export default function EditPersonalInfo({
       await updateProfile(user.id, updates);
 
       // 4. cache update (instant UI)
-      queryClient.setQueryData<Profile>(
+      queryClient.setQueryData<ProfileType>(
         ["profiles", user.id],
-        (old: Profile | undefined) => {
+        (old: ProfileType | undefined) => {
           if (!old) return old;
 
           return {
@@ -105,23 +113,50 @@ export default function EditPersonalInfo({
         <h2>Edit your profile</h2>
         <form onSubmit={handleSubmit} className="flex gap-2">
           <div className="flex flex-col gap-2">
-            <label htmlFor="newName">Change your display name:</label>
-            <input
-              id="newName"
-              type="text"
-              placeholder="change your name"
-              defaultValue={profile?.full_name}
-              onChange={(e) => setFullName(e.target.value)}
-            />
+            <div className="flex flex-col gap-1">
+              <label htmlFor="newName">Change your display name:</label>
+              <input
+                id="newName"
+                type="text"
+                placeholder="change your name"
+                defaultValue={profile?.full_name}
+                onChange={(e) => setFullName(e.target.value)}
+              />
+            </div>
 
-            <label htmlFor="avatarFile">Choose your profile image:</label>
-            <input
-              id="avatarFile"
-              type="file"
-              accept="image/*"
-              onChange={(e) => setAvatarFile(e.target.files?.[0] || null)}
-              className="rounded"
-            />
+            {isTeacher && (
+              <div className="flex flex-col gap-1">
+                <label htmlFor="conferenceLink">
+                  Paste your conference link
+                </label>
+                <input
+                  type="text"
+                  id="conferenceLink"
+                  placeholder="Copy and paste your conference link here"
+                  defaultValue={profile?.conference_link}
+                  onChange={(e) => setConferenceLink(e.target.value)}
+                />
+
+                <a
+                  href={findPermanentZoomLink}
+                  className="text-sm"
+                  target="_blank"
+                >
+                  can't find permanent zoom link?
+                </a>
+              </div>
+            )}
+
+            <div className="flex flex-col gap-1">
+              <label htmlFor="avatarFile">Choose your profile image:</label>
+              <input
+                id="avatarFile"
+                type="file"
+                accept="image/*"
+                onChange={(e) => setAvatarFile(e.target.files?.[0] || null)}
+                className="rounded"
+              />
+            </div>
             <button type="submit" disabled={loading}>
               {loading ? "updating..." : "save changes"}
             </button>

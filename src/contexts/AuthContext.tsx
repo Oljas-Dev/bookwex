@@ -25,6 +25,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
+      setAuthLoading(false);
     });
 
     return () => subscription.unsubscribe();
@@ -51,7 +52,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // All public profiles query
   const { data: profiles, isPending: profilesLoading } = useQuery({
-    queryKey: ["profiles", user?.id],
+    queryKey: ["profiles"],
 
     queryFn: async () => {
       const { data, error } = await supabase.from("profiles").select("*");
@@ -99,8 +100,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // User logged in as a teacher
   const isTeacher = profile?.role === "teacher";
-
-  // console.log(user);
 
   return (
     <UsersContext.Provider

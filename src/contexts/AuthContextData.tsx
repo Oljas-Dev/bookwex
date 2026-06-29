@@ -24,6 +24,8 @@ export type ProfileType = {
   is_public: boolean;
   my_teachers: string[];
   timezone: string;
+
+  conference_link?: string | undefined;
 };
 
 type AuthContextType = {
@@ -41,4 +43,6 @@ type AuthContextType = {
 };
 
 // export const UsersContext = createContext<AuthContextType | null>(null);
-export const UsersContext = createContext({} as AuthContextType);
+export const UsersContext = createContext<AuthContextType | undefined>(
+  undefined,
+);

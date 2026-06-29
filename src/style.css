@@ -32,6 +32,10 @@
     @apply text-sm font-bold;
   }
 
+  a {
+    @apply text-lg;
+  }
+
   .calendar-grid {
     @apply grid grid-cols-7 justify-items-center mt-4 -mx-10;
   }

@@ -4,6 +4,7 @@ export function mapCurrentUser(user: CurrentUserQuery): currentUser {
   return {
     name: user.full_name,
     avatar: user.avatar_url,
+    conference_link: user.conference_link,
 
     myTeachers: user.teachers.map((teacher) => ({
       id: teacher.id,

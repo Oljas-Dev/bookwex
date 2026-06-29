@@ -21,6 +21,7 @@ export function mapBooking(
           id: booking.teacher.id,
           name: booking.teacher.full_name,
           avatar: booking.teacher.avatar_url,
+          conferenceLink: booking.teacher.conference_link,
         }
       : null,
 

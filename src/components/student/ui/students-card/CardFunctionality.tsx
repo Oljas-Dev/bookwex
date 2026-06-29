@@ -18,9 +18,37 @@ export default function CardFunctionality({ lesson }: { lesson: LessonCard }) {
   const hoursLeft = dayjs(lesson?.startTime).diff(dayjs(), "minute") / 60;
 
   const canCancel = hoursLeft >= 12;
+  const conferenceLink = lesson?.conferenceLink;
+
+  const now = dayjs();
+
+  const start = dayjs.utc(lesson.startTime).local();
+  const end = start.add(lesson.duration, "minute");
+
+  const showConferenceLink =
+    now.isAfter(start.subtract(15, "minute")) && now.isBefore(end);
+
+  const disabled = !conferenceLink || !showConferenceLink;
 
   return (
     <div className="flex flex-col gap-2 [&_button]:px-2 [&_button]:py-1 [&_button]:text-[16px] card">
+      <button
+        disabled={disabled}
+        onClick={() => {
+          if (!conferenceLink) return;
+          window.open(conferenceLink, "_blank", "noopener,noreferrer");
+        }}
+      >
+        {disabled ? "Join available 15 min before" : "Join lesson"}
+      </button>
+      {/* <button
+        onClick={() => console.log("conference started !!!")}
+        disabled={!conferenceLink || showConferenceLink}
+      >
+        <a href={conferenceLink} target="_blank">
+          join lesson
+        </a>
+      </button> */}
       <div className="flex justify-center items-center">
         {canCancel && (
           <button

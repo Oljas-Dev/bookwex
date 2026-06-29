@@ -22,6 +22,7 @@ export default function StudentLearningRender() {
     teacherAvatar: lesson.teacher?.avatar,
     teacherName: lesson.teacher?.name,
     status: lesson.status,
+    conferenceLink: lesson.teacher?.conferenceLink,
   }));
 
   if (lessonStatus === "upcoming")
