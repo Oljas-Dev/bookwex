@@ -22,9 +22,9 @@ export default function ReviewsContainer({
         <ArrowLeftSquare color={page === 1 ? "gray" : "black"} size={24} />
       </button>
       <div className="flex gap-4">
-        {reviews?.reviews?.map((review) => (
-          <ReviewCard key={review.id} review={review} />
-        ))}
+        {reviews?.reviews?.map((review) => {
+          return <ReviewCard key={review.id} review={review} />;
+        })}
       </div>
       <button
         disabled={page >= (reviews?.totalPages ?? 1)}

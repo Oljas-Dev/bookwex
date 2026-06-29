@@ -5,7 +5,7 @@ export type ReviewRow = {
   student_id: string;
 
   reviewer_name: string;
-  reviewer_avatar: string | null;
+  reviewer_avatar: string | undefined;
 
   rating: number;
   review: string;

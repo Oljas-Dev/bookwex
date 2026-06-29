@@ -20,7 +20,7 @@ export default function DayWithSlots({
   setDialogState,
 }: {
   slot: Slot;
-  openDialog: (slotId: string | undefined) => void;
+  openDialog: (slotId: string) => void;
   setDialogState: Dispatch<SetStateAction<keyof DialogStateProps>>;
 }) {
   const [searchParams, setSearchParams] = useSearchParams();

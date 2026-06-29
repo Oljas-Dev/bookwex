@@ -16,7 +16,7 @@ type Exception =
 
 type Slot = {
   id: string;
-  user_id: string;
+  user_id: string | undefined;
   start_time: string; // ISO UTC datetime
   end_time: string; // ISO UTC datetime
   duration: number;
@@ -32,7 +32,7 @@ interface Booking {
   start_time: string;
   duration: number;
   type: string;
-  user_id: string;
+  user_id: string | undefined;
 }
 
 interface bookedSlots {
@@ -52,29 +52,33 @@ interface BookingWithStudent extends Booking {
   };
 }
 
+export const LESSON_DURATIONS = [30, 45, 60] as const;
+
+export type LessonDuration = 0 | (typeof LESSON_DURATIONS)[number];
+
 interface BookingTypes {
   dialogRef: React.RefObject<HTMLDialogElement | null>;
   dialogConfig: DialogConfigTypes | null;
   dialogFormRef: React.RefObject<HTMLDialogElement | null>;
   dialogReviewForm: React.RefObject<HTMLDialogElement | null>;
   availableSlots: Slot[];
-  startDate: string;
-  endDate: string;
+  startDate: Dayjs | null;
+  endDate: Dayjs | null;
   startTime: Dayjs | null;
   endTime: Dayjs | null;
   selectedDays: number[];
-  duration: 0 | 30 | 60 | 45;
+  duration: LessonDuration;
   buffer: number;
   noUserError: boolean;
   selectedSlot: string | null;
   setSelectedSlot: Dispatch<SetStateAction<string | null>>;
   setNoUserError: Dispatch<SetStateAction<boolean>>;
-  setStartDate: Dispatch<SetStateAction<string>>;
-  setEndDate: Dispatch<SetStateAction<string>>;
+  setStartDate: Dispatch<SetStateAction<Dayjs | null>>;
+  setEndDate: Dispatch<SetStateAction<Dayjs | null>>;
   setStartTime: Dispatch<SetStateAction<Dayjs | null>>;
   setEndTime: Dispatch<SetStateAction<Dayjs | null>>;
   setSelectedDays: Dispatch<SetStateAction<number[]>>;
-  setDuration: Dispatch<SetStateAction<0 | 30 | 60 | 45>>;
+  setDuration: Dispatch<SetStateAction<LessonDuration>>;
   setBuffer: Dispatch<SetStateAction<number>>;
 
   // Functions
@@ -92,8 +96,8 @@ interface BookingTypes {
 }
 
 type RecurringFormState = {
-  startDate: string;
-  endDate: string;
+  startDate: Dayjs | null;
+  endDate: Dayjs | null;
   selectedDays: number[];
   startTime: Dayjs | null;
   endTime: Dayjs | null;

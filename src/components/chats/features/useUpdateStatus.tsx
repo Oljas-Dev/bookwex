@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../../../api/supabase/supabase";
-import type { Message } from "./useSendMessage";
+import type { Message } from "../../../types/chats";
+// import type { Message } from "./useSendMessage";
 
 export function useUpdateStatus() {
   const queryClient = useQueryClient();

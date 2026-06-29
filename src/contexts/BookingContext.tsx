@@ -3,6 +3,7 @@ import { useRef, useState, type ReactNode } from "react";
 import {
   BookingContext,
   type DialogConfigTypes,
+  type LessonDuration,
   type RecurringFormState,
   type Slot,
 } from "./BookingContextData";
@@ -17,12 +18,12 @@ dayjs.extend(timezone);
 
 export function BookingContextProvider({ children }: { children: ReactNode }) {
   const { profile } = useAuth();
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState<Dayjs | null>(null);
+  const [endDate, setEndDate] = useState<Dayjs | null>(null);
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
   const [startTime, setStartTime] = useState<Dayjs | null>(null);
   const [endTime, setEndTime] = useState<Dayjs | null>(null);
-  const [duration, setDuration] = useState<0 | 30 | 60 | 45>(30);
+  const [duration, setDuration] = useState<LessonDuration>(30);
   const [buffer, setBuffer] = useState<number>(0);
   // Errors with booking
   const [noUserError, setNoUserError] = useState(false);
@@ -33,7 +34,7 @@ export function BookingContextProvider({ children }: { children: ReactNode }) {
     null,
   );
 
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
 
   // Dialogs used in app
   const dialogRef = useRef<HTMLDialogElement | null>(null);
@@ -42,7 +43,12 @@ export function BookingContextProvider({ children }: { children: ReactNode }) {
 
   const dialogReviewForm = useRef<HTMLDialogElement | null>(null);
 
-  if (loading) return <p>user is loading...</p>;
+  // if (loading) {
+  //   return <p>user is loading...</p>;
+  // } else {
+  //   navigate("/login");
+  // }
+
   // Close by clicking on button
   const closeDialog = (): void => {
     dialogRef?.current?.close();
@@ -100,10 +106,6 @@ export function BookingContextProvider({ children }: { children: ReactNode }) {
       throw new Error("Form contain no values");
     }
 
-    if (!user) {
-      throw new Error("User not found");
-    }
-
     const slots: Slot[] = [];
 
     if (
@@ -118,9 +120,11 @@ export function BookingContextProvider({ children }: { children: ReactNode }) {
       return [];
     }
 
-    let currentDate = dayjs.tz(form.startDate, profile?.timezone);
+    // let currentDate = dayjs.tz(form.startDate, profile?.timezone);
+    // const endDate = dayjs.tz(form.endDate, profile?.timezone);
+    let currentDate = form.startDate.tz(profile?.timezone);
+    const endDate = form.endDate.tz(profile?.timezone);
 
-    const endDate = dayjs.tz(form.endDate, profile?.timezone);
     const defaultStartTime = form.startTime.format("HH:mm");
     const defaultEndTime = form.endTime.format("HH:mm");
 
@@ -170,7 +174,7 @@ export function BookingContextProvider({ children }: { children: ReactNode }) {
 
           slots.push({
             id: crypto.randomUUID(),
-            user_id: user.id,
+            user_id: user?.id,
             start_time: currentTime.toISOString(),
             end_time: slotEnd.toISOString(),
             duration: form.duration,

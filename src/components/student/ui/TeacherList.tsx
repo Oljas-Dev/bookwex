@@ -22,6 +22,7 @@ export default function TeacherList({
                   avatarUrl={getAvatarUrl(teacher.avatar)}
                   teacherName={teacher.name}
                   subject="English"
+                  key={teacher.id}
                 />
               );
             })}

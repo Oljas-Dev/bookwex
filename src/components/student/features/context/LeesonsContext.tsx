@@ -8,7 +8,7 @@ import {
 export function LessonProvider({ children }: { children: ReactNode }) {
   const [lessonStatus, setLessonStatus] = useState<lessonStatuses>("upcoming");
   const [activeTab, setActiveTab] = useState<activeTabs>("my_teaching");
-  const [rating, setRating] = useState<number | undefined>();
+  const [rating, setRating] = useState(0);
   const [activeLessonId, setActiveLessonId] = useState<string | undefined>();
   const [currentReview, setCurrentReview] = useState<string | undefined>();
 

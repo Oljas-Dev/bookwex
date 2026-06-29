@@ -17,34 +17,16 @@ export function useChatRoom(bookingId: string | undefined) {
           .order("created_at"),
 
         supabase
-          .from("bookings")
-          .select(
-            `
-            id,
-            teacher_unread_count,
-            student_unread_count,
-            start_time,
-            duration,
-
-            teacher:teacher_id (
-                id,
-                full_name,
-                avatar_url
-            ),
-
-            student:student_id (
-                id,
-                full_name,
-                avatar_url
-            )
-            `,
-          )
-          .eq("id", bookingId)
+          .from("chat_room_view")
+          .select("*")
+          .eq("booking_id", bookingId)
           .single(),
       ]);
 
       if (messagesRes.error) throw messagesRes.error;
       if (bookingRes.error) throw bookingRes.error;
+
+      // console.log(bookingRes.data);
 
       return {
         booking: mapChatRoom(bookingRes.data),
@@ -53,3 +35,5 @@ export function useChatRoom(bookingId: string | undefined) {
     },
   });
 }
+
+// grant select on bookings_view to authenticated;

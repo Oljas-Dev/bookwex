@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../../../api/supabase/supabase";
-import type { Message } from "./useSendMessage";
+import type { Message } from "../../../types/chats";
 
 export function useMessages(bookingId: string | undefined) {
   const queryClient = useQueryClient();

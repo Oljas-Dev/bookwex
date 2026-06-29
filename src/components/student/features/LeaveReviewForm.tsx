@@ -46,7 +46,7 @@ export default function LeaveReviewForm({
       userId: user?.id,
       bookingId: activeLessonId,
       rating,
-      review,
+      review: review.trim(),
     };
 
     submitReview({ review: newReview });

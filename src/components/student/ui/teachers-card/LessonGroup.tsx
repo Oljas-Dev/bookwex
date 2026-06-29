@@ -5,7 +5,7 @@ import UserDisplay from "../students-card/UserDiplay";
 export type StudentCard =
   | {
       fullName?: string;
-      avatarUrl?: string | null;
+      avatarUrl?: string | undefined;
     }
   | undefined;
 

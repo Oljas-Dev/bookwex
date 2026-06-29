@@ -29,6 +29,7 @@ export async function getPaginatedReviews(
     .from("teacher_reviews")
     .select("*", { count: "exact" })
     .eq("teacher_id", teacherId)
+    .neq("review", "")
     .order("created_at", { ascending: false })
     .range(from, to);
 

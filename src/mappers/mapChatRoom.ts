@@ -2,7 +2,7 @@ import type { ChatBooking, ChatRoomBookingQuery } from "../types/chats";
 
 export function mapChatRoom(booking: ChatRoomBookingQuery): ChatBooking {
   return {
-    id: booking.id,
+    id: booking.booking_id,
     teacher_unread_count: booking.teacher_unread_count,
     student_unread_count: booking.student_unread_count,
     start_time: booking.start_time,

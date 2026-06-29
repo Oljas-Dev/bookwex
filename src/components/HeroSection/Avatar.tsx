@@ -21,7 +21,7 @@ export default function Avatar({
       <div className="flex-center bg-peach w-50 h-50 p-3 rounded-2xl shadow-[3px_3px_3px_var(--shadow-dark-card),-3px_-3px_3px_var(--shadow-light)] border-t-2 border-l-2 border-t-stroke-light border-l-stroke-light">
         <AvatarPlaceholder
           name={fullName || ""}
-          avatarUrl={avatarUrl || null}
+          avatarUrl={avatarUrl || undefined}
           styles="w-44 h-44 text-5xl"
         />
       </div>

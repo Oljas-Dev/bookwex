@@ -57,6 +57,8 @@ export async function updateHeroSection(
 export async function updateTeacherLessons(
   lessons: TeacherLesson[] | undefined,
 ) {
+  if (!lessons?.length) return true;
+
   const { error } = await supabase.from("teacher_lessons").upsert(lessons);
 
   if (error) throw error;

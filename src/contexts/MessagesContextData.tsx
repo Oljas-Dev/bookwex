@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import type { Message } from "../components/chats/features/useSendMessage";
+import type { Message } from "../types/chats";
 
 interface MessagesContextProps {
   hasUnreadMessages: boolean | undefined;

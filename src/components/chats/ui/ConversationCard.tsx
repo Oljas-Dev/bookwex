@@ -15,29 +15,29 @@ export default function ConversationCard({ card }: { card: Conversation }) {
 
   return (
     <Link
-      to={`/chat-room/${card?.bookingId}`}
+      to={`/chat-room/${card.bookingId}`}
       onClick={() => {
         if (!user?.id) return;
 
         clearUnread({
-          bookingId: card?.bookingId,
+          bookingId: card.bookingId,
           role: card.viewerRole,
         });
       }}
     >
       <div
         className={`${
-          card?.unreadCount ? "border-2 border-green-600" : ""
+          card.unreadCount ? "border-2 border-green-600" : ""
         } flex items-center gap-2 bg-jade p-2 rounded`}
       >
         <AvatarPlaceholder
           styles="w-16 h-16"
-          avatarUrl={getAvatarUrl(card?.participant?.avatar)}
+          avatarUrl={getAvatarUrl(card.participant?.avatar)}
         />
 
         <div className="flex flex-col w-full">
           <div className="flex justify-between">
-            {capitalizeAllFirst(card?.participant?.name ?? "Unknown user")}
+            {capitalizeAllFirst(card.participant?.name ?? "Unknown user")}
             <span
               className={`${
                 card?.unreadCount ? "text-green-600" : "text-jet/50"
@@ -47,7 +47,7 @@ export default function ConversationCard({ card }: { card: Conversation }) {
             </span>
           </div>
 
-          <span className="text-sm text-jet/50">{card?.lastMessage}</span>
+          <span className="text-sm text-jet/50">{card.lastMessage}</span>
         </div>
       </div>
     </Link>

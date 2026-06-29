@@ -14,8 +14,8 @@ type LessonContextType = {
   setLessonStatus: Dispatch<SetStateAction<lessonStatuses>>;
   activeTab: activeTabs;
   setActiveTab: Dispatch<SetStateAction<activeTabs>>;
-  rating: number | undefined;
-  setRating: Dispatch<SetStateAction<number | undefined>>;
+  rating: number;
+  setRating: Dispatch<SetStateAction<number>>;
   activeLessonId: string | undefined;
   setActiveLessonId: Dispatch<SetStateAction<string | undefined>>;
   currentReview: string | undefined;

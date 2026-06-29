@@ -21,7 +21,7 @@ export interface BookingChatInfo {
 export interface ChatParticipant {
   id: string;
   full_name: string;
-  avatar_url: string | null;
+  avatar_url: string | undefined;
 }
 
 export interface ChatBooking {
@@ -36,7 +36,7 @@ export interface ChatBooking {
 }
 
 export type ChatRoomBookingQuery = {
-  id: string;
+  booking_id: string;
   teacher_unread_count: number;
   student_unread_count: number;
   start_time: string;
@@ -45,13 +45,13 @@ export type ChatRoomBookingQuery = {
   teacher: {
     id: string;
     full_name: string;
-    avatar_url: string | null;
+    avatar_url: string | undefined;
   };
 
   student: {
     id: string;
     full_name: string;
-    avatar_url: string | null;
+    avatar_url: string | undefined;
   };
 };
 
@@ -72,18 +72,18 @@ export interface Message {
 // conversations
 export interface Conversation {
   bookingId: string;
-  startTime: string;
-  duration: number;
+  startTime?: string;
+  duration?: number;
 
   unreadCount: number;
 
   participant: {
-    id: string;
-    name: string;
-    avatar: string | null;
-  };
+    id: string | undefined;
+    name: string | undefined;
+    avatar: string | undefined;
+  } | null;
 
-  teacherName: string | undefined;
+  teacherName?: string | undefined;
   viewerRole: viewerRoleType;
 
   lastMessage: string | null;
@@ -91,25 +91,25 @@ export interface Conversation {
 }
 
 export interface ConversationRow {
-  id: string;
+  booking_id: string;
 
   teacher_unread_count: number;
   student_unread_count: number;
 
   last_message: string | null;
   last_message_at: string | null;
-  start_time: string;
-  duration: number;
+  start_time?: string;
+  duration?: number;
 
   teacher: {
     id: string;
     full_name: string;
-    avatar_url: string | null;
+    avatar_url: string | undefined;
   } | null;
 
   student: {
     id: string;
     full_name: string;
-    avatar_url: string | null;
+    avatar_url: string | undefined;
   } | null;
 }

@@ -4,11 +4,11 @@ import type { Platform } from "../helpers/features";
 
 // Student lessons
 export interface LessonCard {
-  lessonId: string | undefined;
+  lessonId: string;
   slotId: string | undefined;
   teacherId: string | undefined;
   teacherName: string | undefined;
-  teacherAvatar: string | null | undefined;
+  teacherAvatar: string | undefined;
   studentName?: string | undefined;
   viewerRole: viewerRoleType;
   status?: bookingStatus;
@@ -26,14 +26,14 @@ export type viewerRoleType = "teacher" | "student";
 
 // Teacher lessons
 export interface BookedCard {
-  lessonId: string | undefined;
+  lessonId: string;
   slotId: string | undefined;
   teacherId: string | undefined;
   studentName: string | undefined;
   teacherName: string | undefined;
-  studentsAvatar: string | null | undefined;
+  studentsAvatar: string | undefined;
   viewerRole: viewerRoleType;
-  rating: number;
+  rating?: number;
 
   startTime: string;
   endTime?: string;
@@ -57,7 +57,7 @@ export interface ratingCalc {
 export interface TeacherProfile {
   id: string;
   full_name: string;
-  avatar_url: string | null;
+  avatar_url: string | undefined;
 
   subject: string;
   video_intro: string | null;
@@ -99,7 +99,7 @@ export interface TeacherLesson {
 // Teacher social links type
 export interface TeacherSocialLink {
   id: string;
-  platform: string;
+  platform: Platform;
   url: string;
 }
 
@@ -150,10 +150,10 @@ export interface SocialLink {
 export type BookingPerson = {
   id: string;
   full_name: string;
-  avatar_url: string | null;
+  avatar_url: string | undefined;
 };
 
-export type BookingWithRelations = {
+export type BookingRow = {
   id: string;
   slot_id?: string;
   start_time: string;
@@ -164,14 +164,15 @@ export type BookingWithRelations = {
   student_outcome?: "pending" | "completed" | "no_show";
   rating: number;
 
-  teacher_unread_count: number;
-  student_unread_count: number;
-
-  last_message: string | null;
-  last_message_at: string | null;
-
   teacher: BookingPerson | null;
   student: BookingPerson | null;
+};
+
+export type BookingWithRelations = BookingRow & {
+  teacher_unread_count: number;
+  student_unread_count: number;
+  last_message: string | null;
+  last_message_at: string | null;
 };
 
 export type MapperBooking = {
@@ -186,18 +187,18 @@ export type MapperBooking = {
   student_unread_count?: number;
   teacher_unread_count?: number;
   viewerRole: viewerRoleType;
-  rating: number;
+  rating?: number;
 
   teacher: {
     id: string;
     name: string;
-    avatar: string | null;
+    avatar: string | undefined;
   } | null;
 
   student: {
     id: string;
     name: string;
-    avatar: string | null;
+    avatar: string | undefined;
   } | null;
 };
 

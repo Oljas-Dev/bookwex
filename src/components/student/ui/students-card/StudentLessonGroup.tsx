@@ -1,28 +1,30 @@
-import DisplayLessonInfo from "./DisplayLessonInfo";
-import UserDisplay from "./UserDiplay";
-import type { LessonCard } from "../../../../types/ui";
+// import DisplayLessonInfo from "./DisplayLessonInfo";
+// import UserDisplay from "./UserDiplay";
+// import type { LessonCard } from "../../../../types/ui";
 
-export type StudentCard =
-  | {
-      fullName?: string;
-      avatarUrl?: string;
-    }
-  | undefined;
+// export type StudentCard =
+//   | {
+//       fullName?: string;
+//       avatarUrl?: string;
+//     }
+//   | undefined;
 
-export default function StudentLessonGroup({ lesson }: { lesson: LessonCard }) {
-  const user: StudentCard = {
-    fullName: teacher?.full_name,
-    avatarUrl: teacher?.avatar_url,
-  };
+// export default function StudentLessonGroup({ lesson }: { lesson: LessonCard }) {
+//   const user: StudentCard = {
+//     fullName: teacher?.full_name,
+//     avatarUrl: teacher?.avatar_url,
+//   };
 
-  return (
-    <div className="flex gap-6">
-      <UserDisplay user={user} title="Teacher:" />
+//   console.log(user);
 
-      <DisplayLessonInfo
-        duration={lesson.duration}
-        startTime={lesson.startTime}
-      />
-    </div>
-  );
-}
+//   return (
+//     <div className="flex gap-6">
+//       <UserDisplay user={user} title="Teacher:" />
+
+//       <DisplayLessonInfo
+//         duration={lesson.duration}
+//         startTime={lesson.startTime}
+//       />
+//     </div>
+//   );
+// }
