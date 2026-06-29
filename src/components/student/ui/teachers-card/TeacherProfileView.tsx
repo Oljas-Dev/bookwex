@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { toParamStr } from "../../../../helpers/features";
 import type { MyTeacher } from "../../../../types/profile";
 import { getAvatarUrl } from "../../../avatars/features/useAvatar";
@@ -27,9 +28,9 @@ export default function TeacherProfileView({
             />
           );
         })}
-      <button className="hover:text-amber-100">
-        <a href={`/teacher/${toParamStr(teacherName)}`}>go to your dashboard</a>
-      </button>
+      <Link to={`/teacher/${toParamStr(teacherName)}`}>
+        <button className="hover:text-amber-100">go to your dashboard</button>
+      </Link>
     </div>
   );
 }

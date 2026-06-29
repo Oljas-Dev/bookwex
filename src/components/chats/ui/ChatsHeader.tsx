@@ -1,5 +1,5 @@
 import { ArrowLeft, CalendarEvent, PersonFill } from "react-bootstrap-icons";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import { formatLessonDate } from "../../../helpers/features";
 import { useAuth } from "../../../contexts/useAuth";
@@ -44,12 +44,12 @@ export default function ChatsHeader({
             onClick={() => navigate(-1)}
           />
         </div>
-        <a
-          href={`/teacher/${teacherName}`}
+        <Link
+          to={`/teacher/${teacherName}`}
           className="hover:scale-110 active:scale-90"
         >
           <CalendarEvent size={24} />
-        </a>
+        </Link>
         <a href="/profile" className="hover:scale-110 active:scale-90">
           <PersonFill size={24} />
         </a>
