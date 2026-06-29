@@ -28,7 +28,7 @@ export default function TeacherProfileView({
           );
         })}
       <button className="hover:text-amber-100">
-        <a href={`teacher/${toParamStr(teacherName)}`}>go to your dashboard</a>
+        <a href={`/teacher/${toParamStr(teacherName)}`}>go to your dashboard</a>
       </button>
     </div>
   );
