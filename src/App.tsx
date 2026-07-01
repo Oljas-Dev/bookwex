@@ -36,7 +36,7 @@ function App() {
             <BookingContextProvider>
               <MessagesProvider>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <main className="flex flex-col justify-center items-center min-h-screen text-3xl bg-main-bg pb-20 xl:py-6">
+                  <main className="flex flex-col justify-center items-center  text-3xl bg-main-bg pb-20 xl:py-6">
                     <Routes>
                       <Route path="/auth/callback" element={<AuthCallback />} />
                       <Route path="login" element={<SignIn />} />

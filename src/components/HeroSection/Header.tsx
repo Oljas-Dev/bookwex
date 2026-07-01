@@ -6,15 +6,17 @@ import TeacherRating from "./ui/TeacherRating";
 export default function Header({
   teachersName,
   rating,
+  hidden = false,
 }: {
   teachersName: string | undefined;
   rating: ratingCalc | undefined;
+  hidden?: boolean;
 }) {
   const fullName = capitalizeAllFirst(teachersName) || "Guest";
 
   return (
-    <div>
-      <div className="flex items-center gap-8">
+    <div className={`${hidden ? "hidden" : "block"} max-[900px]:mb-2`}>
+      <div className="flex items-center gap-8 max-[900px]:gap-4">
         <h1>{fullName}</h1>
         {rating?.review_count === undefined &&
         rating?.average_rating === undefined ? (

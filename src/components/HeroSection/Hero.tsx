@@ -6,6 +6,7 @@ import type { TeacherProfile } from "../../types/ui";
 import { Gear } from "react-bootstrap-icons";
 import { useDashboard } from "../../contexts/useTeacherData";
 import { useAuth } from "../../contexts/useAuth";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 export default function Hero({
   teacherData,
@@ -56,10 +57,13 @@ export default function Hero({
 
     openDialog(dialogDashboard);
   }
+
+  const tablet = useMediaQuery("(max-width:900px)");
+
   return (
     <section
       id="heroSection"
-      className="grid grid-cols-[70%_30%] w-full bg-jade px-10 py-6 mb-8 relative"
+      className="grid grid-cols-[70%_30%] w-full bg-jade px-10 py-6 mb-8 relative max-[900px]:flex max-[900px]:flex-col-reverse max-[900px]:items-center max-[900px]:gap-6"
     >
       {canEditProfile(teacherData?.id) && (
         <Gear
@@ -72,6 +76,7 @@ export default function Hero({
         <Header
           teachersName={teacherData?.full_name}
           rating={teacherData?.rating_calc}
+          hidden={tablet}
         />
         <Achievements experience={teacherData?.experience} />
         <AboutMeText description={teacherData?.descriptions} />

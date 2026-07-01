@@ -2,7 +2,7 @@
 
 @layer base {
   * {
-    @apply text-jet transition-all;
+    @apply text-jet transition-all m-0 p-0;
   }
   p {
     @apply text-sm;
