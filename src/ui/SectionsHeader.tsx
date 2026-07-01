@@ -21,7 +21,7 @@ export default function SectionsHeader({
   const { canEditProfile } = useAuth();
   return (
     <div className="flex justify-between items-center">
-      <h2 className="text-4xl font-bold">{title}</h2>
+      <h2 className="text-4xl font-bold max-[400px]:text-3xl">{title}</h2>
 
       {canEditProfile(teacherId) ? (
         <span className="cursor-pointer" onClick={fnTeacher}>

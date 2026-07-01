@@ -27,5 +27,5 @@ export default function OffersContainer({
     );
   });
 
-  return <div className="flex justify-between">{offerCardMap}</div>;
+  return <div className="flex justify-center">{offerCardMap}</div>;
 }

@@ -13,11 +13,11 @@ export default function ReviewsContainer({
   setPage: Dispatch<SetStateAction<number>>;
 }) {
   return (
-    <div className="flex justify-between gap-2">
+    <div className="flex justify-between gap-2 max-[400px]:flex-col max-[400px]:items-center">
       <button
         disabled={page === 1}
         onClick={() => setPage((p) => p - 1)}
-        className="bg-transparent border-0 px-1"
+        className="bg-transparent border-0 px-1 max-[400px]:hidden"
       >
         <ArrowLeftSquare color={page === 1 ? "gray" : "black"} size={24} />
       </button>
@@ -29,13 +29,34 @@ export default function ReviewsContainer({
       <button
         disabled={page >= (reviews?.totalPages ?? 1)}
         onClick={() => setPage((p) => p + 1)}
-        className="bg-transparent border-0 px-1"
+        className="bg-transparent border-0 px-1 max-[400px]:hidden"
       >
         <ArrowRightSquare
           color={page >= (reviews?.totalPages ?? 1) ? "gray" : "black"}
           size={24}
         />
       </button>
+
+      <div className="min-[400px]:hidden max-[400px]:flex gap-4">
+        <button
+          disabled={page === 1}
+          onClick={() => setPage((p) => p - 1)}
+          className="bg-transparent border-0 px-1"
+        >
+          <ArrowLeftSquare color={page === 1 ? "gray" : "black"} size={24} />
+        </button>
+
+        <button
+          disabled={page >= (reviews?.totalPages ?? 1)}
+          onClick={() => setPage((p) => p + 1)}
+          className="bg-transparent border-0 px-1"
+        >
+          <ArrowRightSquare
+            color={page >= (reviews?.totalPages ?? 1) ? "gray" : "black"}
+            size={24}
+          />
+        </button>
+      </div>
     </div>
   );
 }
