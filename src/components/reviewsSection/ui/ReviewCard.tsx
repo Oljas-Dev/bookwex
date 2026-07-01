@@ -11,7 +11,7 @@ export default function ReviewCard({ review }: { review: Review }) {
   //   dayjs().diff(dayjs(createdAt), "minute") < 10;
 
   return (
-    <CardContainer styles="max-w-66.25">
+    <CardContainer styles="max-w-66.25 max-lg:w-90">
       <div className="flex flex-col items-center gap-2 min-w-66 bg-peach py-3 border-b-2 border-jade-light">
         <img
           src={getAvatarUrl(review.reviewerAvatar)}
