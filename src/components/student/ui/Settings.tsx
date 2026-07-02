@@ -29,25 +29,27 @@ export default function Settings({ user }: { user: currentUser | undefined }) {
       >
         <p className="hover:text-amber-100">edit profile</p>
       </div>
-      <Link to="/change-password" className="text-lg hover:text-amber-100">
-        change password
-      </Link>
-      {isTeacher && (
-        <Link
-          to={`/teacher/${toParamStr(user?.name)}/planner`}
-          className="text-lg hover:text-amber-100"
-        >
-          schedule new lessons
+      <div className="flex flex-col gap-3">
+        <Link to="/change-password" className="text-lg hover:text-amber-100">
+          change password
         </Link>
-      )}
-      {!isTeacher && (
-        <Link
-          to={"/profile/become-teacher"}
-          className="text-lg hover:text-amber-100"
-        >
-          become a teacher
-        </Link>
-      )}
+        {isTeacher && (
+          <Link
+            to={`/teacher/${toParamStr(user?.name)}/planner`}
+            className="text-lg hover:text-amber-100"
+          >
+            schedule new lessons
+          </Link>
+        )}
+        {!isTeacher && (
+          <Link
+            to={"/profile/become-teacher"}
+            className="text-lg hover:text-amber-100"
+          >
+            become a teacher
+          </Link>
+        )}
+      </div>
     </aside>
   );
 }

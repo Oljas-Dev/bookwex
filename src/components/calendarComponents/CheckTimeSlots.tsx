@@ -141,10 +141,7 @@ export default function CheckTimeSlots() {
               login
             </Link>{" "}
             or{" "}
-            <Link
-              to={`/teacher/${teacherName}/signup`}
-              className="text-blue-800"
-            >
+            <Link to={`/signup`} className="text-blue-800">
               sign up
             </Link>{" "}
             to continue with booking

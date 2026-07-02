@@ -50,7 +50,7 @@ export default function DisplayLessonInfo({
   }, [startTime, end]);
 
   return (
-    <div className="flex flex-col justify-around">
+    <div className="flex flex-col items-center">
       <p>
         Lesson on{" "}
         <strong>

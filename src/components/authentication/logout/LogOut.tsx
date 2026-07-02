@@ -11,7 +11,7 @@ export default function LogOut() {
     logout({ teacherSlug: teacherName });
   }
   return (
-    <div className="flex-center gap-2 text-center">
+    <div className="flex flex-col gap-2 text-center justify-center mx-auto px-10 h-screen max-[350px]:px-4">
       <h2>Do you really want to sign out?</h2>
       <p>Please confirm your signing out</p>
       <div className="flex justify-between">

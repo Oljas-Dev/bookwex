@@ -16,7 +16,7 @@ export default function LessonGroup({ lesson }: { lesson: BookedCard }) {
   };
 
   return (
-    <div className="flex gap-6">
+    <div className="flex gap-6 max-[600px]:flex-col max-[600px]:gap-2 w-full">
       <UserDisplay user={user} title="Student:" />
 
       <DisplayLessonInfo
