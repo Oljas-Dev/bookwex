@@ -18,7 +18,7 @@ export default function Avatar({
   const tablet = useMediaQuery("(min-width:900px)");
 
   return (
-    <div>
+    <div className="max-[900px]:flex max-[900px]:flex-col max-[900px]:items-center">
       <Header
         teachersName={teacherData?.full_name}
         rating={teacherData?.rating_calc}

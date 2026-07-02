@@ -15,17 +15,19 @@ export default function TeacherProfileView({
 
   return (
     <div
-      className={`${teachersExist ? "justify-around" : "justify-end"} flex flex-col gap-2  h-full`}
+      className={`${teachersExist ? "justify-around" : "justify-end"} flex flex-col gap-4  h-full`}
     >
       {teachersExist &&
         myTeachers.map((teacher: MyTeacher) => {
           return (
-            <MyTeachers
-              avatarUrl={getAvatarUrl(teacher.avatar)}
-              teacherName={teacher.name}
-              subject="English"
-              key={teacher.id}
-            />
+            <div className="flex flex-col gap-2" key={teacher.id}>
+              <h3>Your teachers:</h3>
+              <MyTeachers
+                avatarUrl={getAvatarUrl(teacher.avatar)}
+                teacherName={teacher.name}
+                subject="English"
+              />
+            </div>
           );
         })}
       <Link to={`/teacher/${toParamStr(teacherName)}`}>

@@ -9,7 +9,7 @@ export default function CardsNavigation() {
   }
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 max-[650px]:[&_button]:px-2 max-[500px]:grid max-[500px]:grid-cols-2 ">
       <button
         onClick={() => bookingConfig("upcoming")}
         className={`${lessonStatus === "upcoming" && "bg-jet text-jade"}`}

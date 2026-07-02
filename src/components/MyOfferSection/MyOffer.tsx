@@ -32,7 +32,9 @@ export default function MyOffer({
       />
       <Carousel
         items={lessonOffers ?? []}
-        renderItem={(offer) => <OffersContainer offers={[offer]} />}
+        renderItem={(offer) => (
+          <OffersContainer offers={[offer]} key={offer.id} />
+        )}
       />
       {/* <OffersContainer offers={lessonOffers} /> */}
     </AppSection>

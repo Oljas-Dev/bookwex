@@ -22,7 +22,7 @@ export default function MyTeachers({
   const formattedName = `${firstName} ${lastName}`.trim();
 
   return (
-    <li className="flex justify-between items-center border-jet py-2 pr-2 last:border-b">
+    <li className="flex justify-between items-center border-t border-jet py-2 px-2 last:border-b hover:bg-jade-light">
       <Link
         to={`/teacher/${toParamStr(teacherName ?? "")}`}
         className="flex items-center gap-2 text-lg hover:text-amber-100"
@@ -36,7 +36,9 @@ export default function MyTeachers({
         {formattedName || "Unknown teacher"}
       </Link>
 
-      <p>teaching you: {subject ?? "Unknown subject"}</p>
+      <p className="max-[400px]:hidden">
+        teaching you: {subject ?? "Unknown subject"}
+      </p>
     </li>
   );
 }

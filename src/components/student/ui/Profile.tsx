@@ -9,8 +9,8 @@ export default function Profile({ user }: { user: currentUser | undefined }) {
   const { isTeacher } = useAuth();
 
   return (
-    <div className="flex flex-col gap-3">
-      <h2 className="pb-2 border-b border-jet">
+    <div className="flex flex-col gap-3 max-[700px]:pr-2 ">
+      <h2 className="pb-2 border-b border-jet max-[500px]:hidden">
         Hi👋, {capitalizeAllFirst(user?.name)}
       </h2>
 

@@ -11,7 +11,7 @@ export default function Settings({ user }: { user: currentUser | undefined }) {
   const { dialogFormRef } = useBookings();
 
   return (
-    <aside className="flex flex-col items-center gap-1 [&_h3]:text-center">
+    <aside className="flex flex-col items-center gap-2 text-center [&_a]:leading-5">
       <div>
         <h3>My profile</h3>
         <div onClick={() => dialogFormRef?.current?.showModal()}>

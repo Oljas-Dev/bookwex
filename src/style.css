@@ -49,7 +49,7 @@
   }
 
   .active-tab {
-    @apply bg-peach translate-y-0 border border-ocean border-b-0;
+    @apply bg-jet [&_h2]:text-jade translate-y-0  border border-ocean border-b-0;
   }
 
   .disabled-tab {
