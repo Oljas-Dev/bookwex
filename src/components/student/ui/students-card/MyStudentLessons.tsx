@@ -23,10 +23,10 @@ export default function MyStudentLessons({
   orderedByStartTime?.forEach((lesson) => {
     lessonsJSX.push(
       <div
-        className="flex justify-between items-center flex-wrap px-4 py-2 bg-jade rounded"
+        className="flex justify-between items-center flex-wrap px-4 py-2 bg-jade rounded max-[600px]:flex-col max-[600px]:gap-3"
         key={lesson.lessonId}
       >
-        <div className="flex gap-6">
+        <div className="flex gap-6 max-[600px]:flex-col max-[600px]:gap-2">
           <TeacherIdentity lesson={lesson} />
           <DisplayLessonInfo
             duration={lesson.duration}

@@ -25,6 +25,7 @@ const DurationSelector = memo(() => {
           onChange={(e) =>
             setDuration(Number(e.target.value) as LessonDuration)
           }
+          className="p-2 border text-sm rounded"
         >
           {LESSON_DURATIONS.map((d) => (
             <option key={d} value={d}>

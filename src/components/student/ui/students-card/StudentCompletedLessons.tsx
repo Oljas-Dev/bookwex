@@ -25,10 +25,10 @@ export default function StudentCompletedLessons({
   orderedByStartTime?.forEach((lesson) => {
     lessonsJSX.push(
       <div
-        className="flex justify-between items-center flex-wrap px-4 py-2 bg-orange-200 rounded"
+        className="flex justify-between items-center flex-wrap px-4 py-2 bg-orange-200 rounded max-[600px]:flex-col max-[600px]:gap-3"
         key={lesson.lessonId}
       >
-        <div className="flex gap-6">
+        <div className="flex gap-6 max-[600px]:flex-col max-[600px]:gap-2">
           <TeacherIdentity lesson={lesson} />
 
           <DisplayLessonInfo
@@ -37,8 +37,8 @@ export default function StudentCompletedLessons({
           />
         </div>
         <div className="flex flex-col gap-2">
-          <span className="flex gap-2">
-            <p>Lesson status completed </p>
+          <span className="flex gap-2 justify-end">
+            <p>Lesson completed </p>
             <Check2All size={20} />
           </span>
           <ShowLessonRating

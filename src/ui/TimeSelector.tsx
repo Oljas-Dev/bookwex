@@ -6,10 +6,8 @@ const TimeSelector = memo(() => {
   const { startTime, setStartTime, endTime, setEndTime } = useBookings();
   return (
     <div className="flex flex-col gap-1">
-      <p className="text-lg font-semibold">
-        Here you can set your working hours
-      </p>
-      <div className="flex justify-between">
+      <p className="text-lg font-bold">Here you can set your working hours</p>
+      <div className="flex justify-between max-[850px]:flex-col max-[850px]:gap-4">
         {/* To be refactored */}
         <div className="flex flex-col gap-1">
           <p>Please set the start point</p>

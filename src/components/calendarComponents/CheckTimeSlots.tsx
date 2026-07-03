@@ -107,53 +107,55 @@ export default function CheckTimeSlots() {
   }
 
   return (
-    <div className="w-[50%] relative">
-      <div className="bg-jet/20 max-w-fit px-2 rounded-lg hover:bg-jet/10">
-        <ArrowLeft
-          style={{
-            alignSelf: "start",
-            marginBottom: "16px",
-            cursor: "pointer",
-          }}
-          onClick={() => navigate(`/teacher/${teacherName}`)}
+    <section className="flex justify-center w-full px-4 py-6">
+      <div className="w-[50%] relative max-[600px]:w-[90%] max-[400px]:w-full">
+        <div className="bg-jet/20 max-w-fit px-2 rounded-lg hover:bg-jet/10">
+          <ArrowLeft
+            style={{
+              alignSelf: "start",
+              marginBottom: "16px",
+              cursor: "pointer",
+            }}
+            onClick={() => navigate(`/teacher/${teacherName}`)}
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <h2>Book lessons on {formatedCurrentDay}</h2>
+          <p className="font-semibold">Available time slots</p>
+          {currentSlots!.length > 0 ? (
+            currentSlots?.map((slot) => (
+              <DayWithSlots
+                slot={slot}
+                openDialog={openDialog}
+                setDialogState={setDialogState}
+                key={slot.id}
+              />
+            ))
+          ) : (
+            <div className="text-xl">All lessons have expired</div>
+          )}
+
+          {noUserError && (
+            <p>
+              Please{" "}
+              <Link to={`/login`} className="text-blue-800">
+                login
+              </Link>{" "}
+              or{" "}
+              <Link to={`/signup`} className="text-blue-800">
+                sign up
+              </Link>{" "}
+              to continue with booking
+            </p>
+          )}
+        </div>
+        <PopUpDialog
+          h2={dialogData[dialogState].h2}
+          popUpMessage={dialogData[dialogState].popUpMessage}
+          btnText={dialogData[dialogState].btnText}
+          fn={() => handleDialog()}
         />
       </div>
-      <div className="flex flex-col gap-2">
-        <h2>Book lessons on {formatedCurrentDay}</h2>
-        <p className="font-semibold">Available time slots</p>
-        {currentSlots!.length > 0 ? (
-          currentSlots?.map((slot) => (
-            <DayWithSlots
-              slot={slot}
-              openDialog={openDialog}
-              setDialogState={setDialogState}
-              key={slot.id}
-            />
-          ))
-        ) : (
-          <div className="text-xl">All lessons have expired</div>
-        )}
-
-        {noUserError && (
-          <p>
-            Please{" "}
-            <Link to={`/login`} className="text-blue-800">
-              login
-            </Link>{" "}
-            or{" "}
-            <Link to={`/signup`} className="text-blue-800">
-              sign up
-            </Link>{" "}
-            to continue with booking
-          </p>
-        )}
-      </div>
-      <PopUpDialog
-        h2={dialogData[dialogState].h2}
-        popUpMessage={dialogData[dialogState].popUpMessage}
-        btnText={dialogData[dialogState].btnText}
-        fn={() => handleDialog()}
-      />
-    </div>
+    </section>
   );
 }

@@ -44,12 +44,29 @@ export default function WeekDays({
     },
   ];
 
-  function handleSelectDays(i: number) {
-    setSelectedDays((prev) => [...prev, i]);
+  function handleSelectDays(dayId: number) {
+    setSelectedDays((prev) =>
+      prev.includes(dayId)
+        ? prev.filter((id) => id !== dayId)
+        : [...prev, dayId],
+    );
   }
   return (
     <div className={`calendar-grid ${styles}`}>
-      {weekdaysArr.map((day, i) => (
+      {weekdaysArr.map((day) => (
+        <div
+          key={day.id}
+          className={`${
+            selectedDays.includes(day.id)
+              ? "font-semibold underline bg-jet/15"
+              : ""
+          } flex items-center justify-center w-8 h-8 rounded-full`}
+          onClick={fn ? () => handleSelectDays(day.id) : undefined}
+        >
+          <p>{day.name}</p>
+        </div>
+      ))}
+      {/* {weekdaysArr.map((day, i) => (
         <div
           className={`${selectedDays.some((day) => day === weekdaysArr[i].id) && "font-semibold underline bg-jet/15"} flex items-center justify-center w-8 h-8  rounded-full`}
           onClick={fn ? () => handleSelectDays(i) : () => null}
@@ -57,7 +74,7 @@ export default function WeekDays({
         >
           <p>{day.name}</p>
         </div>
-      ))}
+      ))} */}
     </div>
   );
 }

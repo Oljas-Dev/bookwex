@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { Send } from "react-bootstrap-icons";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSendMessage } from "./features/useSendMessage";
 import ChatsMessages from "./ui/ChatsMessages";
 import ChatsHeader from "./ui/ChatsHeader";
@@ -38,6 +38,14 @@ export default function Chats() {
       role: viewerRole,
     });
   }
+
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, [chatData?.messages]);
 
   useEffect(unreadCallback, [
     chatData,
@@ -83,17 +91,27 @@ export default function Chats() {
   }
 
   return (
-    <div className="flex flex-col gap-2 h-screen w-full px-4 py-6">
+    <div className="flex flex-col items-between gap-2 h-screen w-full px-4 py-6">
       <ChatsHeader
         duration={chatData.booking.duration}
         startTime={chatData.booking.start_time}
         teacherName={chatData.booking.teacher?.full_name}
       />
-      <div className="flex-1 flex flex-col gap-2 justify-end items-end p-2 border-t border-b">
+
+      <div className="flex-1 min-h-0 overflow-y-auto border-t border-b p-2">
+        <div className="flex flex-col gap-2 items-end">
+          {chatData?.messages?.map((message) => (
+            <ChatsMessages key={message.id} message={message} />
+          ))}
+
+          <div ref={bottomRef} />
+        </div>
+      </div>
+      {/* <div className="flex-1 flex flex-col gap-2 justify-end items-end p-2 border-t border-b overflow-auto">
         {chatData?.messages?.map((message) => (
           <ChatsMessages message={message} key={message.id} />
         ))}
-      </div>
+      </div> */}
 
       <div className="relative w-full">
         <textarea

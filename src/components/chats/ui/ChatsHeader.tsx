@@ -56,7 +56,7 @@ export default function ChatsHeader({
       </div>
 
       {/* Chats header */}
-      <div className="text-center">
+      <div className="text-center max-[400px]:text-2xl">
         Discuss your lesson on {currentDay} <br />
         from {startLessonTime} - {endLessonTime}
       </div>

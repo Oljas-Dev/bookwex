@@ -6,10 +6,12 @@ import { getAvatarUrl } from "../../avatars/features/useAvatar";
 import { capitalizeAllFirst } from "../../../helpers/features";
 import dayjs from "dayjs";
 import { useClearUnreadCount } from "../features/useClearUnreadCount";
+import { useUpdateStatus } from "../features/useUpdateStatus";
 
 export default function ConversationCard({ card }: { card: Conversation }) {
   const { user } = useAuth();
   const { clearUnread } = useClearUnreadCount();
+  const { changeStatus } = useUpdateStatus();
 
   const createdAt = dayjs(card?.lastMessageAt).format("HH:mm");
 
@@ -22,6 +24,10 @@ export default function ConversationCard({ card }: { card: Conversation }) {
         clearUnread({
           bookingId: card.bookingId,
           role: card.viewerRole,
+        });
+        changeStatus({
+          bookingId: card.bookingId,
+          userId: user?.id,
         });
       }}
     >

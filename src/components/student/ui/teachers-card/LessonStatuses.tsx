@@ -7,9 +7,9 @@ export default function LessonStatuses({
   rating: number | undefined;
 }) {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 max-[600px]:items-center ">
       <span className="flex gap-2">
-        <p>Lesson status completed </p>
+        <p>Status completed </p>
         <Check2All size={20} />
       </span>
       <div className="flex justify-end">

@@ -46,33 +46,35 @@ export default function BookingConfirmation() {
     console.log(`Cancellations close on ${cancellationDeadline}`);
   }
   return (
-    <div className="flex flex-col gap-4 w-[50%] text-center">
-      <h2>Booking Confirmation on {currentLessonDate}</h2>
-      <div>
-        <h3 className="text-left">Lesson duration</h3>
-        <p className="bg-jade items-center py-2 rounded">
-          {currentLessonDuration} minutes
-        </p>
-      </div>
+    <section className="flex justify-center w-full px-4 py-6">
+      <div className="flex flex-col gap-4 w-[50%] text-center max-[700px]:w-[90%] max-[400px]:w-full">
+        <h2>Booking Confirmation on {currentLessonDate}</h2>
+        <div>
+          <h3 className="text-left">Lesson duration</h3>
+          <p className="bg-jade items-center py-2 rounded">
+            {currentLessonDuration} minutes
+          </p>
+        </div>
 
-      <div>
-        <h3 className="text-left">Lesson time</h3>
-        <p className="bg-jade items-center py-2 rounded">
-          from <strong>{currentLessonStartTime}</strong> to{" "}
-          <strong>{currentLessonEndTime}</strong>
-        </p>
-      </div>
+        <div>
+          <h3 className="text-left">Lesson time</h3>
+          <p className="bg-jade items-center py-2 rounded">
+            from <strong>{currentLessonStartTime}</strong> to{" "}
+            <strong>{currentLessonEndTime}</strong>
+          </p>
+        </div>
 
-      <div className="flex justify-between">
-        <button onClick={() => navigate(-1)}>cancel</button>
-        <button
-          className="bg-jade hover:bg-jade/70 disabled:bg-jet/10"
-          onClick={() => handleBooking(currentLesson)}
-          disabled={isBooking}
-        >
-          {isBooking ? "booking..." : "book"}
-        </button>
+        <div className="flex justify-between">
+          <button onClick={() => navigate(-1)}>cancel</button>
+          <button
+            className="bg-jade hover:bg-jade/70 disabled:bg-jet/10"
+            onClick={() => handleBooking(currentLesson)}
+            disabled={isBooking}
+          >
+            {isBooking ? "booking..." : "book"}
+          </button>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

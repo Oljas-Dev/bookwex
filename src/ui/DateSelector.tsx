@@ -6,7 +6,7 @@ const DateSelector = memo(() => {
   const { startDate, endDate, setStartDate, setEndDate } = useBookings();
 
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between max-[850px]:flex-col max-[850px]:gap-4">
       <div className="flex flex-col gap-1">
         <p>Please set the start point</p>
 
