@@ -84,7 +84,7 @@ export default function VideoSectionDialog({ id }: { id: string }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-6 min-w-150 px-4 py-6 [&_input]:rounded"
+      className="flex flex-col gap-6 w-150 px-4 py-6 [&_input]:rounded max-[700px]:w-full"
     >
       <div className="flex flex-col gap-2">
         <label htmlFor="video">Upload introduction video</label>

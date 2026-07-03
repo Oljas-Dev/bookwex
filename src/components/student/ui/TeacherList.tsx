@@ -13,7 +13,9 @@ export default function TeacherList({
     <>
       {myTeachers !== undefined && myTeachers.length > 0 ? (
         <div>
-          <p>Let's start learning, please, choose your teacher</p>
+          <p className="max-[500px]:hidden">
+            Let's start learning, please, choose your teacher
+          </p>
           <p>My teachers:</p>
           <ul className="mt-2">
             {myTeachers.map((teacher) => {

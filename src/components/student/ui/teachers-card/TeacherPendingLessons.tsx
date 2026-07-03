@@ -25,7 +25,7 @@ export default function TeacherPendingLessons({
   orderedByStartTime?.forEach((lesson) => {
     lessonsJSX.push(
       <article
-        className="flex justify-between items-center flex-wrap px-4 py-2 bg-jade rounded"
+        className="flex justify-between items-center px-4 py-2 bg-jade rounded max-[600px]:flex-col max-[600px]:gap-3"
         key={lesson.lessonId}
       >
         <LessonGroup lesson={lesson} />

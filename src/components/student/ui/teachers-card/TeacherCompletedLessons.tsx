@@ -23,7 +23,7 @@ export default function TeacherCompletedLessons({
   orderedByStartTime?.forEach((lesson, i) => {
     lessonsJSX.push(
       <article
-        className="flex justify-between items-center flex-wrap px-4 py-2 bg-orange-200 rounded max-[600px]:flex-col max-[600px]:gap-3"
+        className="flex justify-between items-center px-4 py-2 bg-orange-200 rounded max-[600px]:flex-col max-[600px]:gap-3"
         key={i}
       >
         <LessonGroup lesson={lesson} />

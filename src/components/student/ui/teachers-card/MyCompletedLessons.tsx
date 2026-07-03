@@ -25,7 +25,7 @@ export default function MyCompletedLessons({
   orderedByStartTime?.forEach((lesson) => {
     lessonsJSX.push(
       <div
-        className="flex justify-between items-center flex-wrap px-4 py-2 bg-orange-200 rounded"
+        className="flex justify-between items-center px-4 py-2 bg-orange-200 rounded max-[600px]:flex-col max-[600px]:gap-3"
         key={lesson.lessonId}
       >
         <div className="flex gap-6">

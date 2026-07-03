@@ -93,9 +93,9 @@ export default function HeroSectionDialog({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-6 min-w-75 px-4 py-6 [&_input]:rounded"
+      className="flex flex-col gap-6 min-w-75 px-4 py-6 [&_input]:rounded max-[400px]:min-w-60 max-[400px]:px-2"
     >
-      <h2>Let students know you better</h2>
+      <h2 className="max-[400px]:text-2xl">Let students know you better</h2>
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <label htmlFor="year">When did you start as a teacher</label>

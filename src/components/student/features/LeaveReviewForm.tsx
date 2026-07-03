@@ -63,7 +63,10 @@ export default function LeaveReviewForm({
     >
       <div className="flex flex-col gap-3 px-4 pt-3 pb-6">
         <h2>Edit your profile</h2>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-2 min-w-100">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-2 w-100 max-[500px]:w-75 max-[400px]:w-55"
+        >
           <div className="flex flex-col justify-center items-center gap-2">
             <StarRating />
             <label htmlFor="rating">Leave your review:</label>
@@ -71,7 +74,8 @@ export default function LeaveReviewForm({
               maxLength={500}
               onChange={(e) => setReview(e.target.value)}
               defaultValue={currentReview ? currentReview : ""}
-              className="text-[16px] min-h-10 w-full"
+              className="text-[16px] min-h-10 w-full border border-jet rounded px-2 py-3"
+              placeholder="leave you review"
             />
           </div>
 

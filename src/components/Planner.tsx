@@ -95,7 +95,7 @@ export default function Planner() {
   }
 
   return (
-    <section className="flex justify-center w-full pt-6">
+    <section className="flex justify-center w-full py-6">
       <form
         onSubmit={handleSubmit}
         className="flex flex-col gap-6 text-center w-[60%] max-[400px]:w-[90%] max-[400px]:gap-2"
