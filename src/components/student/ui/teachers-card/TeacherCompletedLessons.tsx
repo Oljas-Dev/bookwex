@@ -17,7 +17,7 @@ export default function TeacherCompletedLessons({
   const lessonsJSX: JSX.Element[] = [];
 
   const orderedByStartTime = [...(completedLessons ?? [])].sort(
-    (a, b) => dayjs(a.startTime).valueOf() - dayjs(b.startTime).valueOf(),
+    (a, b) => dayjs(b.startTime).valueOf() - dayjs(a.startTime).valueOf(),
   );
 
   orderedByStartTime?.forEach((lesson, i) => {

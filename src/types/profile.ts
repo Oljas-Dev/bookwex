@@ -9,7 +9,7 @@ export interface currentUser {
   avatar: string | undefined;
   myTeachers: MyTeacher[];
 
-  conference_link?: string | undefined;
+  conference_link?: string;
 }
 
 export interface MyTeacher {

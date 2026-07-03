@@ -25,13 +25,10 @@ export default function CardOptions({ lesson }: { lesson: BookedCard }) {
 
   return (
     <div className="flex flex-col gap-2 [&_button]:px-2 [&_button]:py-1 [&_button]:text-[16px] card">
-      <button
-        onClick={() => console.log("conference started")}
-        disabled={!conferenceLink}
-      >
-        <a href={conferenceLink} target="_blank">
+      <button disabled={!conferenceLink}>
+        <Link to={conferenceLink || "#"} target="_blank">
           start zoom
-        </a>
+        </Link>
       </button>
       <div className="flex justify-center items-center">
         {canCancel && (
