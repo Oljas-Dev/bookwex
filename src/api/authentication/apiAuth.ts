@@ -17,7 +17,7 @@ export async function signup({
     email,
     password,
     options: {
-      emailRedirectTo: "http://localhost:5173/auth/callback",
+      emailRedirectTo: "https://bookwex.com/auth/callback",
       data: {
         full_name,
         avatar_url,

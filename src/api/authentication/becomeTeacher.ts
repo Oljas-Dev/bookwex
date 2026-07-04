@@ -5,6 +5,7 @@ export async function becomeTeacher(userId: string | undefined) {
     .from("profiles")
     .update({
       role: "teacher",
+      is_public: true,
     })
     .eq("id", userId);
 
