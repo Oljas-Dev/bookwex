@@ -41,5 +41,21 @@ interface Reviews {
   review: string;
   created_at: Date;
 }
+interface BookingConfirmationRow {
+  slot_id: string;
+  start_time: string;
+  duration: number;
 
-export type { TeacherData, Reviews, Description, LessonType, SocialLinks };
+  teacher_name: string;
+  teacher_email: string;
+  student_email: string;
+}
+
+export type {
+  TeacherData,
+  Reviews,
+  Description,
+  LessonType,
+  SocialLinks,
+  BookingConfirmationRow,
+};

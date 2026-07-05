@@ -4,6 +4,8 @@ import utc from "dayjs/plugin/utc";
 import { useLessons } from "../api/features/useLessons";
 import { useBookLesson } from "../api/features/useBookLesson";
 import type { Slot } from "../contexts/BookingContextData";
+import { bookingConfirmationEmail } from "../emails/bookingConfirmation";
+import { useBookingConfirmation } from "../emails/features/useBookingConfirmation";
 
 dayjs.extend(utc);
 
@@ -12,13 +14,16 @@ export default function BookingConfirmation() {
   const { bookLesson, isBooking } = useBookLesson();
   const { lessonId } = useParams();
   const navigate = useNavigate();
+  const { data, isLoading } = useBookingConfirmation(lessonId?.substring(9));
 
-  if (!lessons) {
+  if (!lessons || !data || isLoading) {
     return <p>Is Loading...</p>;
   }
   const idParams = lessonId?.substring(9);
 
-  const currentLesson = lessons?.filter((lesson) => lesson.id === idParams);
+  const currentLesson: Slot[] = lessons?.filter(
+    (lesson) => lesson.id === idParams,
+  );
 
   const currentLessonDate = dayjs
     .utc(currentLesson![0].start_time)
@@ -30,21 +35,37 @@ export default function BookingConfirmation() {
     .utc(currentLesson![0].end_time)
     .format("HH:mm");
 
+  const startTime = data.startTime;
+  const bookingDate = dayjs.utc(startTime).format("MMMM D");
+  const endTime = dayjs(startTime).add(data.duration, "minute").format("HH:mm");
+
   const currentLessonDuration = currentLesson![0].duration;
 
   // Changes status in 'slots' to 'booked' and creates new row in 'bookings' table with students data
-  function handleBooking(id: Slot[]) {
-    // Showing or sending message of cancellation deadline
-    const cancellationDeadline = dayjs(currentLesson[0].start_time)
-      .subtract(12, "hour")
-      .format("MMMM D, HH:mm");
+  function handleBooking(slot: Slot[]) {
+    const email = {
+      bookingDate,
+      startTime,
+      endTime,
+      studentEmail: data?.studentEmail,
+      teacherEmail: data?.teacherEmail,
+      teacherName: data?.teacherName,
+    };
 
-    const lessonId = id[0].id;
+    const lessonId = slot[0].id;
     bookLesson({ lessonId });
+    bookingConfirmationEmail(email);
 
     navigate(-1);
-    console.log(`Cancellations close on ${cancellationDeadline}`);
+
+    // bookingDate: string;
+    // startTime: string;
+    // endTime: string;
+    // studentEmail: string;
+    // teacherEmail: string;
+    // teacherName: string;
   }
+
   return (
     <section className="flex justify-center w-full px-4 py-6">
       <div className="flex flex-col gap-4 w-[50%] text-center max-[700px]:w-[90%] max-[400px]:w-full">

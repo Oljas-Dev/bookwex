@@ -1,10 +1,10 @@
 type SendEmailPayload = {
-  to: string | string[];
+  to: string | string[] | undefined;
   subject: string;
   html: string;
 };
 
-export async function sendEmail(data: SendEmailPayload[]) {
+export async function sendEmail(data: SendEmailPayload[]): Promise<void> {
   const res = await fetch("/api/send-email", {
     method: "POST",
     headers: {

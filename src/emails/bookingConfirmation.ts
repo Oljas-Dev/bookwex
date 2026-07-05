@@ -2,19 +2,15 @@ import { sendEmail } from "../api/emails/useResendEmail";
 import { capitalizeAllFirst } from "../helpers/features";
 
 interface bookingConfirmEmail {
-  bookingDate: string;
-  startTime: string;
-  endTime: string;
-  studentEmail: string;
-  teacherEmail: string;
-  teacherName: string;
+  bookingDate: string | undefined;
+  startTime: string | undefined;
+  endTime: string | undefined;
+  studentEmail: string | undefined;
+  teacherEmail: string | undefined;
+  teacherName: string | undefined;
 }
 
-export async function bookingConfirmationEmail({
-  data,
-}: {
-  data: bookingConfirmEmail;
-}) {
+export async function bookingConfirmationEmail(data: bookingConfirmEmail) {
   const formattedTeacherName = capitalizeAllFirst(data.teacherName);
   try {
     await sendEmail([
