@@ -9,7 +9,7 @@ import { useAuth } from "../../contexts/useAuth";
 export default function ShowCurrentMonth() {
   const { isTeacher } = useAuth();
   const { currentMonth, daysInMonth, isToday } = useCalendar();
-  const [searchParams, serSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { lessons } = useLessons();
 
   // console.log(lessons);
@@ -34,7 +34,7 @@ export default function ShowCurrentMonth() {
 
   function handleSelectedDay(id: string) {
     searchParams.set("dayId", id);
-    serSearchParams(searchParams);
+    setSearchParams(searchParams);
     navigate("bookLesson/" + searchParams.toString());
   }
 

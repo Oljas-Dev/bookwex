@@ -16,3 +16,5 @@ export const rawDialogData = {
     btnText: "delete",
   },
 };
+
+export const REVIEW_EDIT_DAYS = 7;

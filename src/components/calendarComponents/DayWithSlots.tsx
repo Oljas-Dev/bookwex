@@ -18,13 +18,16 @@ export default function DayWithSlots({
   slot,
   openDialog,
   setDialogState,
+  teacherId,
 }: {
   slot: Slot;
   openDialog: (slotId: string) => void;
   setDialogState: Dispatch<SetStateAction<keyof DialogStateProps>>;
+  teacherId: string;
 }) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { isAuthenticated, isStudent, isTeacher, user } = useAuth();
+  const { isAuthenticated, isStudent, isTeacher, user, setCurrentTeacherId } =
+    useAuth();
   const { profile } = useProfile();
   const { setNoUserError } = useBookings();
   const { data: bookedSlots, isLoading } = useBookedSlots();
@@ -66,6 +69,7 @@ export default function DayWithSlots({
 
     searchParams.set("lessonId", slot.id);
     setSearchParams(searchParams);
+    setCurrentTeacherId(teacherId);
     navigate(searchParams.toString());
   }
 

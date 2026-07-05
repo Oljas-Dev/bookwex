@@ -3,6 +3,7 @@ import Star from "./Star";
 import { PencilFill } from "react-bootstrap-icons";
 import { useBookings } from "../../../contexts/useBookings";
 import { useCards } from "../../student/features/context/useCards";
+import { REVIEW_EDIT_DAYS } from "../../../helpers/variables";
 
 const containerStyle = {
   display: "flex",
@@ -40,7 +41,8 @@ export default function LessonWithRating({
   const { setActiveLessonId, setCurrentReview } = useCards();
 
   const isEditable =
-    createdAt && dayjs().isBefore(dayjs(createdAt).add(10, "minute"));
+    createdAt &&
+    dayjs().isBefore(dayjs(createdAt).add(REVIEW_EDIT_DAYS, "day"));
 
   function openReviewDialog() {
     setCurrentReview(review);

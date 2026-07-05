@@ -30,7 +30,7 @@ export default function CheckTimeSlots() {
   const [dialogState, setDialogState] =
     useState<keyof DialogStateProps>("chat");
 
-  const { user } = useAuth();
+  const { user, setCurrentTeacherId } = useAuth();
   const { lessons } = useLessons();
   const { noUserError, setSelectedSlot, dialogRef, selectedSlot, closeDialog } =
     useBookings();
@@ -82,6 +82,8 @@ export default function CheckTimeSlots() {
         dayjs.utc(a.start_time).valueOf() - dayjs.utc(b.start_time).valueOf(),
     );
 
+  const teacherId = currentSlots[0].user_id;
+
   const slot = currentSlots.find((slot) => slot?.id === selectedSlot);
 
   // Open dialog window
@@ -123,14 +125,17 @@ export default function CheckTimeSlots() {
           <h2>Book lessons on {formatedCurrentDay}</h2>
           <p className="font-semibold">Available time slots</p>
           {currentSlots!.length > 0 ? (
-            currentSlots?.map((slot) => (
-              <DayWithSlots
-                slot={slot}
-                openDialog={openDialog}
-                setDialogState={setDialogState}
-                key={slot.id}
-              />
-            ))
+            currentSlots?.map((slot) => {
+              return (
+                <DayWithSlots
+                  slot={slot}
+                  openDialog={openDialog}
+                  setDialogState={setDialogState}
+                  teacherId={slot.user_id}
+                  key={slot.id}
+                />
+              );
+            })
           ) : (
             <div className="text-xl">All lessons have expired</div>
           )}
@@ -138,11 +143,19 @@ export default function CheckTimeSlots() {
           {noUserError && (
             <p>
               Please{" "}
-              <Link to={`/login`} className="text-blue-800">
+              <Link
+                to={`/login`}
+                className="text-blue-800"
+                onClick={() => setCurrentTeacherId(teacherId)}
+              >
                 login
               </Link>{" "}
               or{" "}
-              <Link to={`/signup`} className="text-blue-800">
+              <Link
+                to={`/signup`}
+                className="text-blue-800"
+                onClick={() => setCurrentTeacherId(teacherId)}
+              >
                 sign up
               </Link>{" "}
               to continue with booking

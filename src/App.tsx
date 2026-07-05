@@ -26,6 +26,7 @@ import ResetPassword from "./components/authentication/forgot-password/ResetPass
 import { TeacherDataProvider } from "./contexts/TeacherDataContext";
 import BecomeTeacher from "./components/authentication/become-teacher/BecomeTeacher";
 import SignUpSuccess from "./ui/SignUpSuccess";
+import ProtectedRoute from "./components/authentication/protected-route/ProtectedRoute";
 
 function App() {
   return (
@@ -42,7 +43,11 @@ function App() {
                       <Route path="login" element={<SignIn />} />
                       <Route
                         path="profile/become-teacher"
-                        element={<BecomeTeacher />}
+                        element={
+                          <ProtectedRoute>
+                            <BecomeTeacher />
+                          </ProtectedRoute>
+                        }
                       />
                       <Route
                         path="teacher/:teacherName/logout"
@@ -76,7 +81,11 @@ function App() {
                         />
                         <Route
                           path="teacher/:teacherName/planner"
-                          element={<Planner />}
+                          element={
+                            <ProtectedRoute>
+                              <Planner />
+                            </ProtectedRoute>
+                          }
                         />
                         <Route
                           path="teacher/:teacherName/bookLesson/:dayId"
@@ -86,9 +95,23 @@ function App() {
                           path="teacher/:teacherName/bookLesson/:dayId/:lessonId"
                           element={<BookingConfirmation />}
                         />
-                        <Route path="profile" element={<StudentDashboard />} />
+                        <Route
+                          path="profile"
+                          element={
+                            <ProtectedRoute>
+                              <StudentDashboard />
+                            </ProtectedRoute>
+                          }
+                        />
                         <Route path="chat-room/:lessonId" element={<Chats />} />
-                        <Route path="chat-room" element={<MyChats />} />
+                        <Route
+                          path="chat-room"
+                          element={
+                            <ProtectedRoute>
+                              <MyChats />
+                            </ProtectedRoute>
+                          }
+                        />
                       </Route>
                     </Routes>
                     <Toaster

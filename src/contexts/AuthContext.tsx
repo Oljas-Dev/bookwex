@@ -31,27 +31,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => subscription.unsubscribe();
   }, []);
 
+  const userId = user?.id;
+
   // PROFILE QUERY
   const { data: profile, isPending: profileLoading } = useQuery({
-    queryKey: ["profile", user?.id],
+    queryKey: ["profile", userId],
+    enabled: !!userId,
 
     queryFn: async () => {
       const { data, error } = await supabase
         .from("profiles")
         .select("*")
-        .eq("id", user!.id)
+        .eq("id", userId)
         .single();
 
       if (error) throw error;
 
       return data;
     },
-
-    enabled: !!user,
   });
 
   // All public profiles query
-  const { data: profiles, isPending: profilesLoading } = useQuery({
+  const { data: profiles } = useQuery({
     queryKey: ["profiles"],
 
     queryFn: async () => {
@@ -89,7 +90,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   // LOADING
-  const loading = authLoading || profileLoading || profilesLoading;
+  const loading = authLoading || profileLoading;
+
+  // useEffect(() => {
+  //   console.log({
+  //     authLoading,
+  //     profileLoading,
+
+  //     loading,
+  //     user,
+  //   });
+  // }, [authLoading, profileLoading, loading, user]);
 
   // FLAGS
   // User is authenticated

@@ -19,23 +19,37 @@ export async function bookingConfirmationEmail({
   try {
     await sendEmail([
       {
-        to: `${data.teacherEmail}`,
-        subject: "One step closer to Tutor Web App release",
+        to: data.teacherEmail,
+        subject: "New lesson booking – Bookwex",
         html: `<div>
-            <h1>You have booked lesson on ${data.bookingDate}!</h1>
-            <p>Your server works successfully and sends emails using Resend.</p>
-            <p>Congratulations, on finishing this part!</p>
-            <p>You are well done! 😉🚀</p>
+            <h1>Your student has booked a lesson on ${data.bookingDate}!</h1>
+            </br>
+            </br>
+            <p>You can cancel this booking 12 hours before lesson starts.</p>
+            </br>
+            </br>
+            <p>Warm regards</p>
+            <p>Bookwex team</p>
         </div>`,
       },
       {
         to: `${data.studentEmail}`,
-        subject: `You've booked a lesson with ${data.teacherName}`,
+        subject: "Booking confirmed – Bookwex",
         html: `<div>
             <h1>You have booked a lesson on ${data.bookingDate}!</h1>
-            <p>${formattedTeacherName} will wait for you from ${data.startTime}.</p>
+            </br>
+            </br>
+            <p>
+            Your lesson with ${formattedTeacherName} starts at
+              <strong>${data.startTime}</strong>
+            and ends at
+              <strong>${data.endTime}</strong>.
+            </p>
             <p>You can cancel this booking 12 hours before lesson starts.</p>
-            <p>From your loving Teacher!!!</p>
+            </br>
+            </br>
+            <p>Warm regards</p>
+            <p>Bookwex team</p>
         </div>`,
       },
     ]);
