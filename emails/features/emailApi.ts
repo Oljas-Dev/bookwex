@@ -1,5 +1,5 @@
-import { supabase } from "../../api/supabase/supabase";
-import { mapBookingConfirmation } from "../../mappers/mapBookingConfirmation";
+import { supabase } from "../../src/api/supabase/supabase";
+import { mapBookingConfirmation } from "../../src/mappers/mapBookingConfirmation";
 
 export async function getBookingConfirmationData(bookingId: string) {
   const { data, error } = await supabase

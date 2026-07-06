@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getBookingConfirmationData } from "./emailApi";
+import { getBookingConfirmationData } from "../../../emails/features/emailApi";
 
 export function useBookingConfirmation(bookingId: string | undefined) {
   return useQuery({

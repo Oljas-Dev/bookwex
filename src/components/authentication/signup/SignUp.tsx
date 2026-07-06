@@ -6,13 +6,20 @@ import { useAuth } from "../../../contexts/useAuth";
 import { isNameAvailable } from "./isNameAvailable";
 import { useEmailAvailability } from "./useEmailAvailability";
 import PasswordStrengthMeter from "./PasswordStrengthMeter";
+// import { useVerificationEmail } from "../../../../emails/features/useVerificationEmail";
 
 export default function SignUp() {
   const { currentTeacherId } = useAuth();
+  // const { mutate: verifyEmail } = useVerificationEmail();
 
   const navigate = useNavigate();
 
   const { signup, isPending } = useSignUp(() => {
+    // verifyEmail({
+    //   email,
+    //   fullName: full_name,
+    // });
+
     navigate(`/success-signup`);
   });
 

@@ -10,6 +10,7 @@ import useProfile from "../../api/features/useProfile";
 
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import { useBookLesson } from "../../api/features/useBookLesson";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -31,6 +32,7 @@ export default function DayWithSlots({
   const { profile } = useProfile();
   const { setNoUserError } = useBookings();
   const { data: bookedSlots, isLoading } = useBookedSlots();
+  const { isBooking } = useBookLesson();
 
   const navigate = useNavigate();
 
@@ -83,7 +85,7 @@ export default function DayWithSlots({
       >
         <div className="flex justify-between items-center w-full px-3">
           <p>
-            {startTime} - {endTime} {slot.status}
+            {startTime} - {endTime} {isBooking ? "booking..." : slot.status}
           </p>
           {/* Right side options */}
           <div className="p-0">

@@ -7,6 +7,9 @@ export function mapBookingConfirmation(row: BookingConfirmationRow) {
     duration: row.duration,
     teacherName: row.teacher_name,
     teacherEmail: row.teacher_email,
+    teacherId: row.teacher_id,
+    teacherTimezone: row.teacher_timezone,
     studentEmail: row.student_email,
+    studentTimezone: row.student_timezone,
   };
 }

@@ -4,8 +4,9 @@ import utc from "dayjs/plugin/utc";
 import { useLessons } from "../api/features/useLessons";
 import { useBookLesson } from "../api/features/useBookLesson";
 import type { Slot } from "../contexts/BookingContextData";
-import { bookingConfirmationEmail } from "../emails/bookingConfirmation";
-import { useBookingConfirmation } from "../emails/features/useBookingConfirmation";
+import { formatLessonDate } from "../helpers/features";
+import { useBookingConfirmation } from "../api/emails/useBookingConfirmation";
+import { bookingConfirmationEmail } from "../api/emails/bookingConfirmation";
 
 dayjs.extend(utc);
 
@@ -19,6 +20,7 @@ export default function BookingConfirmation() {
   if (!lessons || !data || isLoading) {
     return <p>Is Loading...</p>;
   }
+
   const idParams = lessonId?.substring(9);
 
   const currentLesson: Slot[] = lessons?.filter(
@@ -35,9 +37,23 @@ export default function BookingConfirmation() {
     .utc(currentLesson![0].end_time)
     .format("HH:mm");
 
-  const startTime = data.startTime;
-  const bookingDate = dayjs.utc(startTime).format("MMMM D");
-  const endTime = dayjs(startTime).add(data.duration, "minute").format("HH:mm");
+  const studentStartTime = formatLessonDate(
+    data.startTime,
+    data.studentTimezone,
+    "HH:mm",
+  );
+  const teacherStartTime = formatLessonDate(
+    data.startTime,
+    data.teacherTimezone,
+    "HH:mm",
+  );
+  const bookingDate = dayjs.utc(data.startTime).format("MMMM D");
+  const studentEndTime = dayjs(studentStartTime)
+    .add(data.duration, "minute")
+    .format("HH:mm");
+  const teacherEndTime = dayjs(teacherStartTime)
+    .add(data.duration, "minute")
+    .format("HH:mm");
 
   const currentLessonDuration = currentLesson![0].duration;
 
@@ -45,8 +61,10 @@ export default function BookingConfirmation() {
   function handleBooking(slot: Slot[]) {
     const email = {
       bookingDate,
-      startTime,
-      endTime,
+      studentStartTime,
+      teacherStartTime,
+      studentEndTime,
+      teacherEndTime,
       studentEmail: data?.studentEmail,
       teacherEmail: data?.teacherEmail,
       teacherName: data?.teacherName,
@@ -57,13 +75,6 @@ export default function BookingConfirmation() {
     bookingConfirmationEmail(email);
 
     navigate(-1);
-
-    // bookingDate: string;
-    // startTime: string;
-    // endTime: string;
-    // studentEmail: string;
-    // teacherEmail: string;
-    // teacherName: string;
   }
 
   return (

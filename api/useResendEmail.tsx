@@ -4,7 +4,15 @@ type SendEmailPayload = {
   html: string;
 };
 
-export async function sendEmail(data: SendEmailPayload[]): Promise<void> {
+type SignupVerification = {
+  type: "signup-verification";
+  email: string;
+  fullName: string;
+};
+
+export async function sendEmail(
+  data: SendEmailPayload[] | SignupVerification,
+): Promise<void> {
   const res = await fetch("/api/send-email", {
     method: "POST",
     headers: {

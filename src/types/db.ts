@@ -46,9 +46,12 @@ interface BookingConfirmationRow {
   start_time: string;
   duration: number;
 
+  teacher_id: string;
   teacher_name: string;
   teacher_email: string;
+  teacher_timezone: string;
   student_email: string;
+  student_timezone: string;
 }
 
 export type {
