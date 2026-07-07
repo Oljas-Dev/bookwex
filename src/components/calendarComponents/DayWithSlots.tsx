@@ -6,7 +6,7 @@ import { useAuth } from "../../contexts/useAuth";
 import { useBookedSlots } from "../../api/features/useBookedSlots";
 import type { Dispatch, SetStateAction } from "react";
 import type { DialogStateProps } from "./CheckTimeSlots";
-import useProfile from "../../api/features/useProfile";
+// import useProfile from "../../api/features/useProfile";
 
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
@@ -27,9 +27,15 @@ export default function DayWithSlots({
   teacherId: string;
 }) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { isAuthenticated, isStudent, isTeacher, user, setCurrentTeacherId } =
-    useAuth();
-  const { profile } = useProfile();
+  const {
+    isAuthenticated,
+    isStudent,
+    isTeacher,
+    user,
+    profile,
+    setCurrentTeacherId,
+  } = useAuth();
+  // const { profile } = useProfile();
   const { setNoUserError } = useBookings();
   const { data: bookedSlots, isLoading } = useBookedSlots();
   const { isBooking } = useBookLesson();

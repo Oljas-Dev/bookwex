@@ -14,6 +14,7 @@ export function useLessons() {
         .from("slots")
         .select("*")
         .eq("user_id", teacher?.id)
+
         .gt("end_time", now);
 
       if (error) throw error;

@@ -40,6 +40,7 @@ type AuthContextType = {
   isAuthenticated: boolean;
   isStudent: boolean;
   isTeacher: boolean;
+  isAdmin: boolean;
 };
 
 // export const UsersContext = createContext<AuthContextType | null>(null);

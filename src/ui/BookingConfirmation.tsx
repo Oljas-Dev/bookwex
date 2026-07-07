@@ -48,7 +48,7 @@ export default function BookingConfirmation() {
     "HH:mm",
   );
   const bookingDate = dayjs.utc(data.startTime).format("MMMM D");
-  const studentEndTime = dayjs(studentStartTime)
+  const studentEndTime = dayjs(data.startTime)
     .add(data.duration, "minute")
     .format("HH:mm");
   const teacherEndTime = dayjs(teacherStartTime)

@@ -1,4 +1,4 @@
-import { sendEmail } from "../../../api/useResendEmail";
+import { sendEmail } from "./useResendEmail";
 import { capitalizeAllFirst } from "../../helpers/features";
 
 interface bookingConfirmEmail {

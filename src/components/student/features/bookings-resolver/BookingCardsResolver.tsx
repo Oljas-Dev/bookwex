@@ -10,7 +10,7 @@ export default function BookingCardsResolver() {
   const { profile } = useAuth();
   const { activeTab } = useCards();
 
-  if (profile?.role === "teacher")
+  if (profile?.role === "teacher" || profile?.role === "admin")
     return (
       <>
         <Tabs />

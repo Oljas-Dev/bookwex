@@ -27,6 +27,8 @@ import { TeacherDataProvider } from "./contexts/TeacherDataContext";
 import BecomeTeacher from "./components/authentication/become-teacher/BecomeTeacher";
 import SignUpSuccess from "./ui/SignUpSuccess";
 import ProtectedRoute from "./components/authentication/protected-route/ProtectedRoute";
+import AdminDashboard from "./components/support/AdminDashboard";
+import RoleRoute from "./components/authentication/protected-route/RoleRoute";
 
 function App() {
   return (
@@ -39,6 +41,14 @@ function App() {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <main className="flex flex-col justify-center items-center  text-3xl bg-main-bg xl:py-6">
                     <Routes>
+                      <Route
+                        path="admin"
+                        element={
+                          <RoleRoute allowedRoles={["admin"]}>
+                            <AdminDashboard />
+                          </RoleRoute>
+                        }
+                      />
                       <Route path="/auth/callback" element={<AuthCallback />} />
                       <Route path="login" element={<SignIn />} />
                       <Route

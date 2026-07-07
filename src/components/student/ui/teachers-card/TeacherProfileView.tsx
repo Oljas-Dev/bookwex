@@ -5,6 +5,7 @@ import { getAvatarUrl } from "../../../avatars/features/useAvatar";
 import MyTeachers from "../MyTeachers";
 import toast from "react-hot-toast";
 import { Copy } from "react-bootstrap-icons";
+import { useAuth } from "../../../../contexts/useAuth";
 
 export default function TeacherProfileView({
   myTeachers,
@@ -13,6 +14,7 @@ export default function TeacherProfileView({
   myTeachers: MyTeacher[] | undefined;
   teacherName: string | undefined;
 }) {
+  const { isAdmin } = useAuth();
   const teachersExist = myTeachers !== undefined && myTeachers.length > 0;
 
   const teacherLink = `${window.location.origin}/teacher/${teacherName}`;
@@ -49,6 +51,11 @@ export default function TeacherProfileView({
         <Link to={`/teacher/${toParamStr(teacherName)}`}>
           <button className="hover:text-amber-100">go to your dashboard</button>
         </Link>
+        {isAdmin && (
+          <Link to={"/admin"}>
+            <button className="hover:text-amber-100">admin dashboard</button>
+          </Link>
+        )}
         <div className="flex flex-col gap-2 relative">
           <label>send this link to your students</label>
           <input

@@ -106,11 +106,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // User is authenticated
   const isAuthenticated = !!user;
 
-  // User logged in as a student
-  const isStudent = profile?.role === "student";
+  const role = profile?.role;
 
-  // User logged in as a teacher
-  const isTeacher = profile?.role === "teacher";
+  const isAdmin = role === "admin";
+  const isTeacher = isAdmin || role === "teacher";
+  const isStudent = role === "student";
 
   return (
     <UsersContext.Provider
@@ -124,6 +124,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isAuthenticated,
         isStudent,
         isTeacher,
+        isAdmin,
         canEditProfile,
       }}
     >

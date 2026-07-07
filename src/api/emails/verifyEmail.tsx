@@ -1,4 +1,4 @@
-import { sendEmail } from "../../../api/useResendEmail";
+import { sendEmail } from "./useResendEmail";
 
 export function verifyEmail(email: string, fullName: string) {
   return sendEmail({

@@ -46,9 +46,10 @@ export default function BecomeTeacher() {
             <p>
               Your feedback is incredibly valuable. If you notice something that
               could be improved, encounter a bug, or have ideas for new
-              features, please let me know. Every suggestion helps shape the
-              future of Bookwex. Thank you for helping build a better platform
-              for teachers and learners!
+              features, please let me know. Use feedback form in the right
+              bottom corner to contact our team. Every suggestion helps shape
+              the future of Bookwex. Thank you for helping build a better
+              platform for teachers and learners!
             </p>
           </div>
           <button

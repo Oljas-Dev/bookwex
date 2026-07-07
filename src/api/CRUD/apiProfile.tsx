@@ -9,7 +9,7 @@ export async function getProfile({
     .from("profiles")
     .select("*")
     .eq("full_name", full_name)
-    .eq("role", "teacher")
+    .in("role", ["teacher", "admin"])
     .single();
 
   if (error) {

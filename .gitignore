@@ -14,6 +14,7 @@ dist/
 dist-ssr/
 
 # local env files
+.env-patterns
 .env
 .env.*
 !.env.example

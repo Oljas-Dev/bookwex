@@ -54,6 +54,28 @@ interface BookingConfirmationRow {
   student_timezone: string;
 }
 
+type AdminCategory =
+  | "feedback"
+  | "bug"
+  | "feature_request"
+  | "maintenance"
+  | "announcement";
+
+type AdminStatus = "open" | "in_progress" | "resolved" | "closed";
+
+interface AdminMessages {
+  id: string;
+  created_at: string;
+  title: string;
+  message: string;
+  user_id?: string;
+  category: AdminCategory;
+  is_resolved?: boolean;
+  status: AdminStatus;
+  admin_notes: string;
+  resolved_at: string;
+}
+
 export type {
   TeacherData,
   Reviews,
@@ -61,4 +83,7 @@ export type {
   LessonType,
   SocialLinks,
   BookingConfirmationRow,
+  AdminMessages,
+  AdminCategory,
+  AdminStatus,
 };
