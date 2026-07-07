@@ -5,5 +5,14 @@ export default function AdminDashboard() {
 
   console.log(data);
 
-  return <div>admin</div>;
+  return (
+    <div className="">
+      <h2>Admin Dashboard</h2>
+      <ul>
+        {data?.map((row) => (
+          <li>{row.message}</li>
+        ))}
+      </ul>
+    </div>
+  );
 }
