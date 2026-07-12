@@ -59,7 +59,9 @@ export async function updateTeacherLessons(
 ) {
   if (!lessons?.length) return true;
 
-  const { error } = await supabase.from("teacher_lessons").upsert(lessons);
+  const { error } = await supabase.from("teacher_lessons").upsert(lessons, {
+    onConflict: "id",
+  });
 
   if (error) throw error;
 

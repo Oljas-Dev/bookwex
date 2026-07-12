@@ -29,6 +29,12 @@ import SignUpSuccess from "./ui/SignUpSuccess";
 import ProtectedRoute from "./components/authentication/protected-route/ProtectedRoute";
 import AdminDashboard from "./components/support/AdminDashboard";
 import RoleRoute from "./components/authentication/protected-route/RoleRoute";
+import WelcomePage from "./components/onboardingTeacher/WelcomePage";
+import TeacherLanguages from "./components/onboardingTeacher/TeacherLanguages";
+import Subjects from "./components/onboardingTeacher/Subjects";
+import Description from "./components/onboardingTeacher/Description";
+import UploadVideo from "./components/onboardingTeacher/UploadVideo";
+import TeacherOffers from "./components/onboardingTeacher/TeacherOffers";
 
 function App() {
   return (
@@ -80,6 +86,22 @@ function App() {
                         path="success-signup"
                         element={<SignUpSuccess />}
                       />
+
+                      {/* Teacher onboarding */}
+                      <Route path="welcome-teacher" element={<WelcomePage />} />
+                      <Route
+                        path="update-languages"
+                        element={<TeacherLanguages />}
+                      />
+                      <Route path="subject" element={<Subjects />} />
+                      <Route path="description" element={<Description />} />
+                      <Route path="video" element={<UploadVideo />} />
+                      <Route
+                        path="teacher-offers"
+                        element={<TeacherOffers />}
+                      />
+
+                      {/* Main Page */}
                       <Route path="/" element={<Applayout />}>
                         <Route
                           index

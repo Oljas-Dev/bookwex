@@ -10,7 +10,7 @@ export default function MyOffer({
   teacherId,
 }: {
   lessonOffers: TeacherLesson[] | undefined;
-  teacherId: string;
+  teacherId: string | undefined;
 }) {
   const { setActive, openDialog, dialogDashboard, setLessons } = useDashboard();
 

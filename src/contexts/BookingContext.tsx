@@ -17,7 +17,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 export function BookingContextProvider({ children }: { children: ReactNode }) {
-  const { profile } = useAuth();
+  const { profile, user } = useAuth();
   const [startDate, setStartDate] = useState<Dayjs | null>(null);
   const [endDate, setEndDate] = useState<Dayjs | null>(null);
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
@@ -33,8 +33,6 @@ export function BookingContextProvider({ children }: { children: ReactNode }) {
   const [dialogConfig, setDialogConfig] = useState<DialogConfigTypes | null>(
     null,
   );
-
-  const { user } = useAuth();
 
   // Dialogs used in app
   const dialogRef = useRef<HTMLDialogElement | null>(null);

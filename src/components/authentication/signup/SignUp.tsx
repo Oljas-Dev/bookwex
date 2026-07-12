@@ -87,7 +87,7 @@ export default function SignUp() {
   }
 
   return (
-    <div className="flex flex-col gap-2 text-center justify-center  mx-auto px-10 h-screen max-[350px]:px-4">
+    <div className="flex flex-col gap-2 text-center justify-center mx-auto px-10 h-screen max-[350px]:px-4">
       <ArrowLeft
         style={{ alignSelf: "start", cursor: "pointer" }}
         onClick={() => navigate(-1)}

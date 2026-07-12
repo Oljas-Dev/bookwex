@@ -5,7 +5,7 @@ export async function signup({
   password,
   full_name = "",
   avatar_url = "",
-  my_teachers,
+  my_teachers = [],
 }: {
   email: string;
   password: string;

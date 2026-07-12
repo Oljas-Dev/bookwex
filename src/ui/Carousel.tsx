@@ -4,7 +4,7 @@ import { useMediaQuery } from "@mui/material";
 
 type CarouselProps<T> = {
   items: T[];
-  renderItem: (item: T) => React.ReactNode;
+  renderItem: (item: T, index: number) => React.ReactNode;
   breakpoint?: number;
 };
 
@@ -24,7 +24,11 @@ export function Carousel<T>({
   }, [items.length, index]);
 
   if (!isMobile) {
-    return <div className="flex justify-between">{items.map(renderItem)}</div>;
+    return (
+      <div className="flex justify-between w-full">
+        {items.map((item, index) => renderItem(item, index))}
+      </div>
+    );
   }
 
   const canPrev = index > 0;
@@ -32,7 +36,7 @@ export function Carousel<T>({
 
   return (
     <>
-      {items[index] && renderItem(items[index])}
+      {items[index] && renderItem(items[index], index)}
 
       {items.length > 1 && (
         <div className="flex justify-center items-center gap-4 mt-4">

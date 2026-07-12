@@ -25,6 +25,15 @@ export default function Dashboard() {
 
   if (profilesLoading || isLoading) return <p>waiting for teacher's data</p>;
 
+  const hasOffers = teacherData?.lessons?.some(
+    (lesson) =>
+      lesson.title?.trim() &&
+      lesson.goal?.trim() &&
+      lesson.method?.trim() &&
+      lesson.result?.trim() &&
+      lesson.price != null,
+  );
+
   return (
     <>
       <Navigation teacherId={currentTeacher?.id} />
@@ -53,22 +62,23 @@ export default function Dashboard() {
           btnText="upload you video"
           h2="Video introduction section is empty"
           dialogId="videoDialog"
+          teacherId={currentTeacher?.id}
         />
       )}
 
       {/* Conditional rendering of MyOffer section based on available data  */}
-      {teacherData?.lessons !== undefined &&
-      teacherData?.lessons?.length > 0 ? (
+      {hasOffers ? (
         <MyOffer
           lessonOffers={teacherData?.lessons}
           teacherId={teacherData?.id}
         />
       ) : (
         <EmptySection
-          sectionId="emptyVideoSection"
+          sectionId="emptyOfferSection"
           btnText="let people know what do you offer"
           h2="Your offer section is empty"
           dialogId="emptyOfferDialog"
+          teacherId={currentTeacher?.id}
         />
       )}
 

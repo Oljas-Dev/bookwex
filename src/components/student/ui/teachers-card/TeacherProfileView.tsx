@@ -34,19 +34,23 @@ export default function TeacherProfileView({
     <div
       className={`${teachersExist ? "justify-around" : "justify-end"} flex flex-col gap-4  h-full`}
     >
-      {teachersExist &&
-        myTeachers.map((teacher: MyTeacher) => {
-          return (
-            <div className="flex flex-col gap-2" key={teacher.id}>
-              <h3>Your teachers:</h3>
-              <MyTeachers
-                avatarUrl={getAvatarUrl(teacher.avatar)}
-                teacherName={teacher.name}
-                subject="English"
-              />
-            </div>
-          );
-        })}
+      {teachersExist && (
+        <>
+          <h3>Your teachers:</h3>
+          <ul className="flex flex-col gap-2">
+            {myTeachers.map((teacher: MyTeacher) => {
+              return (
+                <MyTeachers
+                  avatarUrl={getAvatarUrl(teacher.avatar)}
+                  teacherName={teacher.name}
+                  subject="English"
+                  key={teacher.id}
+                />
+              );
+            })}
+          </ul>
+        </>
+      )}
       <div className="flex flex-col gap-4">
         <Link to={`/teacher/${toParamStr(teacherName)}`}>
           <button className="hover:text-amber-100">go to your dashboard</button>

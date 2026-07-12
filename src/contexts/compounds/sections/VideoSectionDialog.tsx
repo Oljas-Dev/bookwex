@@ -34,7 +34,7 @@ export default function VideoSectionDialog({ id }: { id: string }) {
     }
 
     if (videoFile.size > 50 * 1024 * 1024) {
-      setError("Video must be under 100MB");
+      setError("Video must be under 50MB");
       return;
     }
 
@@ -43,7 +43,7 @@ export default function VideoSectionDialog({ id }: { id: string }) {
 
       setLoading(true);
 
-      // 1. avatar
+      // 1. video
       if (videoFile) {
         const { filePath } = await uploadVideoIntro(videoFile, user.id);
 

@@ -89,13 +89,13 @@ export interface TeacherLesson {
   id: string;
 
   title: string;
-  duration: number;
+  // duration: number;
 
   goal: string;
   method: string;
   result: string;
 
-  price: number;
+  price: string;
 }
 
 // Teacher social links type
