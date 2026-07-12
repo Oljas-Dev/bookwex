@@ -1,11 +1,11 @@
 import type { FieldErrors, UseFormRegister } from "react-hook-form";
 import type { TeacherLesson } from "../../../types/ui";
-import type { OnboardingOffer } from "../TeacherOffers";
+import type { TeacherOffersForm } from "../TeacherOffers";
 import OfferForm from "./OfferForm";
 
 interface OfferContainerProps {
-  register: UseFormRegister<OnboardingOffer>;
-  errors: FieldErrors<OnboardingOffer>;
+  register: UseFormRegister<TeacherOffersForm>;
+  errors: FieldErrors<TeacherOffersForm>;
   lessonFormats: TeacherLesson[] | undefined;
 }
 

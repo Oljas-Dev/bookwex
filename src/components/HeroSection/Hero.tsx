@@ -26,6 +26,8 @@ export default function Hero({
     setSocialLinks,
   } = useDashboard();
 
+  console.log(teacherData);
+
   function handleHero() {
     setActive("heroesDialog");
     setStartYear(

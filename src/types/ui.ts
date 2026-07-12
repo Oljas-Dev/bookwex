@@ -1,5 +1,7 @@
 // Types for user's Profile's LessonSection
 
+import type { Subjects } from "../components/onboardingTeacher/Subjects";
+import type { Languages } from "../components/onboardingTeacher/TeacherLanguages";
 import type { Platform } from "../helpers/features";
 
 // Student lessons
@@ -128,7 +130,8 @@ export interface TeacherExperience {
   teacher_id: string;
 
   start_year: number;
-  languages: string[];
+  languages: Languages;
+  subjects: Subjects;
   hours: number;
 }
 
