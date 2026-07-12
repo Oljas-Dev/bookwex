@@ -130,8 +130,8 @@ export interface TeacherExperience {
   teacher_id: string;
 
   start_year: number;
-  languages: Languages;
-  subjects: Subjects;
+  languages: Languages[];
+  subjects: Subjects[];
   hours: number;
 }
 
