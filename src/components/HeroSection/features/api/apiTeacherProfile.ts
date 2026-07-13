@@ -7,18 +7,6 @@ export async function updateHeroSection(
 ) {
   if (!teacherId) throw new Error("Teacher id is missing");
 
-  const experiencePromise = supabase.from("teacher_experience").upsert(
-    {
-      teacher_id: teacherId,
-      start_year: formData.start_year,
-      languages: formData.languages,
-      hours: formData.hours,
-    },
-    {
-      onConflict: "teacher_id",
-    },
-  );
-
   const descriptionPromise = supabase.from("teacher_descriptions").upsert(
     {
       teacher_id: teacherId,
@@ -39,11 +27,7 @@ export async function updateHeroSection(
     }),
   );
 
-  const results = await Promise.all([
-    experiencePromise,
-    descriptionPromise,
-    ...socialPromises,
-  ]);
+  const results = await Promise.all([descriptionPromise, ...socialPromises]);
 
   const failed = results.find((r) => r.error);
 

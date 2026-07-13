@@ -2,7 +2,6 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import relativeTime from "dayjs/plugin/relativeTime";
-import type { ValidationResult } from "../types/ui";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -71,50 +70,16 @@ function isValidYear(year: string | undefined) {
 }
 
 function validateHeroSection({
-  startYear,
-  languages,
-  hours,
   title,
   content,
 }: {
-  startYear: string;
-  languages: string;
-  hours: string;
   title: string;
   content: string;
-}): ValidationResult {
-  const hoursNumber = Number(hours);
-
-  if (!startYear.trim())
-    return {
-      valid: false,
-      message: "Please enter the year you started teaching.",
-    };
-
-  if (!isValidYear(startYear))
-    return {
-      valid: false,
-      message: "Choose a valid year.",
-    } satisfies ValidationResult;
-
-  if (!languages.trim())
-    return { valid: false, message: "Please enter your languages." };
-
-  if (hours.trim() === "" || !Number.isInteger(hoursNumber) || hoursNumber < 0)
-    return {
-      valid: false,
-      message: "Hours taught must be a positive whole number.",
-    };
-
+}) {
   if (!title.trim()) return { valid: false, message: "Please enter a title." };
 
   if (!content.trim())
     return { valid: false, message: "Please write something about yourself." };
-
-  return {
-    valid: true,
-    hoursNumber,
-  } satisfies ValidationResult;
 }
 
 export type Platform = "instagram" | "facebook" | "x" | "youtube";

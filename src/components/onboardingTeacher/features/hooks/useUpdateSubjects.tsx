@@ -1,11 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import { updateSubjects as updateTeacherSubjects } from "../api/teacherDataApi";
 import type { Subjects } from "../../Subjects";
 
-export function useUpdateSubjects() {
-  const navigate = useNavigate();
-
+export function useUpdateSubjects(onSuccessCallback?: () => void) {
   const { mutate: updateSubjects, isPending } = useMutation({
     mutationFn: ({
       teacherId,
@@ -16,7 +13,7 @@ export function useUpdateSubjects() {
     }) => updateTeacherSubjects(teacherId, subjects),
 
     onSuccess: () => {
-      navigate("/description");
+      onSuccessCallback?.();
     },
   });
 

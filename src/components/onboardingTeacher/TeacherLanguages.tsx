@@ -17,7 +17,13 @@ export interface TeacherLanguagesForm {
 
 export default function TeacherLanguages() {
   const { user } = useAuth();
-  const { updateLanguage, isPending } = useUpdateLanguages();
+
+  const navigate = useNavigate();
+
+  const { updateLanguage, isPending } = useUpdateLanguages(() => {
+    navigate("/subject");
+  });
+
   const {
     register,
     handleSubmit,
@@ -34,8 +40,6 @@ export default function TeacherLanguages() {
     name: "languages",
   });
 
-  const navigate = useNavigate();
-
   function sendLanguages(data: TeacherLanguagesForm) {
     updateLanguage({
       teacherId: user?.id,
@@ -50,12 +54,6 @@ export default function TeacherLanguages() {
       language: "",
       level: "native",
     });
-  }
-
-  function deleteFormRow() {
-    if (fields.length <= 1) return;
-
-    remove(fields.length - 1);
   }
 
   return (
@@ -81,8 +79,9 @@ export default function TeacherLanguages() {
               />
             );
           })}
-          <button onClick={deleteFormRow}>-</button>
-          <button onClick={addFormRow}>+</button>
+          <button onClick={addFormRow} disabled={!isValid}>
+            add language +
+          </button>
 
           <div className="flex gap-4">
             <button type="reset" onClick={() => navigate(-1)}>

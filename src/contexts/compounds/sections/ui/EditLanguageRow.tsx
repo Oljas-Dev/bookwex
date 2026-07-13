@@ -3,7 +3,7 @@ import type {
   UseFieldArrayRemove,
   UseFormRegister,
 } from "react-hook-form";
-import type { TeacherLanguagesForm } from "../TeacherLanguages";
+import type { TeacherLanguagesForm } from "../../../../components/onboardingTeacher/TeacherLanguages";
 import { XCircle } from "react-bootstrap-icons";
 // import { Languages } from "../TeacherLanguages";
 
@@ -14,14 +14,20 @@ interface LanguageFormRowProps {
   remove: UseFieldArrayRemove;
 }
 
-export default function LanguageFormRow({
+export default function EditLanguageRow({
   register,
   errors,
   row,
   remove,
 }: LanguageFormRowProps) {
+  function deleteRow() {
+    if (row !== 0) {
+      remove(row);
+    } else return;
+  }
+
   return (
-    <div className="flex gap-4 relative">
+    <div className="flex items-center gap-4 relative">
       <div className="flex flex-col gap-2">
         <label>Language</label>
         <input
@@ -57,8 +63,8 @@ export default function LanguageFormRow({
       </div>
 
       <button
-        onClick={() => remove(row)}
-        className="border-none bg-transparent p-1 absolute top-8 -right-9"
+        onClick={deleteRow}
+        className="border-none bg-transparent p-1 absolute top-8 right-6"
       >
         <XCircle />
       </button>

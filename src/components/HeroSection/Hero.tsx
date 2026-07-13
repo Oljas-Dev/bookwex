@@ -19,32 +19,13 @@ export default function Hero({
     openDialog,
     dialogDashboard,
     setContent,
-    setHours,
-    setLanguages,
-    setStartYear,
     setTitle,
     setSocialLinks,
   } = useDashboard();
 
-  console.log(teacherData);
-
   function handleHero() {
     setActive("heroesDialog");
-    setStartYear(
-      teacherData?.experience.start_year
-        ? String(teacherData?.experience.start_year)
-        : "0",
-    );
-    setLanguages(
-      teacherData?.experience.languages
-        ? teacherData?.experience.languages.join(", ")
-        : "0",
-    );
-    setHours(
-      teacherData?.experience.hours
-        ? String(teacherData?.experience.hours)
-        : "0",
-    );
+
     setTitle(
       teacherData?.descriptions.title
         ? teacherData?.descriptions.title
@@ -80,7 +61,10 @@ export default function Hero({
           rating={teacherData?.rating_calc}
           hidden={tablet}
         />
-        <Achievements experience={teacherData?.experience} />
+        <Achievements
+          experience={teacherData?.experience}
+          teacherId={teacherData?.id}
+        />
         <AboutMeText description={teacherData?.descriptions} />
       </div>
       <Avatar teacherData={teacherData} />

@@ -1,11 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 import { updateLanguages as updateLanguagesSpoken } from "../api/teacherDataApi";
-import { useNavigate } from "react-router-dom";
 import type { Languages } from "../../TeacherLanguages";
+import toast from "react-hot-toast";
 
-export function useUpdateLanguages() {
-  const navigate = useNavigate();
-
+export function useUpdateLanguages(onSuccessCallback?: () => void) {
   const { mutate: updateLanguage, isPending } = useMutation({
     mutationFn: ({
       teacherId,
@@ -16,7 +14,11 @@ export function useUpdateLanguages() {
     }) => updateLanguagesSpoken(teacherId, languages),
 
     onSuccess: () => {
-      navigate("/subject");
+      onSuccessCallback?.();
+    },
+
+    onError: (err) => {
+      toast(err.message);
     },
   });
 

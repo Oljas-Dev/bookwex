@@ -1,10 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { updateStartYear } from "../api/teacherDataApi";
-import { useNavigate } from "react-router-dom";
 
-export function useUpdateYear() {
-  const navigate = useNavigate();
-
+export function useUpdateYear(onSuccessCallback?: () => void) {
   const { mutate: updateYear, isPending } = useMutation({
     mutationFn: ({
       teacherId,
@@ -15,7 +12,7 @@ export function useUpdateYear() {
     }) => updateStartYear(teacherId, startYear),
 
     onSuccess: () => {
-      navigate("/update-languages");
+      onSuccessCallback?.();
     },
   });
 

@@ -73,6 +73,7 @@ export default function TeacherOffers() {
     }
 
     updateLessons(data.offers);
+    navigate("/onboarding-complete");
   }
 
   return (
@@ -103,11 +104,11 @@ export default function TeacherOffers() {
           />
 
           <div className="flex gap-4">
-            <button type="reset" onClick={() => navigate(-1)}>
+            <button type="button" onClick={() => navigate(-1)}>
               back
             </button>
             <button type="submit" disabled={!isValid || isPending}>
-              {isPending ? "saving description..." : "next step"}
+              {isPending ? "saving description..." : "finish onboarding"}
             </button>
           </div>
         </form>

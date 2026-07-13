@@ -35,6 +35,7 @@ import Subjects from "./components/onboardingTeacher/Subjects";
 import Description from "./components/onboardingTeacher/Description";
 import UploadVideo from "./components/onboardingTeacher/UploadVideo";
 import TeacherOffers from "./components/onboardingTeacher/TeacherOffers";
+import OnboardingComplete from "./components/onboardingTeacher/OnboardingComplete";
 
 function App() {
   return (
@@ -99,6 +100,10 @@ function App() {
                       <Route
                         path="teacher-offers"
                         element={<TeacherOffers />}
+                      />
+                      <Route
+                        path="onboarding-complete"
+                        element={<OnboardingComplete />}
                       />
 
                       {/* Main Page */}

@@ -136,10 +136,6 @@ export interface TeacherExperience {
 }
 
 export interface HeroSectionFormData {
-  start_year: number;
-  languages: string[];
-  hours: number;
-
   title: string;
   content: string;
 
@@ -230,12 +226,7 @@ export type BookingUIState =
   | "disputed"
   | "cancelled";
 
-export type ValidationResult =
-  | {
-      valid: true;
-      hoursNumber: number;
-    }
-  | {
-      valid: false;
-      message: string;
-    };
+export type ValidationResult = {
+  valid: false;
+  message: string;
+};

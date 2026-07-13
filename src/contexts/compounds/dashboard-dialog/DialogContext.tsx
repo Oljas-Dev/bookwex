@@ -6,6 +6,9 @@ import ReviewsSectionDialog from "../sections/ReviewsSectionDialog";
 import OffersSectionDialog from "../sections/OffersSectionDialog";
 import HeroSectionDialog from "../sections/HeroSectionDialog";
 import EmptyOfferDialog from "../sections/EmptyOfferDialog";
+import HeroLanguages from "../sections/HeroLanguages";
+import HeroSubjects from "../sections/HeroSubjects";
+import HeroYears from "../sections/HeroYears";
 
 export function Dialogs({ children }: { children: ReactNode }) {
   const { dialogDashboard } = useDashboard();
@@ -58,3 +61,6 @@ Dialogs.ReviewsSection = ReviewsSectionDialog;
 Dialogs.OffersSection = OffersSectionDialog;
 Dialogs.HeroSection = HeroSectionDialog;
 Dialogs.EmptyOffer = EmptyOfferDialog;
+Dialogs.HeroLanguages = HeroLanguages;
+Dialogs.HeroSubjects = HeroSubjects;
+Dialogs.HeroYears = HeroYears;

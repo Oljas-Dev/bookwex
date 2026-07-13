@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { isValidYear } from "../../helpers/features";
 import { useUpdateYear } from "./features/hooks/useUpdateYear";
 import { useAuth } from "../../contexts/useAuth";
+import { useNavigate } from "react-router-dom";
 
 interface FormData {
   startYear: string;
@@ -9,7 +10,12 @@ interface FormData {
 
 export default function WelcomePage() {
   const { user } = useAuth();
-  const { updateYear, isPending } = useUpdateYear();
+
+  const navigate = useNavigate();
+
+  const { updateYear, isPending } = useUpdateYear(() => {
+    navigate("/update-languages");
+  });
   const {
     register,
     handleSubmit,

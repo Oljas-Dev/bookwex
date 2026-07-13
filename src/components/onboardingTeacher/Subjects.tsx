@@ -3,6 +3,7 @@ import { useAuth } from "../../contexts/useAuth";
 import { useNavigate } from "react-router-dom";
 import SubjectFormRow from "./ui/SubjectFormRow";
 import { useUpdateSubjects } from "./features/hooks/useUpdateSubjects";
+import toast from "react-hot-toast";
 
 export type SubjectType = "main" | "secondary";
 
@@ -17,10 +18,17 @@ export interface TeacherSubjectsForm {
 
 export default function Subjects() {
   const { user } = useAuth();
-  const { updateSubjects, isPending } = useUpdateSubjects();
+
+  const navigate = useNavigate();
+
+  const { updateSubjects, isPending } = useUpdateSubjects(() => {
+    navigate("/description");
+  });
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors, isValid },
     control,
   } = useForm<TeacherSubjectsForm>({
@@ -34,9 +42,17 @@ export default function Subjects() {
     name: "subjects",
   });
 
-  const navigate = useNavigate();
+  const subjectsCheck = watch("subjects");
 
   function sendSubjects(data: TeacherSubjectsForm) {
+    const mainSubjects = data.subjects.filter(
+      (subject) => subject.category === "main",
+    );
+
+    if (mainSubjects.length !== 1) {
+      toast.error("Please select exactly one main subject.");
+      return;
+    }
     updateSubjects({
       teacherId: user?.id,
       subjects: data.subjects,
@@ -72,10 +88,12 @@ export default function Subjects() {
                 remove={remove}
                 key={field.id}
                 row={i}
+                check={subjectsCheck}
+                setValue={setValue}
               />
             );
           })}
-          <button onClick={addFormRow}>+</button>
+          <button onClick={addFormRow}>add subject +</button>
 
           <div className="flex gap-4">
             <button type="reset" onClick={() => navigate(-1)}>

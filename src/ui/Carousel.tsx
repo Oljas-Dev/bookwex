@@ -41,6 +41,7 @@ export function Carousel<T>({
       {items.length > 1 && (
         <div className="flex justify-center items-center gap-4 mt-4">
           <button
+            type="button"
             disabled={!canPrev}
             onClick={() => setIndex((i) => i - 1)}
             className="bg-transparent border-0 px-1"
@@ -53,6 +54,7 @@ export function Carousel<T>({
           </span>
 
           <button
+            type="button"
             disabled={!canNext}
             onClick={() => setIndex((i) => i + 1)}
             className="bg-transparent border-0 px-1"

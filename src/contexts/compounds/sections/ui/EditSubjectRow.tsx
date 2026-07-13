@@ -4,8 +4,8 @@ import type {
   UseFormRegister,
   UseFormSetValue,
 } from "react-hook-form";
-import type { TeacherSubjectsForm } from "../Subjects";
 import { XCircle } from "react-bootstrap-icons";
+import type { TeacherSubjectsForm } from "../../../../components/onboardingTeacher/Subjects";
 // import { Languages } from "../TeacherLanguages";
 
 interface SubjectFormRowProps {
@@ -17,7 +17,7 @@ interface SubjectFormRowProps {
   setValue: UseFormSetValue<TeacherSubjectsForm>;
 }
 
-export default function SubjectFormRow({
+export default function EditSubjectRow({
   register,
   errors,
   row,
@@ -25,12 +25,6 @@ export default function SubjectFormRow({
   check,
   setValue,
 }: SubjectFormRowProps) {
-  function deleteRow() {
-    if (row !== 0) {
-      remove(row);
-    } else return;
-  }
-
   return (
     <div className="flex gap-4 relative">
       <div className="flex flex-col gap-2">
@@ -76,8 +70,8 @@ export default function SubjectFormRow({
       </div>
 
       <button
-        onClick={deleteRow}
-        className="border-none bg-transparent p-1 absolute top-8 -right-9"
+        onClick={() => remove(row)}
+        className="border-none bg-transparent p-1 absolute top-8 right-10"
       >
         <XCircle />
       </button>

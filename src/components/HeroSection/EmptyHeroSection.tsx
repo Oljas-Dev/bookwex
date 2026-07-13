@@ -3,8 +3,8 @@ import { useAuth } from "../../contexts/useAuth";
 import Header from "./Header";
 import type { TeacherProfile } from "../../types/ui";
 import Avatar from "./Avatar";
-import { useDashboard } from "../../contexts/useTeacherData";
 import { useMediaQuery } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function EmptyHeroSection({
   teacherData,
@@ -12,13 +12,12 @@ export default function EmptyHeroSection({
   teacherData: TeacherProfile | undefined;
 }) {
   const { canEditProfile, isTeacher, isAdmin } = useAuth();
-  const { setActive, dialogDashboard, openDialog } = useDashboard();
 
   const tablet = useMediaQuery("(max-width:900px)");
+  const navigate = useNavigate();
 
   function handleOpenDialog() {
-    setActive("heroesDialog");
-    openDialog(dialogDashboard);
+    navigate("/welcome-teacher");
   }
 
   return (
@@ -47,7 +46,7 @@ export default function EmptyHeroSection({
             </span>
             {canEditProfile(teacherData?.id) && (
               <button className="max-w-fit" onClick={handleOpenDialog}>
-                edit profile
+                start teacher onboarding
               </button>
             )}
           </div>

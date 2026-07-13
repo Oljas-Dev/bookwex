@@ -90,6 +90,21 @@ export default function Dashboard() {
         <Dialogs.OffersSection id="offersDialog" />
         <Dialogs.HeroSection id="heroesDialog" teacherId={teacherData?.id} />
         <Dialogs.EmptyOffer id="emptyOfferDialog" />
+        <Dialogs.HeroLanguages
+          id="editLanguages"
+          languages={teacherData?.experience?.languages}
+          teacherId={teacherData?.id}
+        />
+        <Dialogs.HeroSubjects
+          id="editSubjects"
+          subjects={teacherData?.experience?.subjects}
+          teacherId={teacherData?.id}
+        />
+        <Dialogs.HeroYears
+          id="editYears"
+          startYear={teacherData?.experience?.start_year.toString() || ""}
+          teacherId={teacherData?.id}
+        />
       </Dialogs>
     </>
   );

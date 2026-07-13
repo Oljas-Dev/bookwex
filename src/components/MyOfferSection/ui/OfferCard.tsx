@@ -26,7 +26,7 @@ export default function OfferCard({
       </div>
 
       {/* Main content of a card */}
-      <div className="flex flex-col gap-4 bg-jade border-b-2 border-jade-light pt-6 pb-4 px-8 [&_p]:text-[16px]">
+      <div className="flex-1 flex flex-col gap-4 bg-jade border-b-2 border-jade-light pt-6 pb-4 px-8 [&_p]:text-[16px]">
         <div className="flex gap-4">
           <Bullseye size={18} />
           <p>{goal}</p>
@@ -42,7 +42,7 @@ export default function OfferCard({
       </div>
 
       {/* Price tag */}
-      <div className="flex justify-center h-full bg-peach py-6">
+      <div className="flex justify-center h-fit bg-peach py-6">
         <p className="text-xl">
           <strong>{price}$</strong>
         </p>
