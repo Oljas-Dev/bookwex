@@ -21,7 +21,7 @@ export default function LanguageFormRow({
   remove,
 }: LanguageFormRowProps) {
   return (
-    <div className="flex gap-4 relative max-[400px]:flex-col max-[400px]:border-b max-[400px]:border-jet max-[400px]:pb-5">
+    <div className="flex gap-2 relative max-[400px]:flex-col max-[400px]:border-b max-[400px]:border-jet max-[400px]:pb-5">
       <div className="flex flex-col gap-2">
         <label>Language</label>
         <input
@@ -58,7 +58,7 @@ export default function LanguageFormRow({
 
       <button
         onClick={() => remove(row)}
-        className="border-none bg-transparent p-1 absolute top-8 -right-9 max-[400px]:top-19 max-[400px]:-right-12"
+        className="border-none bg-transparent p-1 absolute top-8 -right-9 max-[500px]:-right-8 max-[400px]:top-19 max-[400px]:-right-12"
       >
         <XCircle />
       </button>
