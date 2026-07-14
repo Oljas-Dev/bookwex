@@ -1,14 +1,12 @@
 import dayjs from "dayjs";
-import { useTeachers } from "../../api/features/useTeachers";
 import { useAuth } from "../../contexts/useAuth";
 import { useAdminMessages } from "./features/useAdminMessages";
 
 export default function AdminDashboard() {
   const { data } = useAdminMessages();
-  const { profiles: teachers } = useTeachers();
   const { profiles } = useAuth();
 
-  console.log(profiles);
+  // console.log(profiles);
 
   return (
     <div className="min-h-screen py-6 px-8">
