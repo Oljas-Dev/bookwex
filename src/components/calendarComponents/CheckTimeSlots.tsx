@@ -11,6 +11,8 @@ import { useAuth } from "../../contexts/useAuth";
 import { useState } from "react";
 import { useCancelBooking } from "./features/useCancelBooking";
 import { useDeleteSlot } from "./features/useDeleteSlot";
+import { useTeachers } from "../../api/features/useTeachers";
+import { toNormalStr } from "../../helpers/features";
 
 dayjs.extend(utc);
 
@@ -29,15 +31,21 @@ export interface DialogStateProps {
 export default function CheckTimeSlots() {
   const [dialogState, setDialogState] =
     useState<keyof DialogStateProps>("chat");
+  const { dayId, teacherName } = useParams();
 
+  const { profiles } = useTeachers();
+
+  const currentTeacher = profiles?.find(
+    (teacher) => toNormalStr(teacher.full_name) === toNormalStr(teacherName),
+  );
   const { user, setCurrentTeacherId } = useAuth();
-  const { lessons } = useLessons();
+  const { lessons } = useLessons(currentTeacher?.id);
+
   const { noUserError, setSelectedSlot, dialogRef, selectedSlot, closeDialog } =
     useBookings();
   const { cancelBooking } = useCancelBooking();
   const { deleteSlot } = useDeleteSlot();
   const { data: bookedSlots } = useBookedSlots();
-  const { dayId, teacherName } = useParams();
 
   const navigate = useNavigate();
   const now = dayjs().format("YYYY-MM-DD HH:mm");

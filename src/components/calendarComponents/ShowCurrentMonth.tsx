@@ -6,11 +6,15 @@ import type { JSX } from "@emotion/react/jsx-runtime";
 import { useLessons } from "../../api/features/useLessons";
 import { useAuth } from "../../contexts/useAuth";
 
-export default function ShowCurrentMonth() {
+export default function ShowCurrentMonth({
+  teacherId,
+}: {
+  teacherId: string | undefined;
+}) {
   const { isTeacher } = useAuth();
   const { currentMonth, daysInMonth, isToday } = useCalendar();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { lessons } = useLessons();
+  const { lessons } = useLessons(teacherId);
 
   // console.log(lessons);
 

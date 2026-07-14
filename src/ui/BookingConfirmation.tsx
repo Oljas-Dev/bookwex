@@ -4,14 +4,23 @@ import utc from "dayjs/plugin/utc";
 import { useLessons } from "../api/features/useLessons";
 import { useBookLesson } from "../api/features/useBookLesson";
 import type { Slot } from "../contexts/BookingContextData";
-import { formatLessonDate } from "../helpers/features";
+import { formatLessonDate, toNormalStr } from "../helpers/features";
 import { useBookingConfirmation } from "../api/emails/useBookingConfirmation";
 import { bookingConfirmationEmail } from "../api/emails/bookingConfirmation";
+import { useTeachers } from "../api/features/useTeachers";
 
 dayjs.extend(utc);
 
 export default function BookingConfirmation() {
-  const { lessons } = useLessons();
+  const { teacherName } = useParams();
+
+  const { profiles } = useTeachers();
+
+  const currentTeacher = profiles?.find(
+    (teacher) => toNormalStr(teacher.full_name) === toNormalStr(teacherName),
+  );
+
+  const { lessons } = useLessons(currentTeacher?.id);
   const { bookLesson, isBooking } = useBookLesson();
   const { lessonId } = useParams();
   const navigate = useNavigate();

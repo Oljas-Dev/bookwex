@@ -7,8 +7,8 @@ import { TimeSelector } from "../ui/TimeSelector";
 import { DurationSelector } from "../ui/DurationSelector";
 import { useNavigate } from "react-router-dom";
 import useInsertlots from "../api/features/useInsertSlots";
-import useProfile from "../api/features/useProfile";
 import { toParamStr } from "../helpers/features";
+import { useAuth } from "../contexts/useAuth";
 
 export default function Planner() {
   const [noDatesError, setNoDatesError] = useState(false);
@@ -17,7 +17,7 @@ export default function Planner() {
   const [noDurationError, setNoDurationError] = useState(false);
   const { insert, isInserting } = useInsertlots();
 
-  const { profile } = useProfile();
+  const { profile } = useAuth();
 
   const {
     startDate,

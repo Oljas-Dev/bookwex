@@ -1,26 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
-import useProfile from "./useProfile";
 import { supabase } from "../supabase/supabase";
 
-export function useLessons() {
-  const { profile: teacher } = useProfile();
-
+export function useLessons(teacherId: string | undefined) {
   const now = new Date().toISOString();
 
   const { data: lessons, isPending } = useQuery({
-    queryKey: ["slots", teacher?.id],
+    queryKey: ["slots", teacherId],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("slots")
         .select("*")
-        .eq("user_id", teacher?.id)
+        .eq("user_id", teacherId)
 
         .gt("end_time", now);
 
       if (error) throw error;
       return data;
     },
-    enabled: !!teacher?.id,
+    enabled: !!teacherId,
   });
   return { lessons, isPending };
 }

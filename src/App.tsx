@@ -119,9 +119,9 @@ function App() {
                         <Route
                           path="teacher/:teacherName/planner"
                           element={
-                            <ProtectedRoute>
+                            <RoleRoute allowedRoles={["teacher", "admin"]}>
                               <Planner />
-                            </ProtectedRoute>
+                            </RoleRoute>
                           }
                         />
                         <Route

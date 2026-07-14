@@ -5,21 +5,19 @@ import ShowCurrentMonth from "./calendarComponents/ShowCurrentMonth";
 import ShowNextMonth from "./calendarComponents/ShowNextMonth";
 import ShowPreviousMonth from "./calendarComponents/ShowPreviousMonth";
 import WeekDays from "./calendarComponents/WeekDays";
-import useProfile from "../api/features/useProfile";
 import { useAuth } from "../contexts/useAuth";
 import { toParamStr } from "../helpers/features";
 
 export default function Calendar({
   teacherId,
+  teacherName,
 }: {
   teacherId: string | undefined;
+  teacherName: string | undefined;
 }) {
   const { canEditProfile, user } = useAuth();
-  const { profile } = useProfile();
 
   const navigate = useNavigate();
-
-  if (!profile) return <p>Waiting for profile to load...</p>;
 
   return (
     <div
@@ -30,13 +28,13 @@ export default function Calendar({
       <WeekDays />
       <div className="calendar-grid">
         <ShowPreviousMonth />
-        <ShowCurrentMonth />
+        <ShowCurrentMonth teacherId={teacherId} />
         <ShowNextMonth />
       </div>
       {canEditProfile(teacherId) && (
         <button
           onClick={() =>
-            navigate(`/teacher/${toParamStr(profile?.full_name)}/planner`)
+            navigate(`/teacher/${toParamStr(teacherName)}/planner`)
           }
         >
           plan your lessons

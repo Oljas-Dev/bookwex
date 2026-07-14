@@ -82,7 +82,10 @@ export default function Dashboard() {
         />
       )}
 
-      <Calendar teacherId={teacherData?.id} />
+      <Calendar
+        teacherId={teacherData?.id}
+        teacherName={teacherData?.full_name}
+      />
 
       <Dialogs>
         <Dialogs.VideoSection id="videoDialog" />
