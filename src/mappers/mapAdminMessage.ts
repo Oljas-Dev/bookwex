@@ -11,5 +11,7 @@ export function mapAdminMessage(message: AdminMessages): AdminMessage {
     isResolved: message.is_resolved,
     userId: message.user_id,
     adminMessage: message.admin_notes,
+
+    profiles: message.profiles,
   };
 }

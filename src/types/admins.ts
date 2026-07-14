@@ -1,5 +1,10 @@
 import type { AdminCategory, AdminStatus } from "./db";
 
+interface AdminProfile {
+  full_name: string;
+  avatar_url: string | undefined;
+}
+
 export interface AdminMessage {
   id: string;
   createdAt: Date;
@@ -9,5 +14,7 @@ export interface AdminMessage {
   status?: AdminStatus;
   userId?: string | undefined;
   isResolved?: boolean;
-  adminMessage: string;
+  adminMessage: string | null;
+
+  profiles: AdminProfile[];
 }

@@ -69,15 +69,15 @@ type AdminMessages = {
   message: string;
   status: string;
   created_at: string;
-  category: string;
+  category: AdminCategory;
   user_id: string;
   admin_notes: string | null;
   is_resolved: boolean;
 
-  profile: {
+  profiles: {
     full_name: string;
     avatar_url: string | undefined;
-  };
+  }[];
 };
 
 export type {

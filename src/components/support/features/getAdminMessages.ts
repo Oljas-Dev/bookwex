@@ -15,7 +15,7 @@ export async function getAdminMessages() {
       user_id,
       admin_notes,
       status,
-      profiles:user_id!inner (
+      profiles:user_id (
         full_name,
         avatar_url
       )
@@ -29,10 +29,10 @@ export async function getAdminMessages() {
     throw error;
   }
 
-  return data.map((message) => ({
-    ...message,
-    profile: message.profiles?.[0] ?? null,
-  })) as AdminMessages[];
+  // return data.map((message) => ({
+  //   ...message,
+  //   profile: message?.profiles?.[0] ?? null,
+  // })) as AdminMessages[];
 
-  // return data as AdminMessages[];
+  return data as AdminMessages[];
 }

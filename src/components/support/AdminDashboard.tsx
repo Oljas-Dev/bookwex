@@ -6,10 +6,10 @@ export default function AdminDashboard() {
   const { data } = useAdminMessages();
   const { profiles } = useAuth();
 
-  // console.log(profiles);
+  // console.log(data);
 
   return (
-    <div className="min-h-screen py-6 px-8">
+    <div className="flex flex-col gap-6 min-h-screen py-6 px-8">
       <h2>Admin Dashboard</h2>
 
       <ul>
@@ -19,6 +19,8 @@ export default function AdminDashboard() {
           </li>
         ))}
       </ul>
+
+      <h2>Number of users: {profiles?.length}</h2>
 
       <ul>
         {profiles?.map((user) => {
