@@ -27,18 +27,19 @@ export default function Description() {
   }
 
   return (
-    <section className="h-screen">
-      <article className="text-jet flex flex-col items-center min-h-screen bg-secondary-bg w-280 pb-5">
+    <section className="flex justify-center w-full min-h-screen">
+      <article className="text-jet flex flex-col gap-4 items-center min-h-screen bg-secondary-bg w-280 pb-5 max-[1200px]:w-full">
+        <div className="w-full bg-jade py-8 text-center ">
+          <h2 className="font-bold text-3xl">Show Students Your Best 🌟</h2>
+        </div>
+
         <form
           onSubmit={handleSubmit(sendSubjects)}
-          className="flex flex-col items-center gap-4 w-full"
+          className="flex flex-col items-center gap-4 w-full max-[500px]:px-2 max-[500px]:text-center"
         >
-          <div className="w-full bg-jade py-8 text-center ">
-            <h2 className="font-bold text-3xl">Show Students Your Best 🌟</h2>
-          </div>
           <p className="text-2xl">Create motivational title and description</p>
 
-          <div className="flex flex-col gap-2 w-[50%]">
+          <div className="flex flex-col gap-2 w-[50%] max-[500px]:w-full">
             <label htmlFor="title">Title</label>
             <input
               type="text"
@@ -69,7 +70,7 @@ export default function Description() {
             )}
           </div>
 
-          <div className="flex flex-col gap-2 w-[50%]">
+          <div className="flex flex-col gap-2 w-[50%] max-[500px]:w-full">
             <label htmlFor="content">Description</label>
             <textarea
               placeholder="Why should people study with you"

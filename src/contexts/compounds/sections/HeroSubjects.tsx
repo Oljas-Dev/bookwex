@@ -8,6 +8,7 @@ import type {
 } from "../../../components/onboardingTeacher/Subjects";
 import { useUpdateSubjects } from "../../../components/onboardingTeacher/features/hooks/useUpdateSubjects";
 import EditSubjectRow from "./ui/EditSubjectRow";
+import toast from "react-hot-toast";
 
 export default function HeroSubjects({
   id,
@@ -58,6 +59,15 @@ export default function HeroSubjects({
   if (id !== active) return null;
 
   function sendSubjects(data: TeacherSubjectsForm) {
+    const mainSubjects = data.subjects.filter(
+      (subject) => subject.category === "main",
+    );
+
+    if (mainSubjects.length !== 1) {
+      toast.error("Please select exactly one main subject.");
+      return;
+    }
+
     updateSubjects({
       teacherId: teacherId,
       subjects: data.subjects,

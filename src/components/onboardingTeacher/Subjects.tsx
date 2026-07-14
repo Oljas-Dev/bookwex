@@ -69,15 +69,16 @@ export default function Subjects() {
   }
 
   return (
-    <section className="h-screen">
-      <article className="text-jet flex flex-col items-center min-h-screen bg-secondary-bg w-280 pb-5">
+    <section className="flex justify-center w-full min-h-screen">
+      <article className="text-jet flex flex-col gap-4 items-center min-h-screen bg-secondary-bg w-280 pb-5 max-[1200px]:w-full">
+        <div className="w-full bg-jade py-8 text-center">
+          <h2 className="font-bold text-3xl">Build Your Profile 🛠️</h2>
+        </div>
+
         <form
           onSubmit={handleSubmit(sendSubjects)}
-          className="flex flex-col items-center gap-4 w-full"
+          className="flex flex-col items-center gap-4 w-full max-[500px]:px-2 max-[500px]:text-center"
         >
-          <div className="w-full bg-jade py-8 text-center ">
-            <h2 className="font-bold text-3xl">Build Your Profile 🛠️</h2>
-          </div>
           <p className="text-2xl">What subjects are you going to teach</p>
 
           {fields.map((field, i) => {
@@ -93,7 +94,9 @@ export default function Subjects() {
               />
             );
           })}
-          <button onClick={addFormRow}>add subject +</button>
+          <button onClick={addFormRow} disabled={!isValid}>
+            add subject +
+          </button>
 
           <div className="flex gap-4">
             <button type="reset" onClick={() => navigate(-1)}>

@@ -7,15 +7,15 @@ export default function OnboardingComplete() {
   const { profile } = useAuth();
 
   return (
-    <section className="h-screen">
-      <article className="text-jet flex flex-col items-center gap-4 min-h-screen bg-secondary-bg w-280 pb-5">
-        <div className="w-full bg-jade py-8 text-center ">
+    <section className="flex justify-center w-full min-h-screen">
+      <article className="text-jet flex flex-col items-center gap-4 min-h-screen bg-secondary-bg w-280 pb-5 max-[1200px]:w-full">
+        <div className="w-full bg-jade py-8 text-center">
           <h2 className="font-bold text-3xl">
             Welcome to Your Teaching Business 🎉
           </h2>
         </div>
 
-        <div className="bg-secondary-bg flex flex-col gap-4 items-center w-[50%] rounded-xl px-4 py-6 border border-jet/30">
+        <div className="bg-secondary-bg flex flex-col gap-4 items-center w-[50%] rounded-xl px-4 py-6 border border-jet/30 max-[800px]:w-[80%] max-[500px]:px-2 max-[500px]:text-center max-[400px]:w-[95%]">
           <div className="flex flex-col gap-6 text-lg [&_p]:text-lg">
             <h3>Your profile is ready to welcome students.</h3>
             <span className="flex">

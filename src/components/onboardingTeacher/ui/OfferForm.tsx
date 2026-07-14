@@ -9,7 +9,7 @@ interface OfferFormProps {
 
 export default function OfferForm({ register, errors, index }: OfferFormProps) {
   return (
-    <div className="flex flex-col gap-4 w-[50%] [&_label]:pl-2">
+    <div className="flex flex-col gap-4 w-[50%] [&_label]:pl-2 max-[500px]:w-full">
       <h3>Your offer #{index + 1}</h3>
 
       <div className="flex flex-col gap-2 ">

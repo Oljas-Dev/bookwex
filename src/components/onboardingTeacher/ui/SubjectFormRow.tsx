@@ -32,7 +32,7 @@ export default function SubjectFormRow({
   }
 
   return (
-    <div className="flex gap-4 relative">
+    <div className="flex gap-4 relative max-[400px]:flex-col max-[400px]:border-b max-[400px]:border-jet max-[400px]:pb-5">
       <div className="flex flex-col gap-2">
         <label>Subject</label>
         <input
@@ -77,7 +77,7 @@ export default function SubjectFormRow({
 
       <button
         onClick={deleteRow}
-        className="border-none bg-transparent p-1 absolute top-8 -right-9"
+        className="border-none bg-transparent p-1 absolute top-8 -right-9 max-[400px]:top-19 max-[400px]:-right-12"
       >
         <XCircle />
       </button>

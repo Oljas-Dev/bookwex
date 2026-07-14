@@ -10,17 +10,17 @@ export default function BecomeTeacher() {
   const navigate = useNavigate();
 
   return (
-    <article className="flex flex-col gap-2 text-center justify-center items-center  mx-auto px-10 h-screen max-[350px]:px-4">
+    <article className="flex flex-col gap-2 text-center justify-center items-center  mx-auto px-6 py-4 min-h-screen max-[350px]:px-4">
       {isAuthenticated ? (
-        <div className="bg-secondary-bg flex flex-col gap-4 items-center w-[50%] rounded-xl px-4 py-6 border border-jet/30">
+        <div className="bg-secondary-bg flex flex-col gap-4 items-center w-[50%] rounded-xl px-4 py-6 border border-jet/30 max-[1000px]:w-[80%] max-[600px]:w-full max-[500px]:[&_p]:text-sm">
           <ArrowLeft
             style={{ alignSelf: "start", cursor: "pointer" }}
             onClick={() => navigate(-1)}
           />
 
-          <div className="flex flex-col gap-6 text-lg [&_p]:text-lg">
-            <h2>Early access on Bookwex 🚀</h2>
-            <h3>Welcome! 🎉</h3>
+          <div className="flex flex-col gap-6 text-lg [&_p]:text-lg max-[500px]:text-sm">
+            <h2 className="max-[500px]:text-xl">Early access on Bookwex 🚀</h2>
+            <h3 className="max-[500px]:text-xl">Welcome! 🎉</h3>
 
             <p>
               This feature is currently available as part of an early testing

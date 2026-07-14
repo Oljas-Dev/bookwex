@@ -57,15 +57,16 @@ export default function TeacherLanguages() {
   }
 
   return (
-    <section className="h-screen">
-      <article className="text-jet flex flex-col items-center min-h-screen bg-secondary-bg w-280 pb-5">
+    <section className="flex justify-center w-full min-h-screen">
+      <article className="text-jet flex flex-col items-center gap-4 min-h-screen bg-secondary-bg w-280 pb-5 max-[1200px]:w-full">
+        <div className="w-full bg-jade py-8 text-center ">
+          <h2 className="font-bold text-3xl">One Step Closer ✨</h2>
+        </div>
+
         <form
           onSubmit={handleSubmit(sendLanguages)}
-          className="flex flex-col items-center gap-4 w-full"
+          className="flex flex-col items-center gap-4 w-full max-[500px]:px-2 max-[500px]:text-center"
         >
-          <div className="w-full bg-jade py-8 text-center ">
-            <h2 className="font-bold text-3xl">One Step Closer ✨</h2>
-          </div>
           <p className="text-2xl">Tell us what languages do you speak</p>
 
           {fields.map((field, i) => {

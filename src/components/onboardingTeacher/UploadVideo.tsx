@@ -56,17 +56,18 @@ export default function UploadVideo() {
   }
 
   return (
-    <section className="h-screen">
-      <article className="text-jet flex flex-col items-center min-h-screen bg-secondary-bg w-280 pb-5">
+    <section className="flex justify-center w-full min-h-screen">
+      <article className="text-jet flex flex-col gap-4 items-center min-h-screen bg-secondary-bg w-280 pb-5 max-[1200px]:w-full">
+        <div className="w-full bg-jade py-8 text-center ">
+          <h2 className="font-bold text-3xl">
+            Upload your video introduction 🎥
+          </h2>
+        </div>
+
         <form
           onSubmit={handleSubmit(uploadVideo)}
-          className="flex flex-col items-center gap-4 w-full"
+          className="flex flex-col items-center gap-4 w-full max-[500px]:px-2 max-[500px]:text-center"
         >
-          <div className="w-full bg-jade py-8 text-center ">
-            <h2 className="font-bold text-3xl">
-              Upload your video introduction 🎥
-            </h2>
-          </div>
           <p className="text-2xl">Let students meet you</p>
 
           <div className="flex flex-col gap-2">
@@ -90,7 +91,7 @@ export default function UploadVideo() {
                     "Video must be under 50MB",
                 },
               })}
-              className={`rounded-lg border-2 p-2 outline-none ${
+              className={`rounded-lg border-2 p-2 outline-none max-[400px]:w-full ${
                 errors.video ? "border-red-400" : "border-jade"
               }`}
             />
@@ -109,7 +110,7 @@ export default function UploadVideo() {
             </div>
           )}
 
-          <div className="flex gap-4">
+          <div className="flex gap-4 max-[400px]:gap-2">
             <button type="button" onClick={() => navigate(-1)}>
               back
             </button>

@@ -77,15 +77,16 @@ export default function TeacherOffers() {
   }
 
   return (
-    <section className="min-h-screen max-[1120px]:w-[80%]">
-      <article className="text-jet flex flex-col items-center min-h-screen bg-secondary-bg w-280 pb-5 max-[1120px]:w-full">
+    <section className="flex justify-center w-full min-h-screen">
+      <article className="text-jet flex flex-col gap-4 items-center min-h-screen bg-secondary-bg w-280 pb-5  max-[1200px]:w-full">
+        <div className="w-full bg-jade py-8 text-center">
+          <h2 className="font-bold text-3xl">Almost There 🚀</h2>
+        </div>
+
         <form
           onSubmit={handleSubmit(sendSubjects)}
-          className="flex flex-col items-center gap-4 w-full"
+          className="flex flex-col items-center gap-4 w-full max-[500px]:px-2 max-[600px]:text-center"
         >
-          <div className="w-full bg-jade py-8 text-center">
-            <h2 className="font-bold text-3xl">Almost There 🚀</h2>
-          </div>
           <p className="text-2xl px-4">
             What kinds of lessons do you offer and their prices
           </p>
