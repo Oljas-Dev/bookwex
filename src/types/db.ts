@@ -63,18 +63,22 @@ type AdminCategory =
 
 type AdminStatus = "open" | "in_progress" | "resolved" | "closed";
 
-interface AdminMessages {
+type AdminMessages = {
   id: string;
-  created_at: string;
   title: string;
   message: string;
-  user_id?: string;
-  category: AdminCategory;
-  is_resolved?: boolean;
-  status: AdminStatus;
-  admin_notes: string;
-  resolved_at: string;
-}
+  status: string;
+  created_at: string;
+  category: string;
+  user_id: string;
+  admin_notes: string | null;
+  is_resolved: boolean;
+
+  profile: {
+    full_name: string;
+    avatar_url: string | undefined;
+  };
+};
 
 export type {
   TeacherData,

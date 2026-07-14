@@ -17,7 +17,7 @@ export default function TeacherProfileView({
   const { isAdmin } = useAuth();
   const teachersExist = myTeachers !== undefined && myTeachers.length > 0;
 
-  const teacherLink = `${window.location.origin}/teacher/${teacherName}`;
+  const teacherLink = `${window.location.origin}/teacher/${toParamStr(teacherName)}`;
 
   async function copyTeacherLink() {
     try {

@@ -69,45 +69,43 @@ export default function Subjects() {
   }
 
   return (
-    <section className="flex justify-center w-full min-h-screen">
-      <article className="text-jet flex flex-col gap-4 items-center min-h-screen bg-secondary-bg w-280 pb-5 max-[1200px]:w-full">
-        <div className="w-full bg-jade py-8 text-center">
-          <h2 className="font-bold text-3xl">Build Your Profile 🛠️</h2>
-        </div>
+    <>
+      <div className="w-full bg-jade py-8 text-center">
+        <h2 className="font-bold text-3xl">Build Your Profile 🛠️</h2>
+      </div>
 
-        <form
-          onSubmit={handleSubmit(sendSubjects)}
-          className="flex flex-col items-center gap-4 w-full max-[500px]:px-2 max-[500px]:text-center"
-        >
-          <p className="text-2xl">What subjects are you going to teach</p>
+      <form
+        onSubmit={handleSubmit(sendSubjects)}
+        className="flex flex-col items-center gap-4 w-full max-[500px]:px-2 max-[500px]:text-center"
+      >
+        <p className="text-2xl">What subjects are you going to teach</p>
 
-          {fields.map((field, i) => {
-            return (
-              <SubjectFormRow
-                register={register}
-                errors={errors}
-                remove={remove}
-                key={field.id}
-                row={i}
-                check={subjectsCheck}
-                setValue={setValue}
-              />
-            );
-          })}
-          <button onClick={addFormRow} disabled={!isValid}>
-            add subject +
+        {fields.map((field, i) => {
+          return (
+            <SubjectFormRow
+              register={register}
+              errors={errors}
+              remove={remove}
+              key={field.id}
+              row={i}
+              check={subjectsCheck}
+              setValue={setValue}
+            />
+          );
+        })}
+        <button onClick={addFormRow} disabled={!isValid}>
+          add subject +
+        </button>
+
+        <div className="flex gap-4">
+          <button type="reset" onClick={() => navigate(-1)}>
+            back
           </button>
-
-          <div className="flex gap-4">
-            <button type="reset" onClick={() => navigate(-1)}>
-              back
-            </button>
-            <button type="submit" disabled={!isValid || isPending}>
-              {isPending ? "saving subjects..." : "next step"}
-            </button>
-          </div>
-        </form>
-      </article>
-    </section>
+          <button type="submit" disabled={!isValid || isPending}>
+            {isPending ? "saving subjects..." : "next step"}
+          </button>
+        </div>
+      </form>
+    </>
   );
 }

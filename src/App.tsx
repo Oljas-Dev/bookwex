@@ -36,6 +36,7 @@ import Description from "./components/onboardingTeacher/Description";
 import UploadVideo from "./components/onboardingTeacher/UploadVideo";
 import TeacherOffers from "./components/onboardingTeacher/TeacherOffers";
 import OnboardingComplete from "./components/onboardingTeacher/OnboardingComplete";
+import OnboardingLayout from "./components/onboardingTeacher/OnboardingLayout";
 
 function App() {
   return (
@@ -89,22 +90,27 @@ function App() {
                       />
 
                       {/* Teacher onboarding */}
-                      <Route path="welcome-teacher" element={<WelcomePage />} />
-                      <Route
-                        path="update-languages"
-                        element={<TeacherLanguages />}
-                      />
-                      <Route path="subject" element={<Subjects />} />
-                      <Route path="description" element={<Description />} />
-                      <Route path="video" element={<UploadVideo />} />
-                      <Route
-                        path="teacher-offers"
-                        element={<TeacherOffers />}
-                      />
-                      <Route
-                        path="onboarding-complete"
-                        element={<OnboardingComplete />}
-                      />
+                      <Route path="onboarding" element={<OnboardingLayout />}>
+                        <Route
+                          path="welcome-teacher"
+                          element={<WelcomePage />}
+                        />
+                        <Route
+                          path="update-languages"
+                          element={<TeacherLanguages />}
+                        />
+                        <Route path="subject" element={<Subjects />} />
+                        <Route path="description" element={<Description />} />
+                        <Route path="video" element={<UploadVideo />} />
+                        <Route
+                          path="teacher-offers"
+                          element={<TeacherOffers />}
+                        />
+                        <Route
+                          path="onboarding-complete"
+                          element={<OnboardingComplete />}
+                        />
+                      </Route>
 
                       {/* Main Page */}
                       <Route path="/" element={<Applayout />}>

@@ -4,7 +4,7 @@ import utc from "dayjs/plugin/utc";
 import { useLessons } from "../api/features/useLessons";
 import { useBookLesson } from "../api/features/useBookLesson";
 import type { Slot } from "../contexts/BookingContextData";
-import { formatLessonDate, toNormalStr } from "../helpers/features";
+import { toNormalStr } from "../helpers/features";
 import { useBookingConfirmation } from "../api/emails/useBookingConfirmation";
 import { bookingConfirmationEmail } from "../api/emails/bookingConfirmation";
 import { useTeachers } from "../api/features/useTeachers";
@@ -46,23 +46,34 @@ export default function BookingConfirmation() {
     .utc(currentLesson![0].end_time)
     .format("HH:mm");
 
-  const studentStartTime = formatLessonDate(
-    data.startTime,
-    data.studentTimezone,
-    "HH:mm",
-  );
-  const teacherStartTime = formatLessonDate(
-    data.startTime,
-    data.teacherTimezone,
-    "HH:mm",
-  );
+  // const studentStartTime = formatLessonDate(
+  //   data.startTime,
+  //   data.studentTimezone,
+  //   "HH:mm",
+  // );
+  // const teacherStartTime = formatLessonDate(
+  //   data.startTime,
+  //   data.teacherTimezone,
+  //   "HH:mm",
+  // );
   const bookingDate = dayjs.utc(data.startTime).format("MMMM D");
-  const studentEndTime = dayjs(data.startTime)
-    .add(data.duration, "minute")
-    .format("HH:mm");
-  const teacherEndTime = dayjs(teacherStartTime)
-    .add(data.duration, "minute")
-    .format("HH:mm");
+  // const studentEndTime = dayjs(data.startTime)
+  //   .add(data.duration, "minute")
+  //   .format("HH:mm");
+  // const teacherEndTime = dayjs(teacherStartTime)
+  //   .add(data.duration, "minute")
+  //   .format("HH:mm");
+
+  const lessonStart = dayjs.utc(data.startTime);
+  const lessonEnd = lessonStart.add(data.duration, "minute");
+
+  const studentStartTime = lessonStart.tz(data.studentTimezone).format("HH:mm");
+
+  const studentEndTime = lessonEnd.tz(data.studentTimezone).format("HH:mm");
+
+  const teacherStartTime = lessonStart.tz(data.teacherTimezone).format("HH:mm");
+
+  const teacherEndTime = lessonEnd.tz(data.teacherTimezone).format("HH:mm");
 
   const currentLessonDuration = currentLesson![0].duration;
 
