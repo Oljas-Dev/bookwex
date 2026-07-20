@@ -30,7 +30,10 @@ export default function Settings({ user }: { user: currentUser | undefined }) {
         <p className="hover:text-amber-100">edit profile</p>
       </div>
       <div className="flex flex-col gap-3">
-        <Link to="/change-password" className="text-lg hover:text-amber-100">
+        <Link
+          to="/auth/change-password"
+          className="text-lg hover:text-amber-100"
+        >
           change password
         </Link>
         {isTeacher && (
@@ -43,7 +46,7 @@ export default function Settings({ user }: { user: currentUser | undefined }) {
         )}
         {!isTeacher && (
           <Link
-            to={"/profile/become-teacher"}
+            to={"/auth/become-teacher"}
             className="text-lg hover:text-amber-100"
           >
             become a teacher

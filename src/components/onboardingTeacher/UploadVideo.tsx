@@ -46,7 +46,7 @@ export default function UploadVideo() {
       // 2. DB update
       await updateTeacherData(user.id, updates);
 
-      navigate("/teacher-offers");
+      navigate("/onboarding/teacher-offers");
     } catch (err) {
       console.error(err);
       toast.error("Failed to update profile");

@@ -16,7 +16,7 @@ export function useUpdateDescriptions() {
     }) => updateDescriptions(teacherId, descriptions),
 
     onSuccess: () => {
-      navigate("/video");
+      navigate("/onboarding/video");
     },
   });
 

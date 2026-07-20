@@ -73,7 +73,7 @@ export default function TeacherOffers() {
     }
 
     updateLessons(data.offers);
-    navigate("/onboarding-complete");
+    navigate("/onboarding/complete");
   }
 
   return (

@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../contexts/useAuth";
 import { useConversations } from "../../chats/features/useConversations";
 import {
@@ -14,7 +14,6 @@ export default function Menu({ teacherId }: { teacherId: string }) {
   const { user, setCurrentTeacherId } = useAuth();
   const isAuthenticated = user?.role === "authenticated";
   const { data: unreadMessages, isPending } = useConversations();
-  const { teacherName } = useParams();
 
   const navigate = useNavigate();
 
@@ -39,14 +38,14 @@ export default function Menu({ teacherId }: { teacherId: string }) {
               <PersonFill />
             </li>
             <li>
-              <Link to={`/teacher/${teacherName}/logout`}>log out</Link>
+              <Link to={`/auth/logout`}>log out</Link>
             </li>
           </>
         ) : (
           <>
             <li>
               <Link
-                to={`/login`}
+                to={"/auth/login"}
                 onClick={() => setCurrentTeacherId(teacherId)}
               >
                 login
@@ -54,7 +53,7 @@ export default function Menu({ teacherId }: { teacherId: string }) {
             </li>
             <li>
               <Link
-                to={`/signup`}
+                to={"/auth/signup"}
                 onClick={() => setCurrentTeacherId(teacherId)}
               >
                 sign up
@@ -91,7 +90,7 @@ export default function Menu({ teacherId }: { teacherId: string }) {
                 </li>
 
                 <li className="p-3 hover:bg-gray-100">
-                  <Link to={`/teacher/${teacherName}/logout`}>Log out</Link>
+                  <Link to={`/auth/logout`}>Log out</Link>
                 </li>
               </>
             ) : (
@@ -107,7 +106,7 @@ export default function Menu({ teacherId }: { teacherId: string }) {
 
                 <li className="p-3 hover:bg-gray-100">
                   <Link
-                    to="/signup"
+                    to="/auth/signup"
                     onClick={() => setCurrentTeacherId(teacherId)}
                   >
                     Sign up

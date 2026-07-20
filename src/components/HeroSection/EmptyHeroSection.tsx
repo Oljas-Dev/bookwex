@@ -17,7 +17,7 @@ export default function EmptyHeroSection({
   const navigate = useNavigate();
 
   function handleOpenDialog() {
-    navigate("/welcome-teacher");
+    navigate("/onboarding/welcome-teacher");
   }
 
   return (

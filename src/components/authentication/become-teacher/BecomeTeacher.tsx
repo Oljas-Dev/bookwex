@@ -1,23 +1,15 @@
-import { ArrowLeft } from "react-bootstrap-icons";
-import { useBecomeTeacher } from "../../../api/features/useBecomeTeacher";
-import { useAuth } from "../../../contexts/useAuth";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../contexts/useAuth";
 
 export default function BecomeTeacher() {
-  const { profile, isAuthenticated } = useAuth();
-  const { activateTeacher } = useBecomeTeacher();
+  const { isAuthenticated } = useAuth();
 
   const navigate = useNavigate();
 
   return (
-    <article className="flex flex-col gap-2 text-center justify-center items-center  mx-auto px-6 py-4 min-h-screen max-[350px]:px-4">
+    <div className="flex justify-center">
       {isAuthenticated ? (
-        <div className="bg-secondary-bg flex flex-col gap-4 items-center w-[50%] rounded-xl px-4 py-6 border border-jet/30 max-[1000px]:w-[80%] max-[600px]:w-full max-[500px]:[&_p]:text-sm">
-          <ArrowLeft
-            style={{ alignSelf: "start", cursor: "pointer" }}
-            onClick={() => navigate(-1)}
-          />
-
+        <div className="bg-secondary-bg flex flex-col items-center gap-4 w-[50%] rounded-xl px-4 py-6 border border-jet/30 max-[1000px]:w-[80%] max-[600px]:w-full max-[500px]:[&_p]:text-sm">
           <div className="flex flex-col gap-6 text-lg [&_p]:text-lg max-[500px]:text-sm">
             <h2 className="max-[500px]:text-xl">Early access on Bookwex 🚀</h2>
             <h3 className="max-[500px]:text-xl">Welcome! 🎉</h3>
@@ -54,7 +46,7 @@ export default function BecomeTeacher() {
           </div>
           <button
             className="bg-jet text-jade hover:text-amber-200 w-fit"
-            onClick={() => activateTeacher(profile?.id)}
+            onClick={() => navigate("/service-terms")}
           >
             Become a teacher
           </button>
@@ -62,6 +54,6 @@ export default function BecomeTeacher() {
       ) : (
         <p>Please log in or sign up</p>
       )}
-    </article>
+    </div>
   );
 }

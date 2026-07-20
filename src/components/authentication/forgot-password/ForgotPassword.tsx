@@ -25,7 +25,7 @@ export default function ForgotPassword() {
     setLoading(true);
 
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: "http://localhost:5173/reset-password",
+      redirectTo: "http://bookwex.com/auth/reset-password",
     });
 
     if (error) {
@@ -38,7 +38,7 @@ export default function ForgotPassword() {
   }
 
   return (
-    <div className="flex flex-col gap-2 text-center justify-center  mx-auto px-10 h-screen max-[350px]:px-4">
+    <>
       <div className="flex flex-col gap-3 px-4 pt-3 pb-6">
         <h2>We'll send a reset link to your email</h2>
         <h3>Please enter correct email</h3>
@@ -63,6 +63,6 @@ export default function ForgotPassword() {
         </form>
         {error && <p className="text-red-600">{error}</p>}
       </div>
-    </div>
+    </>
   );
 }

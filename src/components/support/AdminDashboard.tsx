@@ -6,10 +6,9 @@ export default function AdminDashboard() {
   const { data } = useAdminMessages();
   const { profiles } = useAuth();
 
-  // console.log(data);
-
   return (
     <div className="flex flex-col gap-6 min-h-screen py-6 px-8">
+      <nav></nav>
       <h2>Admin Dashboard</h2>
 
       <ul>

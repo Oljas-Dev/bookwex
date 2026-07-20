@@ -41,12 +41,13 @@ export default function ChangePasswordDialog() {
       },
     });
   }
+
+  // className="
+  //   fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 backdrop:bg-black/0 backdrop:backdrop-blur-xs open:backdrop:bg-black/50 transition-all rounded
+  // "
+
   return (
-    <div
-      className="
-    fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 backdrop:bg-black/0 backdrop:backdrop-blur-xs open:backdrop:bg-black/50 transition-all rounded
-  "
-    >
+    <>
       <div className="flex flex-col gap-3 px-4 pt-3 pb-6">
         <h2>Change your password</h2>
         <form onSubmit={handleSubmit} className="flex gap-2 min-w-75">
@@ -88,6 +89,6 @@ export default function ChangePasswordDialog() {
           </p>
         </div> */}
       </div>
-    </div>
+    </>
   );
 }

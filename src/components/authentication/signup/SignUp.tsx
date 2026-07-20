@@ -1,4 +1,3 @@
-import { ArrowLeft } from "react-bootstrap-icons";
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSignUp } from "../../../api/features/useSignUp";
@@ -6,6 +5,7 @@ import { useAuth } from "../../../contexts/useAuth";
 import { isNameAvailable } from "./isNameAvailable";
 import { useEmailAvailability } from "./useEmailAvailability";
 import PasswordStrengthMeter from "./PasswordStrengthMeter";
+import { emailRegex, passwordRegex } from "../../../helpers/variables";
 // import { useVerificationEmail } from "../../../../emails/features/useVerificationEmail";
 
 export default function SignUp() {
@@ -20,7 +20,7 @@ export default function SignUp() {
     //   fullName: full_name,
     // });
 
-    navigate(`/success-signup`);
+    navigate("/auth/success-signup");
   });
 
   const [email, setEmail] = useState("");
@@ -30,9 +30,6 @@ export default function SignUp() {
   const [error, setError] = useState("");
 
   const { isAvailable, isLoading } = useEmailAvailability(email);
-
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -87,11 +84,7 @@ export default function SignUp() {
   }
 
   return (
-    <div className="flex flex-col gap-2 text-center justify-center mx-auto px-10 h-screen max-[350px]:px-4">
-      <ArrowLeft
-        style={{ alignSelf: "start", cursor: "pointer" }}
-        onClick={() => navigate(-1)}
-      />
+    <>
       <div className="text-center">Sign up to become a student</div>
       <div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -161,11 +154,11 @@ export default function SignUp() {
       <div className="flex flex-col items-center gap-2">
         <p>
           Already have account?{" "}
-          <Link to={`/login`}>
+          <Link to={`/auth/login`}>
             <strong>Sign in</strong>
           </Link>
         </p>
       </div>
-    </div>
+    </>
   );
 }

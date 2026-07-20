@@ -14,7 +14,7 @@ export default function WelcomePage() {
   const navigate = useNavigate();
 
   const { updateYear, isPending } = useUpdateYear(() => {
-    navigate("/update-languages");
+    navigate("/onboarding/update-languages");
   });
   const {
     register,

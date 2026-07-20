@@ -21,7 +21,7 @@ export default function TeacherLanguages() {
   const navigate = useNavigate();
 
   const { updateLanguage, isPending } = useUpdateLanguages(() => {
-    navigate("/subject");
+    navigate("/onboarding/subject");
   });
 
   const {

@@ -22,7 +22,7 @@ export default function Subjects() {
   const navigate = useNavigate();
 
   const { updateSubjects, isPending } = useUpdateSubjects(() => {
-    navigate("/description");
+    navigate("/onboarding/description");
   });
   const {
     register,

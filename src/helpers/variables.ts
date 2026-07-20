@@ -18,3 +18,6 @@ export const rawDialogData = {
 };
 
 export const REVIEW_EDIT_DAYS = 7;
+
+export const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

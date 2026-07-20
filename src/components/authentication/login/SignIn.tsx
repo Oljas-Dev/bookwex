@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogin } from "../../../api/features/useSingIn";
-import { ArrowLeft } from "react-bootstrap-icons";
 import toast from "react-hot-toast";
 
 export default function SignIn() {
@@ -31,11 +30,7 @@ export default function SignIn() {
   }
 
   return (
-    <div className="flex flex-col gap-2 text-center justify-center  mx-auto px-10 h-screen max-[350px]:px-4">
-      <ArrowLeft
-        style={{ alignSelf: "start", cursor: "pointer" }}
-        onClick={() => navigate(-1)}
-      />
+    <>
       <div className="text-center">Sign in to access the Tutor Web App</div>
       <div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -75,18 +70,18 @@ export default function SignIn() {
       <div className="flex flex-col items-center gap-2">
         <p>
           Forgot your{" "}
-          <Link to={"/forgot-password"}>
+          <Link to={"/auth/forgot-password"}>
             <strong>password</strong>
           </Link>
           ?{" "}
         </p>
         <p>
           Don't have account yet?{" "}
-          <Link to={`/signup`}>
+          <Link to={`/auth/signup`}>
             <strong>Sign up</strong>
           </Link>
         </p>
       </div>
-    </div>
+    </>
   );
 }
