@@ -46,23 +46,7 @@ export default function BookingConfirmation() {
     .utc(currentLesson![0].end_time)
     .format("HH:mm");
 
-  // const studentStartTime = formatLessonDate(
-  //   data.startTime,
-  //   data.studentTimezone,
-  //   "HH:mm",
-  // );
-  // const teacherStartTime = formatLessonDate(
-  //   data.startTime,
-  //   data.teacherTimezone,
-  //   "HH:mm",
-  // );
   const bookingDate = dayjs.utc(data.startTime).format("MMMM D");
-  // const studentEndTime = dayjs(data.startTime)
-  //   .add(data.duration, "minute")
-  //   .format("HH:mm");
-  // const teacherEndTime = dayjs(teacherStartTime)
-  //   .add(data.duration, "minute")
-  //   .format("HH:mm");
 
   const lessonStart = dayjs.utc(data.startTime);
   const lessonEnd = lessonStart.add(data.duration, "minute");

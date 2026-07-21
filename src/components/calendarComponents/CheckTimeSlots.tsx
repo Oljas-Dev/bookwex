@@ -106,7 +106,7 @@ export default function CheckTimeSlots() {
 
     // Depending on dialogState status open a chat room for discussions, cancellation window or deletion window
     if (dialogState === "chat") {
-      navigate(`/teacher/${teacherName}/chat-room/${slot.id}`);
+      navigate(`/chat-room/${slot.id}`);
     } else if (dialogState === "cancel") {
       cancelBooking({ bookingId: currentBookedSlot?.id });
     } else {
@@ -152,7 +152,7 @@ export default function CheckTimeSlots() {
             <p>
               Please{" "}
               <Link
-                to={`/login`}
+                to={`/auth/login`}
                 className="text-blue-800"
                 onClick={() => setCurrentTeacherId(teacherId)}
               >
@@ -160,7 +160,7 @@ export default function CheckTimeSlots() {
               </Link>{" "}
               or{" "}
               <Link
-                to={`/signup`}
+                to={`/auth/signup`}
                 className="text-blue-800"
                 onClick={() => setCurrentTeacherId(teacherId)}
               >

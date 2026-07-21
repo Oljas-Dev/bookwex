@@ -34,7 +34,7 @@ export default function SignupTeacher() {
   function onSubmit(data: FormValues) {
     signupTeacher(data, {
       onSuccess() {
-        navigate("/success-signup");
+        navigate("/auth/success-signup");
       },
     });
   }

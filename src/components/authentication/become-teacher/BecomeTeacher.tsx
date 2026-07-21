@@ -1,10 +1,9 @@
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../contexts/useAuth";
+import { useBecomeTeacher } from "../../../api/features/useBecomeTeacher";
 
 export default function BecomeTeacher() {
-  const { isAuthenticated } = useAuth();
-
-  const navigate = useNavigate();
+  const { isAuthenticated, profile } = useAuth();
+  const { activateTeacher } = useBecomeTeacher();
 
   return (
     <div className="flex justify-center">
@@ -46,7 +45,7 @@ export default function BecomeTeacher() {
           </div>
           <button
             className="bg-jet text-jade hover:text-amber-200 w-fit"
-            onClick={() => navigate("/service-terms")}
+            onClick={() => activateTeacher(profile?.id)}
           >
             Become a teacher
           </button>

@@ -8,6 +8,7 @@ import {
   ThreeDotsVertical,
 } from "react-bootstrap-icons";
 import { useState } from "react";
+import { scrollToSection } from "../../../helpers/features";
 
 export default function Menu({ teacherId }: { teacherId: string }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,7 +25,7 @@ export default function Menu({ teacherId }: { teacherId: string }) {
 
   return (
     <>
-      <ul className="hidden min-[500px]:flex gap-5 text-xl [&_li]:hover:scale-110 [&_li]:active:scale-90">
+      <ul className="hidden min-[600px]:flex gap-5 text-xl [&_li]:hover:scale-110 [&_li]:active:scale-90">
         {isAuthenticated ? (
           <>
             <li onClick={() => navigate(`/chat-room`)}>
@@ -63,7 +64,7 @@ export default function Menu({ teacherId }: { teacherId: string }) {
         )}
       </ul>
 
-      <div className="relative min-[500px]:hidden">
+      <div className="relative min-[600px]:hidden">
         <button
           onClick={() => setIsMenuOpen((open) => !open)}
           className="p-2 bg-transparent border-none"
@@ -72,7 +73,7 @@ export default function Menu({ teacherId }: { teacherId: string }) {
         </button>
 
         {isMenuOpen && (
-          <ul className="absolute right-0 mt-2 w-40 rounded-lg bg-white shadow-lg border z-50">
+          <ul className="absolute right-0 mt-2 w-40 rounded-lg bg-white shadow-lg border z-50 text-xl">
             {isAuthenticated ? (
               <>
                 <li
@@ -89,15 +90,53 @@ export default function Menu({ teacherId }: { teacherId: string }) {
                   Profile
                 </li>
 
+                <li
+                  className="p-3 hover:bg-gray-100 min-[500px]:hidden"
+                  onClick={() => scrollToSection("calendar")}
+                >
+                  calendar
+                </li>
+                <li
+                  className="p-3 hover:bg-gray-100 min-[500px]:hidden"
+                  onClick={() => scrollToSection("reviewsSection")}
+                >
+                  reviews
+                </li>
+                <li
+                  className="p-3 hover:bg-gray-100 min-[500px]:hidden"
+                  onClick={() => scrollToSection("myOfferSection")}
+                >
+                  plans
+                </li>
+
                 <li className="p-3 hover:bg-gray-100">
                   <Link to={`/auth/logout`}>Log out</Link>
                 </li>
               </>
             ) : (
               <>
+                <li
+                  className="p-3 hover:bg-gray-100 min-[500px]:hidden"
+                  onClick={() => scrollToSection("calendar")}
+                >
+                  calendar
+                </li>
+                <li
+                  className="p-3 hover:bg-gray-100 min-[500px]:hidden"
+                  onClick={() => scrollToSection("reviewsSection")}
+                >
+                  reviews
+                </li>
+                <li
+                  className="p-3 hover:bg-gray-100 min-[500px]:hidden"
+                  onClick={() => scrollToSection("myOfferSection")}
+                >
+                  plans
+                </li>
+
                 <li className="p-3 hover:bg-gray-100">
                   <Link
-                    to="/login"
+                    to="/auth/login"
                     onClick={() => setCurrentTeacherId(teacherId)}
                   >
                     Login

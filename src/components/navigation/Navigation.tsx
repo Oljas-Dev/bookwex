@@ -8,7 +8,7 @@ export default function Navigation({ teacherId }: { teacherId: string }) {
       <Link to="/">
         <h2>Bookwex</h2>
       </Link>
-      <ul className="flex gap-5 max-[400px]:gap-2">
+      <ul className="flex gap-5 max-[400px]:gap-2 max-[500px]:hidden">
         <li onClick={() => scrollToSection("calendar")}>calendar</li>
         <li onClick={() => scrollToSection("reviewsSection")}>reviews</li>
         <li onClick={() => scrollToSection("myOfferSection")}>plans</li>
