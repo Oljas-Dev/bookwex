@@ -12,7 +12,7 @@ export default function HoverInfo({
   return (
     <div className="group relative flex flex-col items-center pt-8">
       <p
-        className={`absolute top-0 opacity-0 -translate-y-6 transition-all duration-300 group-hover:opacity-100 group-hover:${translate}`}
+        className={`absolute top-0 opacity-0 -translate-y-6 transition-all duration-300 group-hover:opacity-100 ${translate}`}
       >
         {text}
       </p>

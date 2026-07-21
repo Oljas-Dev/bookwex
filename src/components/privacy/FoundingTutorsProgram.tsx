@@ -53,11 +53,17 @@ export default function FoundingTutorsProgram() {
       <div className="flex justify-center gap-3 text-center max-[500px]:flex-wrap max-[500px]:gap-y-0">
         {isFoundingTutor ? (
           <>
-            <HoverInfo translate="-translate-y-3" text="back to homepage">
+            <HoverInfo
+              translate="group-hover:-translate-y-3"
+              text="back to homepage"
+            >
               <Button fn={() => navigate("/")}>back</Button>
             </HoverInfo>
 
-            <HoverInfo translate="translate-y-1" text="with privileges">
+            <HoverInfo
+              translate="group-hover:translate-y-1"
+              text="with privileges"
+            >
               <Button
                 fn={() => tutorChoice("founder")}
                 disabled={!hasScrolledToBottom}
@@ -66,7 +72,10 @@ export default function FoundingTutorsProgram() {
               </Button>
             </HoverInfo>
 
-            <HoverInfo translate="translate-y-1" text="without privileges">
+            <HoverInfo
+              translate="group-hover:translate-y-1"
+              text="without privileges"
+            >
               <Button
                 fn={() => tutorChoice("standard")}
                 disabled={!hasScrolledToBottom}
@@ -90,3 +99,5 @@ export default function FoundingTutorsProgram() {
     </div>
   );
 }
+
+// Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa dolor sit ducimus ullam maiores accusamus, similique saepe placeat vero dicta nemo totam accusantium doloremque explicabo, minima consequuntur tenetur. Soluta, minima.

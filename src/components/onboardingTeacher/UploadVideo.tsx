@@ -116,7 +116,10 @@ export default function UploadVideo() {
           <button type="submit" disabled={loading}>
             {loading ? "uploading..." : "next step"}
           </button>
-          <button type="button" onClick={() => navigate("/teacher-offers")}>
+          <button
+            type="button"
+            onClick={() => navigate("/onboarding/teacher-offers")}
+          >
             skip
           </button>
         </div>
