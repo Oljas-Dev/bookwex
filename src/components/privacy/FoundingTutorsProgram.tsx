@@ -99,5 +99,3 @@ export default function FoundingTutorsProgram() {
     </div>
   );
 }
-
-// Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa dolor sit ducimus ullam maiores accusamus, similique saepe placeat vero dicta nemo totam accusantium doloremque explicabo, minima consequuntur tenetur. Soluta, minima.

@@ -10,11 +10,13 @@ import FAQ from "./ui/FAQ";
 import CTA from "./ui/CTA";
 import Footer from "../footer/Footer";
 import DemoPagePresentation from "./ui/DemoPagePresentation";
+import SEO from "../SEO";
 
 import firstImage from "./../../assets/homepage-1.png";
 import secondImage from "./../../assets/homepage-2.png";
 import thirdImage from "./../../assets/homepage-3.png";
 import fourthImage from "./../../assets/homepage-4.png";
+import { homepageSchema } from "../../helpers/seo/schemas";
 
 export default function BookwexLanding() {
   const { user, isTeacher, isAdmin } = useAuth();
@@ -22,7 +24,12 @@ export default function BookwexLanding() {
 
   return (
     <>
-      {" "}
+      <SEO
+        title="Bookwex – Manage Your Tutoring Business"
+        description="Bookwex helps independent tutors manage bookings, schedules, students, and their professional online presence."
+        canonical="https://bookwex.com/"
+        schema={homepageSchema}
+      />
       <HomepageNav isUser={isAuthenticated} />
       <div className="flex flex-col gap-17 [&_h2]:text-3xl [&_h2]:font-bold max-[400px]:[&_h2]:text-xl">
         <SectionWithPicture
@@ -31,7 +38,7 @@ export default function BookwexLanding() {
           img={firstImage}
         >
           <div className="flex flex-col pt-9 max-[900px]:gap-4">
-            <h2>The easiest way to manage your tutoring business.</h2>
+            <h1>The easiest way to manage your tutoring business.</h1>
             <p className="flex-1 place-content-center">
               Bookwex helps tutors schedule lessons, accept bookings, and share
               a professional profile—all in one place.

@@ -11,8 +11,6 @@ export default function MyChats() {
 
   if (isPending) return <p>loading messages... </p>;
 
-  console.log(conversations?.length);
-
   return (
     <section className="flex justify-center w-full px-4 py-6">
       <div className="w-[60%] max-[900px]:w-[80%] max-[400px]:w-full">

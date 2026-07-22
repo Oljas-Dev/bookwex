@@ -97,7 +97,7 @@ export const footerLinks = [
   {
     id: "001",
     section: "Platform",
-    links: [{ text: "Become a Teacher", href: "/signup-teacher" }],
+    links: [{ text: "Become a Teacher", href: "/auth/service-terms" }],
   },
   {
     id: "002",
@@ -137,7 +137,8 @@ export const aboutData: LegalData = [
     number: 1,
     heading: "Our Mission",
     paragraphs: [
-      "Bookwex exists to help independent tutors spend less time managing their business and more time doing what they love—teaching.",
+      "Bookwex exists to help independent tutors build and manage their teaching business from one place.",
+      "Instead of juggling multiple tools for scheduling, bookings, communication, and student management, tutors can focus on delivering great lessons while Bookwex handles the administrative side.",
     ],
   },
 
@@ -171,6 +172,16 @@ export const aboutData: LegalData = [
   {
     type: "section",
     number: 4,
+    heading: "Our Vision",
+    paragraphs: [
+      "We believe independent tutors should have access to the same professional tools as larger education companies.",
+      "Our long-term vision is to make it easy for anyone to build a successful tutoring business, regardless of where they teach or how many students they have.",
+    ],
+  },
+
+  {
+    type: "section",
+    number: 5,
     heading: "Beta",
     paragraphs: [
       "Bookwex is currently in beta.",
@@ -180,7 +191,7 @@ export const aboutData: LegalData = [
 
   {
     type: "section",
-    number: 5,
+    number: 6,
     heading: "Founding Tutors",
     paragraphs: [
       "We're inviting our first 20 Founding Tutors to help shape the future of Bookwex.",
@@ -190,23 +201,23 @@ export const aboutData: LegalData = [
 
   {
     type: "section",
-    number: 6,
+    number: 7,
     heading: "Meet the Founder",
     paragraphs: [
-      "Hi, I'm Oljas, the creator of Bookwex.",
-      "I built Bookwex because I believe tutors deserve modern tools that help them run their business professionally without unnecessary complexity.",
-      "My goal is to create a platform that gives tutors more time to focus on teaching while making it easier for students to discover and book lessons.",
-      "Bookwex is an independent project, and every piece of feedback helps shape what comes next.",
+      "Hi, I'm Oljas Medetbayev, founder of Bookwex.",
+      "I created Bookwex after seeing how many independent tutors relied on disconnected tools to manage their teaching business. Scheduling lessons, sharing meeting links, collecting reviews, and presenting a professional online presence often required multiple platforms.",
+      "My vision is to simplify that experience by bringing everything together into one platform built specifically for tutors.",
+      "Bookwex is independently developed, and feedback from our community plays an important role in shaping its future.",
       "Thank you for being part of this journey.",
     ],
   },
 
   {
     type: "section",
-    number: 7,
+    number: 8,
     heading: "Contact",
     paragraphs: [
-      "Have a question, suggestion, or just want to say hello?",
+      "We'd love to hear your ideas, questions, or feedback.",
       "hello@bookwex.com",
     ],
   },
