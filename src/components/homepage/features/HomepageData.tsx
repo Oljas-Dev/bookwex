@@ -97,7 +97,7 @@ export const footerLinks = [
   {
     id: "001",
     section: "Platform",
-    links: [{ text: "Become a Teacher", href: "/auth/service-terms" }],
+    links: [{ text: "Become a Teacher", href: "/service-terms" }],
   },
   {
     id: "002",
