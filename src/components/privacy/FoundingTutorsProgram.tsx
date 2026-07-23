@@ -2,11 +2,13 @@ import LegalDocument from "./ui/LegalDocument";
 import { foundingTutorsData } from "./features/foundingTutors";
 import Button from "../../ui/Button";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import HoverInfo from "../../ui/HoverInfo";
 import { termsOfServiceData } from "./features/termOfService";
 import { useRef, useState } from "react";
+import { useAuth } from "../../contexts/useAuth";
+import FounderTermsUi from "./ui/FounderTermsUi";
 
 export default function FoundingTutorsProgram() {
+  const { isAdmin, isTeacher } = useAuth();
   const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
   const [searchParams] = useSearchParams();
 
@@ -14,10 +16,11 @@ export default function FoundingTutorsProgram() {
 
   const navigate = useNavigate();
 
+  const alreadyTutor = isAdmin || isTeacher;
+
   const isFoundingTutor = searchParams.get("program") === "founder";
 
   function tutorChoice(tutorType: string) {
-    localStorage.setItem("tutor_type", tutorType);
     navigate(
       tutorType === "founder"
         ? "/auth/signup-teacher?program=founder"
@@ -52,46 +55,19 @@ export default function FoundingTutorsProgram() {
       </div>
       <div className="flex justify-center gap-3 text-center max-[500px]:flex-wrap max-[500px]:gap-y-0">
         {isFoundingTutor ? (
-          <>
-            <HoverInfo
-              translate="group-hover:-translate-y-3"
-              text="back to homepage"
-            >
-              <Button fn={() => navigate("/")}>back</Button>
-            </HoverInfo>
-
-            <HoverInfo
-              translate="group-hover:translate-y-1"
-              text="with privileges"
-            >
-              <Button
-                fn={() => tutorChoice("founder")}
-                disabled={!hasScrolledToBottom}
-              >
-                continue as founder
-              </Button>
-            </HoverInfo>
-
-            <HoverInfo
-              translate="group-hover:translate-y-1"
-              text="without privileges"
-            >
-              <Button
-                fn={() => tutorChoice("standard")}
-                disabled={!hasScrolledToBottom}
-              >
-                become tutor
-              </Button>
-            </HoverInfo>
-          </>
+          <FounderTermsUi
+            isTutor={alreadyTutor}
+            scrollCheck={hasScrolledToBottom}
+            tutorChoice={tutorChoice}
+          />
         ) : (
           <>
             <Button fn={() => navigate("/")}>back</Button>
             <Button
               fn={() => tutorChoice("standard")}
-              disabled={!hasScrolledToBottom}
+              disabled={!hasScrolledToBottom || alreadyTutor}
             >
-              become tutor
+              {alreadyTutor ? "already tutor" : "become tutor"}
             </Button>
           </>
         )}

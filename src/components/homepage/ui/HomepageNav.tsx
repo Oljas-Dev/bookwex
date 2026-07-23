@@ -2,6 +2,7 @@ import { DoorOpenFill, PersonFill } from "react-bootstrap-icons";
 import { scrollToSection } from "../../../helpers/features";
 import IconButton from "../../../ui/IconButton";
 import { Link } from "react-router-dom";
+import NavLogo from "../../../ui/NavLogo";
 
 export default function HomepageNav({
   isUser,
@@ -10,7 +11,7 @@ export default function HomepageNav({
 }) {
   return (
     <nav className="flex justify-between w-full pt-8 pb-3 pl-18 pr-6 max-[500px]:pl-4 max-[400px]:py-5">
-      <h2 className="text-3xl font-bold">Bookwex</h2>
+      <NavLogo />
       {isUser ? (
         <ul className="flex items-center gap-4">
           <Link to="/profile">

@@ -36,16 +36,6 @@ export default function BookingConfirmation() {
     (lesson) => lesson.id === idParams,
   );
 
-  const currentLessonDate = dayjs
-    .utc(currentLesson![0].start_time)
-    .format("MMMM D");
-  const currentLessonStartTime = dayjs
-    .utc(currentLesson![0].start_time)
-    .format("HH:mm");
-  const currentLessonEndTime = dayjs
-    .utc(currentLesson![0].end_time)
-    .format("HH:mm");
-
   const bookingDate = dayjs.utc(data.startTime).format("MMMM D");
 
   const lessonStart = dayjs.utc(data.startTime);
@@ -84,7 +74,7 @@ export default function BookingConfirmation() {
   return (
     <section className="flex justify-center w-full px-4 py-6">
       <div className="flex flex-col gap-4 w-[50%] text-center max-[700px]:w-[90%] max-[400px]:w-full">
-        <h2>Booking Confirmation on {currentLessonDate}</h2>
+        <h2>Booking Confirmation on {bookingDate}</h2>
         <div>
           <h3 className="text-left">Lesson duration</h3>
           <p className="bg-jade items-center py-2 rounded">
@@ -95,8 +85,8 @@ export default function BookingConfirmation() {
         <div>
           <h3 className="text-left">Lesson time</h3>
           <p className="bg-jade items-center py-2 rounded">
-            from <strong>{currentLessonStartTime}</strong> to{" "}
-            <strong>{currentLessonEndTime}</strong>
+            from <strong>{studentStartTime}</strong> to{" "}
+            <strong>{studentEndTime}</strong>
           </p>
         </div>
 
