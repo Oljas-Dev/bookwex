@@ -24,31 +24,27 @@ The goal is to reduce administrative work so tutors can spend more time teaching
   <img src="./screenshots/homepage.png" width="100%" />
 </p>
 
-### Teacher Profile
+### Teacher Dashboard
 
-![Teacher Profile](./screenshots/teacher_dashboard.png)
+![Teacher Dashboard](./screenshots/teacher_dashboard.png)
 
-### Teacher Page
+### Teacher Public Profile
 
-![Teacher Page: Teacher view](./screenshots/teacher_page.png)
+![Teacher Public Profile: Teacher view](./screenshots/teacher_page.png)
 
-### Student Profile
+### Student Dashboard
 
-![Student Profile](./screenshots/student_page.png)
+![Student Dashboard](./screenshots/student_dashboard.png)
 
-### Student's view of Teacher Page
+### Student's view of Teacher Profile
 
-![Student's view of Teacher Page](./screenshots/teacher_page_student_view.png)
+![Student's view of Teacher Profile](./screenshots/teacher_page_student_view.png)
 
-### Lesson slots on specific date
+### Booking flow
 
 ![Lesson Slots](./screenshots/booking_slots.png)
 
-### Booking confirmation
-
 ![Booking confirmation](./screenshots/booking_confirmation.png)
-
-### Booking confirmed, Email sent
 
 ![Booking confirmed](./screenshots/booked_lesson.png)
 
