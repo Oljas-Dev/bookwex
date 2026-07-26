@@ -12,7 +12,11 @@ import { useTeachers } from "../api/features/useTeachers";
 dayjs.extend(utc);
 
 export default function BookingConfirmation() {
-  const { teacherName } = useParams();
+  const { teacherName, lessonId } = useParams();
+  // const { lessonId } = useParams();
+  // const { teacherId } = useParams();
+
+  // console.log(teacherId);
 
   const { profiles } = useTeachers();
 
@@ -22,7 +26,6 @@ export default function BookingConfirmation() {
 
   const { lessons } = useLessons(currentTeacher?.id);
   const { bookLesson, isBooking } = useBookLesson();
-  const { lessonId } = useParams();
   const navigate = useNavigate();
   const { data, isLoading } = useBookingConfirmation(lessonId?.substring(9));
 

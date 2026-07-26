@@ -19,11 +19,11 @@ export const teacherRoutes = (
         }
       />
       <Route
-        path=":teacherName/bookLesson/:dayId"
+        path=":teacherName/bookLesson/:dayId/:teacherId"
         element={<CheckTimeSlots />}
       />
       <Route
-        path=":teacherName/bookLesson/:dayId/:lessonId"
+        path=":teacherName/bookLesson/:dayId/:teacherId/:lessonId"
         element={<BookingConfirmation />}
       />
     </Route>

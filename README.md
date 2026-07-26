@@ -98,7 +98,7 @@ Currently in Public Beta.
 ## Development Principles
 
 - Component-first architecture
-- Mobile-first responsive design
+- Desktop-first responsive design
 - Type-safe development with TypeScript
 - Secure backend with PostgreSQL Row Level Security
 - Reusable and maintainable codebase
@@ -123,9 +123,9 @@ Currently in Public Beta.
 - 📘 TypeScript
 - ⚡ Vite
 - 🎨 Tailwind CSS
-- 🌴 React Router
+- 🔄 React Router
 - ☑️ React Hook Form
-- 🔄 React Query
+- 🌴 React Query
 
 ### Backend
 
@@ -144,7 +144,7 @@ Currently in Public Beta.
 
 - 🔷 ESLint
 - 🅿️ Prettier
-- 🐈‍⬛ Git
+- 🔶 Git
 - 🐈‍⬛ GitHub
 
 ## Architecture

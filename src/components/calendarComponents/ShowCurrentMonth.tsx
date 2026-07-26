@@ -1,4 +1,4 @@
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import type { Slot } from "../../contexts/BookingContextData";
 import { useCalendar } from "../../contexts/CalendarContext";
 import SmallBlock from "../../ui/SmallBlock";
@@ -13,10 +13,7 @@ export default function ShowCurrentMonth({
 }) {
   const { isTeacher } = useAuth();
   const { currentMonth, daysInMonth, isToday } = useCalendar();
-  const [searchParams, setSearchParams] = useSearchParams();
   const { lessons } = useLessons(teacherId);
-
-  // console.log(lessons);
 
   const navigate = useNavigate();
 
@@ -37,9 +34,9 @@ export default function ShowCurrentMonth({
   }
 
   function handleSelectedDay(id: string) {
-    searchParams.set("dayId", id);
-    setSearchParams(searchParams);
-    navigate("bookLesson/" + searchParams.toString());
+    // searchParams.set("dayId", id);
+    // setSearchParams(searchParams);
+    navigate(`bookLesson/${id}/${teacherId}`);
   }
 
   const days: JSX.Element[] = [];
