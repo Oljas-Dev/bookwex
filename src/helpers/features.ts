@@ -122,6 +122,26 @@ function normalizeSocialLink(platform: Platform, value: string): string {
   }
 }
 
+function isSlotBlocked(
+  slotStart: string,
+  slotEnd: string,
+  busyTimes:
+    | {
+        start_time: string;
+        end_time: string;
+      }[]
+    | undefined,
+) {
+  if (!busyTimes?.length) return false;
+
+  return busyTimes.some((busy) => {
+    return (
+      dayjs(slotStart).isBefore(dayjs(busy.end_time)) &&
+      dayjs(slotEnd).isAfter(dayjs(busy.start_time))
+    );
+  });
+}
+
 export {
   getFirstName,
   getLastName,
@@ -135,4 +155,5 @@ export {
   isValidYear,
   validateHeroSection,
   normalizeSocialLink,
+  isSlotBlocked
 };

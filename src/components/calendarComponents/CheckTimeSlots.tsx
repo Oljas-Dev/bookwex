@@ -11,6 +11,8 @@ import { useCancelBooking } from "./features/useCancelBooking";
 import { useDeleteSlot } from "./features/useDeleteSlot";
 import BackButton from "../../ui/BackButton";
 import AvailableSlots from "./ui/AvailableSlots";
+import { useGoogleBusyTimes } from "./features/useGoogleBusyTimes";
+import { isSlotBlocked } from "../../helpers/features";
 
 dayjs.extend(utc);
 
@@ -32,6 +34,8 @@ export default function CheckTimeSlots() {
   const { data: bookedSlots } = useBookedSlots();
 
   const { dayId, teacherName, teacherId } = useParams();
+
+  const { data: busyTimes } = useGoogleBusyTimes(teacherId);
 
   const [dialogState, setDialogState] =
     useState<keyof DialogStateProps>("chat");
@@ -73,10 +77,9 @@ export default function CheckTimeSlots() {
   };
 
   const currentSlots = lessons
-    .filter((slot) =>
-      dayjs(now).add(5, "minute").isAfter(slot.start_time) ? null : slot,
-    )
+    .filter((slot) => dayjs(now).add(5, "minute").isBefore(slot.start_time))
     .filter((slot) => slot.start_time.substring(0, 10) === dayId)
+    .filter((slot) => !isSlotBlocked(slot.start_time, slot.end_time, busyTimes))
     .sort(
       (a, b) =>
         dayjs.utc(a.start_time).valueOf() - dayjs.utc(b.start_time).valueOf(),

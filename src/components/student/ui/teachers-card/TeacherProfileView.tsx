@@ -49,9 +49,11 @@ export default function TeacherProfileView({
         teacherId: user?.id,
       },
     });
-
-    console.log(data);
-    console.log(error);
+    if (data) {
+      toast.success("Calendars synchronized");
+    } else if (error) {
+      toast.error(error.message);
+    }
   }
 
   async function googleCal() {
@@ -94,7 +96,7 @@ export default function TeacherProfileView({
           Connect Google Calendar
         </Button>
         <Button fn={syncGoogleCalendar} styles="w-fit">
-          Check calendar events
+          Sync calendar events
         </Button>
 
         {isAdmin && (
