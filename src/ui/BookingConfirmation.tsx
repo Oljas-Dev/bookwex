@@ -4,39 +4,27 @@ import utc from "dayjs/plugin/utc";
 import { useLessons } from "../api/features/useLessons";
 import { useBookLesson } from "../api/features/useBookLesson";
 import type { Slot } from "../contexts/BookingContextData";
-import { toNormalStr } from "../helpers/features";
 import { useBookingConfirmation } from "../api/emails/useBookingConfirmation";
 import { bookingConfirmationEmail } from "../api/emails/bookingConfirmation";
-import { useTeachers } from "../api/features/useTeachers";
 
 dayjs.extend(utc);
 
 export default function BookingConfirmation() {
-  const { teacherName, lessonId } = useParams();
-  // const { lessonId } = useParams();
-  // const { teacherId } = useParams();
-
-  // console.log(teacherId);
-
-  const { profiles } = useTeachers();
-
-  const currentTeacher = profiles?.find(
-    (teacher) => toNormalStr(teacher.full_name) === toNormalStr(teacherName),
-  );
-
-  const { lessons } = useLessons(currentTeacher?.id);
+  const { lessonId, teacherId } = useParams();
+  const { lessons } = useLessons(teacherId);
   const { bookLesson, isBooking } = useBookLesson();
+
+  const lessonIdSubstring = lessonId?.substring(9);
+  const { data, isLoading } = useBookingConfirmation(lessonIdSubstring);
+
   const navigate = useNavigate();
-  const { data, isLoading } = useBookingConfirmation(lessonId?.substring(9));
 
   if (!lessons || !data || isLoading) {
     return <p>Is Loading...</p>;
   }
 
-  const idParams = lessonId?.substring(9);
-
   const currentLesson: Slot[] = lessons?.filter(
-    (lesson) => lesson.id === idParams,
+    (lesson) => lesson.id === lessonIdSubstring,
   );
 
   const bookingDate = dayjs.utc(data.startTime).format("MMMM D");

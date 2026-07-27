@@ -6,6 +6,9 @@ import MyTeachers from "../MyTeachers";
 import toast from "react-hot-toast";
 import { Copy } from "react-bootstrap-icons";
 import { useAuth } from "../../../../contexts/useAuth";
+import Button from "../../../../ui/Button";
+import { supabase } from "../../../../api/supabase/supabase";
+import { useEffect } from "react";
 
 export default function TeacherProfileView({
   myTeachers,
@@ -14,10 +17,20 @@ export default function TeacherProfileView({
   myTeachers: MyTeacher[] | undefined;
   teacherName: string | undefined;
 }) {
-  const { isAdmin } = useAuth();
+  const { isAdmin, user } = useAuth();
   const teachersExist = myTeachers !== undefined && myTeachers.length > 0;
 
   const teacherLink = `${window.location.origin}/teacher/${toParamStr(teacherName)}`;
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const connected = params.get("connected");
+    if (connected === "true") {
+      toast.success("Google Calendar connected");
+    }
+
+    window.history.replaceState({}, "", window.location.pathname);
+  }, []);
 
   async function copyTeacherLink() {
     try {
@@ -28,6 +41,28 @@ export default function TeacherProfileView({
       console.error(err);
       toast.error("Failed to copy link");
     }
+  }
+
+  async function syncGoogleCalendar() {
+    const { data, error } = await supabase.functions.invoke("google-sync", {
+      body: {
+        teacherId: user?.id,
+      },
+    });
+
+    console.log(data);
+    console.log(error);
+  }
+
+  async function googleCal() {
+    const { data, error } = await supabase.functions.invoke("google-auth");
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    window.location.href = data.url;
   }
 
   return (
@@ -53,11 +88,18 @@ export default function TeacherProfileView({
       )}
       <div className="flex flex-col gap-4">
         <Link to={`/teacher/${toParamStr(teacherName)}`}>
-          <button className="hover:text-amber-100">go to your dashboard</button>
+          <Button>go to your dashboard</Button>
         </Link>
+        <Button fn={googleCal} styles="w-fit">
+          Connect Google Calendar
+        </Button>
+        <Button fn={syncGoogleCalendar} styles="w-fit">
+          Check calendar events
+        </Button>
+
         {isAdmin && (
           <Link to={"/admin"}>
-            <button className="hover:text-amber-100">admin dashboard</button>
+            <Button>admin dashboard</Button>
           </Link>
         )}
         <div className="flex flex-col gap-2 relative">
