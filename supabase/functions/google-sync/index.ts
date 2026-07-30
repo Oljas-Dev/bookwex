@@ -86,8 +86,6 @@ const calendarResponse = await fetch(
 const calendarData =
   await calendarResponse.json();
 
-//---------------------
-
 const busyTimes =
   (calendarData.items ?? [])
     .filter(

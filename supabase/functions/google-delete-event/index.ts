@@ -61,9 +61,9 @@ Deno.serve(async (req) => {
       await supabaseAdmin
         .from("bookings")
         .select(`
-  teacher_id,
-  google_event_id
-`)
+          teacher_id,
+          google_event_id
+        `)
         .eq("id", bookingId)
         .single();
 
