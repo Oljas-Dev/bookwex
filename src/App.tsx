@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { Analytics } from "@vercel/analytics/next";
 
 import { BookingContextProvider } from "./contexts/BookingContext";
 import { CalendarProvider } from "./contexts/CalendarContext";
@@ -53,6 +54,7 @@ function App() {
                         },
                       }}
                     />
+                    <Analytics />
                   </main>
                 </LocalizationProvider>
               </MessagesProvider>
