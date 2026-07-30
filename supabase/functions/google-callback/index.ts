@@ -153,7 +153,7 @@ if (!watchResponse.ok) {
 
 
   return Response.redirect(
-  "http://bookwex.com/profile?connected=true",
+  "http://www.bookwex.com/profile?connected=true",
   302,
 );
 });

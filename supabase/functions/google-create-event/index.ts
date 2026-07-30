@@ -9,7 +9,7 @@ import { capitalizeAllFirst } from "../_shared/text.ts";
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://bookwex.com",
+  "https://www.bookwex.com",
 ];
 
 let supabaseAdmin:
@@ -26,7 +26,7 @@ Deno.serve(async (req) => {
     "Access-Control-Allow-Origin":
       allowedOrigins.includes(origin ?? "")
         ? origin!
-        : "https://bookwex.com",
+        : "https://www.bookwex.com",
 
     "Access-Control-Allow-Headers":
       "authorization, x-client-info, apikey, content-type",
