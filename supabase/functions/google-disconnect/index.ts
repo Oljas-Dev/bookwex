@@ -142,7 +142,7 @@ await supabaseAdmin
 
 
 
-return new Response.redirect(
+return new Response(
     JSON.stringify({
       success: true,
       message: "Google calendar disconnected",
