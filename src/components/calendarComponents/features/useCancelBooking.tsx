@@ -8,6 +8,12 @@ export function useCancelBooking() {
   const { mutate: cancelBooking, isPending } = useMutation({
     mutationKey: ["slots"],
     mutationFn: async ({ bookingId }: { bookingId: string | undefined }) => {
+      await supabase.functions.invoke("google-delete-event", {
+        body: {
+          bookingId,
+        },
+      });
+
       const { data, error } = await supabase
         .from("bookings")
         .delete()
@@ -18,6 +24,7 @@ export function useCancelBooking() {
         console.error(error.message);
         throw error;
       }
+
       return data;
     },
     onSuccess: () => {

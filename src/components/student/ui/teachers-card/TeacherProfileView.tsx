@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 import { Copy } from "react-bootstrap-icons";
 import { useAuth } from "../../../../contexts/useAuth";
 import Button from "../../../../ui/Button";
-import { supabase } from "../../../../api/supabase/supabase";
 import { useEffect } from "react";
 
 export default function TeacherProfileView({
@@ -17,7 +16,7 @@ export default function TeacherProfileView({
   myTeachers: MyTeacher[] | undefined;
   teacherName: string | undefined;
 }) {
-  const { isAdmin, user } = useAuth();
+  const { isAdmin } = useAuth();
   const teachersExist = myTeachers !== undefined && myTeachers.length > 0;
 
   const teacherLink = `${window.location.origin}/teacher/${toParamStr(teacherName)}`;
@@ -41,30 +40,6 @@ export default function TeacherProfileView({
       console.error(err);
       toast.error("Failed to copy link");
     }
-  }
-
-  async function syncGoogleCalendar() {
-    const { data, error } = await supabase.functions.invoke("google-sync", {
-      body: {
-        teacherId: user?.id,
-      },
-    });
-    if (data) {
-      toast.success("Calendars synchronized");
-    } else if (error) {
-      toast.error(error.message);
-    }
-  }
-
-  async function googleCal() {
-    const { data, error } = await supabase.functions.invoke("google-auth");
-
-    if (error) {
-      console.error(error);
-      return;
-    }
-
-    window.location.href = data.url;
   }
 
   return (
@@ -92,12 +67,6 @@ export default function TeacherProfileView({
         <Link to={`/teacher/${toParamStr(teacherName)}`}>
           <Button>go to your dashboard</Button>
         </Link>
-        <Button fn={googleCal} styles="w-fit">
-          Connect Google Calendar
-        </Button>
-        <Button fn={syncGoogleCalendar} styles="w-fit">
-          Sync calendar events
-        </Button>
 
         {isAdmin && (
           <Link to={"/admin"}>

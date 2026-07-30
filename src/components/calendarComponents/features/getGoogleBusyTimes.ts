@@ -5,10 +5,9 @@ export async function getGoogleBusyTimes(
   teacherId: string,
 ) {
   const { data, error } = await supabase
-    .from("calendar_busy_times")
+    .from("teacher_busy_times")
     .select("*")
-    .eq("teacher_id", teacherId)
-    .eq("source", "google");
+    .eq("teacher_id", teacherId);
 
   if (error) {
     throw new Error(error.message);

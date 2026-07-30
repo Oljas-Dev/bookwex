@@ -12,6 +12,8 @@ import ResetPassword from "../../components/authentication/forgot-password/Reset
 import SignUp from "../../components/authentication/signup/SignUp";
 import SignUpSuccess from "../../ui/SignUpSuccess";
 
+export const BecomeTeacherRoute = "become-teacher";
+
 export const signUpTeacherRoute = "/auth/signup-teacher";
 export const authRoutes = (
   <>
@@ -19,7 +21,7 @@ export const authRoutes = (
       <Route path="callback" element={<AuthCallback />} />
       <Route path="login" element={<SignIn />} />
       <Route
-        path="become-teacher"
+        path={BecomeTeacherRoute}
         element={
           <ProtectedRoute>
             <BecomeTeacher />

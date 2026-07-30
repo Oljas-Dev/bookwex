@@ -82,7 +82,6 @@ export async function getGoogleAccessToken(
     );
   }
 
-
   const newExpiresAt =
     new Date(
       Date.now() +
@@ -106,4 +105,39 @@ export async function getGoogleAccessToken(
 
 
   return refreshed.access_token;
+}
+
+export async function stopGoogleWatch(
+  channelId: string,
+  resourceId: string,
+  accessToken: string,
+) {
+  const response = await fetch(
+    "https://www.googleapis.com/calendar/v3/channels/stop",
+    {
+      method: "POST",
+      headers: {
+        Authorization:
+          `Bearer ${accessToken}`,
+
+        "Content-Type":
+          "application/json",
+      },
+      body: JSON.stringify({
+        id: channelId,
+        resourceId,
+      }),
+    },
+  );
+
+  if (!response.ok) {
+    const error = await response.text();
+
+    console.error(
+      "Failed to stop Google channel:",
+      error,
+    );
+  }
+
+  return response.ok;
 }

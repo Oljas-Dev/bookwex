@@ -5,6 +5,8 @@ import { getAvatarUrl } from "../../avatars/features/useAvatar";
 import { useAuth } from "../../../contexts/useAuth";
 import { toParamStr } from "../../../helpers/features";
 import type { currentUser } from "../../../types/profile";
+import { connectCalendar } from "../../../routes/homepage/HomepageRoutes";
+import { BecomeTeacherRoute } from "../../../routes/auth/AuthRoutes";
 
 export default function Settings({ user }: { user: currentUser | undefined }) {
   const { isTeacher } = useAuth();
@@ -36,17 +38,27 @@ export default function Settings({ user }: { user: currentUser | undefined }) {
         >
           change password
         </Link>
+
         {isTeacher && (
-          <Link
-            to={`/teacher/${toParamStr(user?.name)}/planner`}
-            className="text-lg hover:text-amber-100"
-          >
-            schedule new lessons
-          </Link>
+          <>
+            <Link
+              to={`/${connectCalendar}`}
+              className="text-lg hover:text-amber-100"
+            >
+              connect calendars
+            </Link>
+
+            <Link
+              to={`/teacher/${toParamStr(user?.name)}/planner`}
+              className="text-lg hover:text-amber-100"
+            >
+              schedule new lessons
+            </Link>
+          </>
         )}
         {!isTeacher && (
           <Link
-            to={"/auth/become-teacher"}
+            to={`/auth/${BecomeTeacherRoute}`}
             className="text-lg hover:text-amber-100"
           >
             become a teacher

@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 export function useBookLesson() {
   const queryClient = useQueryClient();
 
-  const { mutate: bookLesson, isPending: isBooking } = useMutation({
+  const { mutateAsync: bookLesson, isPending: isBooking } = useMutation({
     mutationFn: ({ lessonId }: { lessonId: string }) =>
       apiBookLesson({ lessonId }),
     mutationKey: ["slots"],

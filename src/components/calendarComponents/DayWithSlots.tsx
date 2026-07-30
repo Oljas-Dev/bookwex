@@ -110,18 +110,6 @@ export default function DayWithSlots({
                   <i className="bi bi-x-octagon icon hover:text-jade"></i>
                 </button>
               )}
-            {/* {booked && isAuthenticated && findCurrentUserBooking && (
-              <button
-                className="iconBtn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setDialogState("chat");
-                  openDialog(currentBooking?.id);
-                }}
-              >
-                <i className="bi bi-card-text icon hover:text-jade"></i>
-              </button>
-            )} */}
             {currentTeacherCheck && !isStudent && !booked && (
               <button
                 className="iconBtn"

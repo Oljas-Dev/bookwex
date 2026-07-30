@@ -12,6 +12,9 @@ import ContactUs from "../../components/footer/ContactUs";
 import HelpCenter from "../../components/footer/HelpCenter";
 import ReportProblem from "../../components/footer/ReportProblem";
 import FoundingTutorsProgram from "../../components/privacy/FoundingTutorsProgram";
+import ConnectCalendar from "../../components/connectCalendar/ConnectCalendar";
+
+export const connectCalendar = "connect-calendar";
 
 export const homepageRoutes = (
   <>
@@ -52,6 +55,8 @@ export const homepageRoutes = (
       <Route path="report-problem" element={<ReportProblem />} />
       {/* Founding Tutors Program */}
       <Route path="service-terms" element={<FoundingTutorsProgram />} />
+      {/* Synchronize calendars */}
+      <Route path={connectCalendar} element={<ConnectCalendar />} />
     </Route>
   </>
 );

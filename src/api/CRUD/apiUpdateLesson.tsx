@@ -7,7 +7,7 @@ export async function bookLesson({ lessonId }: { lessonId: string }) {
 
   if (!user) throw new Error("User not authenticated");
 
-  // 1. Get slot details (IMPORTANT)
+  // 1. Get slot details
   const { data: slot, error: slotError } = await supabase
     .from("slots")
     .select("*")

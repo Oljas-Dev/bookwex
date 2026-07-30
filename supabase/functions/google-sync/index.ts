@@ -120,9 +120,35 @@ await supabaseAdmin
 
 
 if (busyTimes.length > 0) {
+  const { error: insertError } =
+    await supabaseAdmin
+      .from("calendar_busy_times")
+      .insert(busyTimes);
+
+  if (insertError) {
+    throw insertError;
+  }
+}
+
+
+const { error: updateError } =
   await supabaseAdmin
-    .from("calendar_busy_times")
-    .insert(busyTimes);
+    .from("teacher_calendars")
+    .update({
+      last_synced_at:
+        new Date().toISOString(),
+
+      sync_status:
+        "active",
+    })
+    .eq(
+      "teacher_id",
+      teacherId,
+    );
+
+
+if (updateError) {
+  throw updateError;
 }
 
 

@@ -1,7 +1,13 @@
 import { ArrowLeft } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
 
-export default function BackButton({ teacherName }: { teacherName?: string }) {
+export default function BackButton({
+  teacherName,
+  mg,
+}: {
+  teacherName?: string;
+  mg?: string;
+}) {
   const navigate = useNavigate();
   function optionalNavigation() {
     if (teacherName) {
@@ -15,7 +21,7 @@ export default function BackButton({ teacherName }: { teacherName?: string }) {
       <ArrowLeft
         style={{
           alignSelf: "start",
-          marginBottom: "16px",
+          marginBottom: `${mg ? mg : "16px"}`,
           cursor: "pointer",
         }}
         onClick={optionalNavigation}

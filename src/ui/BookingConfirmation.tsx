@@ -6,6 +6,7 @@ import { useBookLesson } from "../api/features/useBookLesson";
 import type { Slot } from "../contexts/BookingContextData";
 import { useBookingConfirmation } from "../api/emails/useBookingConfirmation";
 import { bookingConfirmationEmail } from "../api/emails/bookingConfirmation";
+import { supabase } from "../api/supabase/supabase";
 
 dayjs.extend(utc);
 
@@ -43,7 +44,7 @@ export default function BookingConfirmation() {
   const currentLessonDuration = currentLesson![0].duration;
 
   // Changes status in 'slots' to 'booked' and creates new row in 'bookings' table with students data
-  function handleBooking(slot: Slot[]) {
+  async function handleBooking(slot: Slot[]) {
     const email = {
       bookingDate,
       studentStartTime,
@@ -56,7 +57,14 @@ export default function BookingConfirmation() {
     };
 
     const lessonId = slot[0].id;
-    bookLesson({ lessonId });
+    const booking = await bookLesson({ lessonId });
+
+    await supabase.functions.invoke("google-create-event", {
+      body: {
+        bookingId: booking.id,
+      },
+    });
+
     bookingConfirmationEmail(email);
 
     navigate(-1);

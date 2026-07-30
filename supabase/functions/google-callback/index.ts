@@ -107,6 +107,50 @@ Deno.serve(async (req) => {
     );
   }
 
+  const syncResponse = await fetch(
+  `${Deno.env.get("SUPABASE_URL")}/functions/v1/google-sync`,
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization:
+        `Bearer ${Deno.env.get("SERVICE_ROLE_KEY")}`,
+    },
+    body: JSON.stringify({
+      teacherId,
+    }),
+  },
+);
+
+if (!syncResponse.ok) {
+  console.error(
+    "Google sync failed:",
+    await syncResponse.text(),
+  );
+}
+
+const watchResponse = await fetch(
+  `${Deno.env.get("SUPABASE_URL")}/functions/v1/google-watch`,
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization:
+        `Bearer ${Deno.env.get("SERVICE_ROLE_KEY")}`,
+    },
+    body: JSON.stringify({
+      teacherId,
+    }),
+  },
+);
+
+if (!watchResponse.ok) {
+  console.error(
+    "Google watch failed:",
+    await watchResponse.text(),
+  );
+}
+
 
   return Response.redirect(
   "http://localhost:5173/profile?connected=true",
