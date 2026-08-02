@@ -37,3 +37,4 @@ coverage/
 # Supabase (if using CLI)
 supabase/.temp
 supabase/.branches
+.vercel

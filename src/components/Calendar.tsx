@@ -7,6 +7,7 @@ import ShowPreviousMonth from "./calendarComponents/ShowPreviousMonth";
 import WeekDays from "./calendarComponents/WeekDays";
 import { useAuth } from "../contexts/useAuth";
 import { toParamStr } from "../helpers/features";
+import Button from "../ui/Button";
 
 export default function Calendar({
   teacherId,
@@ -32,13 +33,11 @@ export default function Calendar({
         <ShowNextMonth />
       </div>
       {canEditProfile(teacherId) && (
-        <button
-          onClick={() =>
-            navigate(`/teacher/${toParamStr(teacherName)}/planner`)
-          }
+        <Button
+          fn={() => navigate(`/teacher/${toParamStr(teacherName)}/planner`)}
         >
           plan your lessons
-        </button>
+        </Button>
       )}
       {!user && (
         <p>"You are not logged in, please log in to book your lessons!"</p>

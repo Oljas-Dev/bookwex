@@ -74,7 +74,7 @@ export default function HeroLanguages({
         onSubmit={handleSubmit(editLanguages)}
         className="flex flex-col gap-6"
       >
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 max-[600px]:gap-4">
           {fields.map((field, i) => {
             return (
               <EditLanguageRow

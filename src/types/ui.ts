@@ -97,7 +97,7 @@ export interface TeacherLesson {
   method: string;
   result: string;
 
-  price: string;
+  price: number;
 }
 
 // Teacher social links type

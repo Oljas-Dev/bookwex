@@ -90,7 +90,7 @@ export default function Dashboard() {
       <Dialogs>
         <Dialogs.VideoSection id="videoDialog" />
         <Dialogs.ReviewsSection id="reviewsDialog" />
-        <Dialogs.OffersSection id="offersDialog" />
+        <Dialogs.OffersSection id="offersDialog" teacherId={teacherData?.id} />
         <Dialogs.HeroSection id="heroesDialog" teacherId={teacherData?.id} />
         <Dialogs.EmptyOffer id="emptyOfferDialog" />
         <Dialogs.HeroLanguages

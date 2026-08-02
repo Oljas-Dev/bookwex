@@ -107,7 +107,7 @@ export default function VideoSectionDialog({ id }: { id: string }) {
 
       <div className="flex flex-col gap-2">
         <button type="submit" className="bg-jade">
-          {loading ? "loading..." : "upload"}
+          {loading ? "please wait it may take some time..." : "upload"}
         </button>
         <button type="reset" onClick={() => closeDialog(dialogDashboard)}>
           cancel

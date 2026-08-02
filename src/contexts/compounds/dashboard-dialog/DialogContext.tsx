@@ -48,7 +48,7 @@ export function Dialogs({ children }: { children: ReactNode }) {
       <dialog
         ref={dialogDashboard}
         onClick={handleClickOutside}
-        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 backdrop:bg-black/0 backdrop:backdrop-blur-xs open:backdrop:bg-black/50 transition-all rounded"
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 backdrop:bg-black/0 backdrop:backdrop-blur-xs open:backdrop:bg-black/50 transition-all rounded px-6 min-w-[50%] max-[400px]:pl-0 max-[500px]:w-full"
       >
         {children}
       </dialog>

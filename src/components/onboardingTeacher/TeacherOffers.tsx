@@ -15,7 +15,7 @@ export interface OnboardingOffer {
   goal: string;
   method: string;
   result: string;
-  price: string;
+  price: number;
 }
 
 export interface TeacherOffersForm {
@@ -52,7 +52,7 @@ export default function TeacherOffers() {
         goal: lesson.goal ?? "",
         method: lesson.method ?? "",
         result: lesson.result ?? "",
-        price: lesson.price?.toString() ?? "",
+        price: lesson.price ?? 0,
       })),
     });
   }, [data?.lessons, reset]);
@@ -64,7 +64,7 @@ export default function TeacherOffers() {
         offer.goal.trim() &&
         offer.method.trim() &&
         offer.result.trim() &&
-        offer.price.trim(),
+        offer.price,
     );
 
     if (!allOffersComplete) {

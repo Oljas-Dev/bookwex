@@ -26,8 +26,8 @@ export default function EditSubjectRow({
   setValue,
 }: SubjectFormRowProps) {
   return (
-    <div className="flex gap-4 relative">
-      <div className="flex flex-col gap-2">
+    <div className="flex items-center gap-4 relative max-[600px]:flex-col max-[600px]:gap-2">
+      <div className="flex flex-col gap-2 w-full">
         <label>Subject</label>
         <input
           type="text"
@@ -47,7 +47,7 @@ export default function EditSubjectRow({
         )}
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 w-full">
         <label>Teaching Priority</label>
 
         <select
@@ -71,7 +71,7 @@ export default function EditSubjectRow({
 
       <button
         onClick={() => remove(row)}
-        className="border-none bg-transparent p-1 absolute top-8 right-10"
+        className="border-none bg-transparent p-1 absolute top-8.5 -right-7 max-[600px]:-right-7 max-[600px]:top-18"
       >
         <XCircle />
       </button>

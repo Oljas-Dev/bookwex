@@ -27,8 +27,8 @@ export default function EditLanguageRow({
   }
 
   return (
-    <div className="flex items-center gap-4 relative">
-      <div className="flex flex-col gap-2">
+    <div className="flex items-center gap-4 relative max-[600px]:flex-col max-[600px]:gap-2">
+      <div className="flex flex-col gap-2 w-full">
         <label>Language</label>
         <input
           type="text"
@@ -48,7 +48,7 @@ export default function EditLanguageRow({
         )}
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 w-full">
         <label>Your level</label>
 
         <select
@@ -64,7 +64,7 @@ export default function EditLanguageRow({
 
       <button
         onClick={deleteRow}
-        className="border-none bg-transparent p-1 absolute top-8 right-6"
+        className="border-none bg-transparent p-1 absolute top-8.5 -right-7 max-[600px]:-right-7 max-[600px]:top-18"
       >
         <XCircle />
       </button>

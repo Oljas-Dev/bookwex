@@ -63,7 +63,6 @@ export default function LessonOfferEditor({
         <input
           id={`price-${lesson.id}`}
           type="number"
-          min={0}
           value={lesson.price}
           onChange={(e) => onChange(lesson.id, "price", Number(e.target.value))}
         />

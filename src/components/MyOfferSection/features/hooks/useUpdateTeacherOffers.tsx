@@ -20,6 +20,7 @@ export function useUpdateTeacherOffers() {
 
     onError: (err: Error) => {
       toast.error(err.message);
+      console.error(err.message);
     },
   });
 

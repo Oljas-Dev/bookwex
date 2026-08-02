@@ -85,7 +85,7 @@ export default function HeroSectionDialog({
             maxLength={1000}
             onChange={(e) => setContent(e.target.value)}
             placeholder="Your description here"
-            className="text-[16px] min-h-10"
+            className="text-[16px] min-h-40"
           />
         </div>
       </div>

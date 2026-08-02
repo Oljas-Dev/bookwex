@@ -20,6 +20,8 @@ export async function updateStartYear(
 
   if (error) {
     toast.error(error.message);
+    console.error(error.message);
+    
     throw error;
   }
 }

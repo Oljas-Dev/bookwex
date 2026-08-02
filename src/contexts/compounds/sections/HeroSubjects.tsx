@@ -85,7 +85,7 @@ export default function HeroSubjects({
 
   return (
     <div className="min-w-75 px-4 py-6 [&_input]:rounded max-[400px]:min-w-60 max-[400px]:px-2">
-      <h2 className="max-[400px]:text-2xl">Edit your languages section</h2>
+      <h2 className="max-[400px]:text-2xl">Edit your subjects section</h2>
       <form
         onSubmit={handleSubmit(sendSubjects)}
         className="flex flex-col gap-6"

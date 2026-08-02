@@ -1,5 +1,5 @@
 import type { FieldErrors, UseFormRegister } from "react-hook-form";
-import type { TeacherOffersForm } from "../TeacherOffers";
+import type { TeacherOffersForm } from "../../../../components/onboardingTeacher/TeacherOffers";
 
 interface OfferFormProps {
   register: UseFormRegister<TeacherOffersForm>;
@@ -7,12 +7,16 @@ interface OfferFormProps {
   index: number;
 }
 
-export default function OfferForm({ register, errors, index }: OfferFormProps) {
+export default function EditOfferForm({
+  register,
+  errors,
+  index,
+}: OfferFormProps) {
   return (
-    <div className="flex flex-col gap-4 w-[50%] [&_label]:pl-2 max-[500px]:w-full">
+    <div className="flex flex-col gap-4 w-full [&_label]:pl-2">
       <h3>Your offer #{index + 1}</h3>
 
-      <div className="flex flex-col gap-2 ">
+      <div className="flex flex-col gap-2 w-full ">
         <label>Lesson format</label>
         <input
           {...register(`offers.${index}.title`, {
@@ -36,7 +40,7 @@ export default function OfferForm({ register, errors, index }: OfferFormProps) {
         )}
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 w-full">
         <label>Lesson goal</label>
         <input
           {...register(`offers.${index}.goal`, {
@@ -60,7 +64,7 @@ export default function OfferForm({ register, errors, index }: OfferFormProps) {
         )}
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 w-full">
         <label>Your method</label>
         <input
           {...register(`offers.${index}.method`, {
@@ -86,7 +90,7 @@ export default function OfferForm({ register, errors, index }: OfferFormProps) {
         )}
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 w-full">
         <label>Results</label>
         <input
           {...register(`offers.${index}.result`, {
@@ -112,7 +116,7 @@ export default function OfferForm({ register, errors, index }: OfferFormProps) {
         )}
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 w-full">
         <label>Price</label>
         <input
           type="number"
