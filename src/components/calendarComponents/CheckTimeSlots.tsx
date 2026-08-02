@@ -37,6 +37,8 @@ export default function CheckTimeSlots() {
 
   const { data: busyTimes } = useGoogleBusyTimes(teacherId);
 
+  console.log(busyTimes);
+
   const [dialogState, setDialogState] =
     useState<keyof DialogStateProps>("chat");
 

@@ -94,7 +94,7 @@ const calendarData =
   await calendarResponse.json();
 
 const busyTimes =
-  data.calendars.primary.busy.map((busy) => ({
+  calendarData.calendars.primary.busy.map((busy) => ({
     teacher_id: teacherId,
     start_time: busy.start,
     end_time: busy.end,
