@@ -91,9 +91,9 @@ Deno.serve(async (req) => {
     state,
 
     scope: [
-      "https://www.googleapis.com/auth/calendar.readonly",
-      "https://www.googleapis.com/auth/calendar.events",
-    ].join(" "),
+  "https://www.googleapis.com/auth/calendar.freebusy",
+  "https://www.googleapis.com/auth/calendar.events",
+].join(" "),
   });
 
 

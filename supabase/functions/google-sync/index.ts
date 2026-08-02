@@ -67,18 +67,25 @@ future.setMonth(future.getMonth() + 3);
 
 
 const calendarResponse = await fetch(
-  "https://www.googleapis.com/calendar/v3/calendars/primary/events?" +
-    new URLSearchParams({
-      timeMin: now.toISOString(),
-      timeMax: future.toISOString(),
-      singleEvents: "true",
-      orderBy: "startTime",
-    }),
+  "https://www.googleapis.com/calendar/v3/freeBusy",
   {
+    method: "POST",
     headers: {
-      Authorization:
-        `Bearer ${accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
     },
+    body: JSON.stringify({
+      timeMin: new Date().toISOString(),
+      timeMax: new Date(
+        Date.now() + 90 * 24 * 60 * 60 * 1000,
+      ).toISOString(),
+
+      items: [
+        {
+          id: "primary",
+        },
+      ],
+    }),
   },
 );
 
@@ -87,21 +94,12 @@ const calendarData =
   await calendarResponse.json();
 
 const busyTimes =
-  (calendarData.items ?? [])
-    .filter(
-      (event: any) =>
-        event.start?.dateTime &&
-        event.end?.dateTime,
-    )
-    .map(
-      (event: any) => ({
-        teacher_id: teacherId,
-        start_time: event.start.dateTime,
-        end_time: event.end.dateTime,
-        source: "google",
-        google_event_id: event.id,
-      }),
-    );
+  data.calendars.primary.busy.map((busy) => ({
+    teacher_id: teacherId,
+    start_time: busy.start,
+    end_time: busy.end,
+    source: "google",
+  }));
 
     const supabaseAdmin = createClient(
     Deno.env.get("SUPABASE_URL")!,

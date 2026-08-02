@@ -4,7 +4,7 @@ export const privacyPolicyData: LegalData = [
   {
     type: "metadata",
     title: "Privacy Policy",
-    lastUpdated: "July 15, 2026",
+    lastUpdated: "August 2, 2026",
   },
   {
     type: "section",
@@ -97,6 +97,46 @@ export const privacyPolicyData: LegalData = [
   {
     type: "section",
     number: 4,
+    heading: 'Google Calendar Information',
+    intro: "If a teacher connects Google Calendar, Bookwex may access:",
+    bullets: [
+      'Google Calendar availability information',
+      'Calendar events necessary to identify unavailable times',
+      'Information required to create and remove Bookwex lesson events',
+    ],
+    paragraphs: [
+      'Google Calendar data is used only to:'
+    ],
+    paragraphsAfterBullets: [
+      'Prevent double bookings',
+      "Synchronize Bookwex lessons with the teacher's Google Calendar",
+      'Improve scheduling functionality'
+    ],
+    note: 'Bookwex does not use Google Calendar data for advertising, profiling, or selling purposes.',
+  },
+  {
+    type: "section",
+    number: 5,
+    heading: 'Google Calendar Integration',
+    intro: 'Bookwex uses Google OAuth to allow teachers to connect their Google Calendar. When a teacher authorizes Google Calendar access:',
+    bullets: [
+      'Bookwex receives authorization tokens required for calendar synchronization.',
+      'Access tokens and refresh tokens are stored securely on our servers.',
+      'Google Calendar data is accessed only after user authorization.',
+    ],
+    paragraphs: [
+      'Teachers can disconnect Google Calendar at any time from their Bookwex account settings.',
+      'When disconnected:'
+    ],
+    paragraphsAfterBullets: [
+      'Stored Google Calendar connection data is removed.',
+      'Synchronization stops.',
+      'Calendar availability information imported through synchronization is deleted.'
+    ],
+  },
+  {
+    type: "section",
+    number: 6,
     heading: "How We Use Your Information",
     intro: "We use personal data to:",
     bullets: [
@@ -114,7 +154,7 @@ export const privacyPolicyData: LegalData = [
   },
   {
     type: "section",
-    number: 5,
+    number: 7,
     heading: "Legal Basis for Processing",
     intro: "Depending on the situation, we process personal data based on:",
     bullets: [
@@ -125,7 +165,7 @@ export const privacyPolicyData: LegalData = [
   },
   {
     type: "section",
-    number: 6,
+    number: 8,
     heading: "Public Teacher Profiles",
     paragraphs: [
       "Teachers can choose to create a public profile.",
@@ -144,7 +184,7 @@ export const privacyPolicyData: LegalData = [
   },
   {
     type: "section",
-    number: 7,
+    number: 9,
     heading: "Data Storage and Service Providers",
     paragraphs: [
       "Bookwex uses third-party services to operate the platform.",
@@ -152,6 +192,7 @@ export const privacyPolicyData: LegalData = [
     ],
     bullets: [
       "Supabase for database hosting, authentication, and file storage",
+      'Sensitive authentication information, including Google OAuth tokens, is stored securely and is never exposed to other users.'
     ],
     paragraphsAfterBullets: [
       "These providers process data only as necessary to provide their services and maintain appropriate security measures.",
@@ -159,7 +200,7 @@ export const privacyPolicyData: LegalData = [
   },
   {
     type: "section",
-    number: 8,
+    number: 10,
     heading: "Data Security",
     paragraphs: [
       "We take reasonable measures to protect your personal information from unauthorized access, loss, misuse, or disclosure.",
@@ -168,16 +209,17 @@ export const privacyPolicyData: LegalData = [
   },
   {
     type: "section",
-    number: 9,
+    number: 11,
     heading: "Data Retention",
     paragraphs: [
       "We keep personal information only for as long as necessary to provide Bookwex services and fulfill the purposes described in this Privacy Policy.",
       "You may request deletion of your account and personal information.",
+      "Users can disconnect Google Calendar at any time through their account settings."
     ],
   },
   {
     type: "section",
-    number: 10,
+    number: 12,
     heading: "Your Rights",
     paragraphs: [
       "Under applicable data protection laws, including the General Data Protection Regulation (GDPR) where applicable, you may have the right to:",
@@ -196,7 +238,7 @@ export const privacyPolicyData: LegalData = [
   },
   {
     type: "section",
-    number: 11,
+    number: 13,
     heading: "Account Deletion",
     paragraphs: [
       "You can request deletion of your Bookwex account by contacting us.",
@@ -205,7 +247,7 @@ export const privacyPolicyData: LegalData = [
   },
   {
     type: "section",
-    number: 12,
+    number: 14,
     heading: "Cookies",
     paragraphs: [
       "Bookwex may use essential cookies or similar technologies required for the operation and security of the platform.",
@@ -215,7 +257,7 @@ export const privacyPolicyData: LegalData = [
   },
   {
     type: "section",
-    number: 13,
+    number: 15,
     heading: "Changes to This Privacy Policy",
     paragraphs: [
       "We may update this Privacy Policy from time to time to reflect changes in Bookwex, legal requirements, or our data practices.",
@@ -224,7 +266,7 @@ export const privacyPolicyData: LegalData = [
   },
   {
     type: "section",
-    number: 14,
+    number: 16,
     heading: "Contact",
     paragraphs: [
       "If you have questions about this Privacy Policy or how your data is handled, please contact:",

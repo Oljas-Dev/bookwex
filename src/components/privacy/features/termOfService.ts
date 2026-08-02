@@ -4,7 +4,7 @@ export const termsOfServiceData: LegalData = [
   {
     type: "metadata",
     title: "Terms of Service",
-    lastUpdated: "July 19, 2026",
+    lastUpdated: "August 2, 2026",
   },
 
   {
@@ -90,16 +90,38 @@ export const termsOfServiceData: LegalData = [
     number: 7,
     heading: "Bookings",
     paragraphs: [
-      "Bookwex provides scheduling tools for teachers and students.",
-      "Teachers manage their own availability.",
-      "Students are responsible for booking available lesson times.",
-      "Bookwex is not responsible for missed lessons or disputes between users.",
-    ],
+  "Bookwex provides scheduling and calendar management tools for teachers and students.",
+  "Teachers manage their own availability and are responsible for the tutoring services they provide.",
+  "Students are responsible for selecting available lesson times and attending scheduled lessons.",
+  "Bookwex is not responsible for the quality of tutoring services, missed lessons, or disputes between users.",
+],
   },
 
   {
+  type: "section",
+  number: 8,
+  heading: "Google Calendar Integration",
+  paragraphs: [
+    "Bookwex allows teachers to optionally connect their Google Calendar to improve scheduling and prevent booking conflicts.",
+    "By connecting Google Calendar, teachers authorize Bookwex to access calendar information necessary to provide calendar synchronization features.",
+  ],
+  intro: "Google Calendar integration may be used to:",
+  bullets: [
+    "Read calendar availability information to identify unavailable times.",
+    "Create Bookwex lesson events in the teacher's Google Calendar after bookings are confirmed.",
+    "Remove Bookwex lesson events from Google Calendar when lessons are cancelled.",
+    "Keep Bookwex availability synchronized with the teacher's calendar.",
+  ],
+  paragraphsAfterBullets: [
+    "Google Calendar integration is optional and can be disconnected at any time from the teacher's account settings.",
+    "When disconnected, Bookwex stops synchronization and removes stored Google Calendar connection data according to our Privacy Policy.",
+    "Bookwex does not sell, share, or use Google Calendar information for advertising purposes.",
+  ],
+},
+
+  {
     type: "section",
-    number: 8,
+    number: 9,
     heading: "User Content",
     paragraphs: [
       "You retain ownership of the content you upload.",
@@ -110,7 +132,7 @@ export const termsOfServiceData: LegalData = [
 
   {
     type: "section",
-    number: 9,
+    number: 10,
     heading: "Prohibited Conduct",
     intro: "You agree not to:",
     bullets: [
@@ -127,18 +149,18 @@ export const termsOfServiceData: LegalData = [
 
   {
     type: "section",
-    number: 10,
+    number: 11,
     heading: "Beta Service",
     paragraphs: [
-      "Bookwex is currently provided as a beta service.",
-      "Features may change or be removed at any time.",
-      "Temporary interruptions or bugs may occur.",
-    ],
+  "Bookwex may provide beta features or early access functionality from time to time.",
+  "Beta features may change, be modified, or be removed as we continue improving the platform.",
+  "Temporary interruptions or errors may occur during development and maintenance.",
+],
   },
 
   {
     type: "section",
-    number: 11,
+    number: 12,
     heading: "Intellectual Property",
     paragraphs: [
       "The Bookwex platform, branding, software, and original content are protected by applicable intellectual property laws.",
@@ -148,7 +170,7 @@ export const termsOfServiceData: LegalData = [
 
   {
     type: "section",
-    number: 12,
+    number: 13,
     heading: "Disclaimer",
     paragraphs: [
       'Bookwex is provided "as is" without warranties of any kind.',
@@ -158,7 +180,7 @@ export const termsOfServiceData: LegalData = [
 
   {
     type: "section",
-    number: 13,
+    number: 14,
     heading: "Limitation of Liability",
     paragraphs: [
       "Bookwex is not liable for indirect or consequential damages arising from use of the platform.",
@@ -168,7 +190,7 @@ export const termsOfServiceData: LegalData = [
 
   {
     type: "section",
-    number: 14,
+    number: 15,
     heading: "Changes to These Terms",
     paragraphs: [
       "We may update these Terms from time to time.",
@@ -178,7 +200,7 @@ export const termsOfServiceData: LegalData = [
 
   {
     type: "section",
-    number: 15,
+    number: 16,
     heading: "Termination",
     paragraphs: [
       "We may suspend or terminate accounts that violate these Terms.",
@@ -188,7 +210,7 @@ export const termsOfServiceData: LegalData = [
 
   {
     type: "section",
-    number: 16,
+    number: 17,
     heading: "Governing Law",
     paragraphs: [
       "These Terms are governed by the laws applicable to the operator of Bookwex unless mandatory consumer protection laws provide otherwise.",
@@ -197,11 +219,13 @@ export const termsOfServiceData: LegalData = [
 
   {
     type: "section",
-    number: 17,
+    number: 18,
     heading: "Contact",
     paragraphs: [
-      "If you have questions regarding these Terms, please contact:",
-      "hello@bookwex.com",
-    ],
+  "If you have questions regarding these Terms, please contact:",
+  "hello@bookwex.com",
+  "For privacy-related questions, please contact:",
+  "privacy@bookwex.com",
+],
   },
 ];

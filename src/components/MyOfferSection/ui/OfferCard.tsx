@@ -14,7 +14,7 @@ export default function OfferCard({
   goal: string;
   method: string;
   result: string;
-  price: string;
+  price: number;
 }) {
   return (
     <CardContainer styles="max-w-75">
