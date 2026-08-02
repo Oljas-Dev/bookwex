@@ -32,7 +32,12 @@ export default function SignupTeacher() {
   const password = watch("password", "");
 
   function onSubmit(data: FormValues) {
-    signupTeacher(data, {
+    const signUpData = {
+      ...data,
+      tutorType: isFoundingTutor ? "founder" : "standard",
+    };
+
+    signupTeacher(signUpData, {
       onSuccess() {
         navigate("/auth/success-signup");
       },
