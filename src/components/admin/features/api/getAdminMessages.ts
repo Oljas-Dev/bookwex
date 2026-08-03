@@ -1,5 +1,6 @@
-import { supabase } from "../../../api/supabase/supabase";
-import type { AdminMessages } from "../../../types/db";
+import { supabase } from "../../../../api/supabase/supabase";
+import type { AdminMessages } from "../../../../types/db";
+
 
 export async function getAdminMessages() {
   const { data, error } = await supabase

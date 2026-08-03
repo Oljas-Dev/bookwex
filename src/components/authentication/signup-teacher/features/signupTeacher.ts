@@ -4,14 +4,18 @@ type SignupTeacherData = {
   fullName: string;
   email: string;
   password: string;
+  tutorType: boolean;
 };
 
 export async function signupTeacher({
   fullName,
   email,
   password,
+  tutorType
 }: SignupTeacherData) {
-  const tutorType = localStorage.getItem("tutor_type") === "founder";
+
+  console.log(tutorType);
+  
 
   const { data, error } = await supabase.auth.signUp({
     email,

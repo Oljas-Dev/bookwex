@@ -2,9 +2,17 @@ type Props = {
   name?: string;
   avatarUrl?: string | null;
   styles: string;
+  borderColor?: string;
+  radius?: string;
 };
 
-export function AvatarPlaceholder({ name, avatarUrl, styles }: Props) {
+export function AvatarPlaceholder({
+  name,
+  avatarUrl,
+  styles,
+  borderColor = "border-peach",
+  radius = "rounded-xl",
+}: Props) {
   const colors = [
     "#ef4444",
     "#f97316",
@@ -41,7 +49,7 @@ export function AvatarPlaceholder({ name, avatarUrl, styles }: Props) {
     return (
       <img
         src={avatarUrl}
-        className={`${styles} object-cover object-top rounded-xl border-4 border-peach`}
+        className={`${styles} ${borderColor} ${radius} object-cover object-top  border-4 `}
         alt="avatar"
       />
     );
@@ -49,7 +57,7 @@ export function AvatarPlaceholder({ name, avatarUrl, styles }: Props) {
 
   return (
     <div
-      className={`${styles} rounded-xl border-4 border-peach flex items-center justify-center text-white font-semibold`}
+      className={`${styles} ${borderColor} ${radius} border-4 flex items-center justify-center text-white font-semibold`}
       style={{
         background: `linear-gradient(135deg, ${stringToColor(safeName)}, gray)`,
       }}

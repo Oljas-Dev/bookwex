@@ -16,6 +16,9 @@ export default function SignupTeacher() {
   const [searchParams] = useSearchParams();
 
   const isFoundingTutor = searchParams.get("program") === "founder";
+
+  console.log(isFoundingTutor);
+
   const navigate = useNavigate();
 
   const founderBtn = isFoundingTutor ? "become founder" : "become teacher";
@@ -34,7 +37,7 @@ export default function SignupTeacher() {
   function onSubmit(data: FormValues) {
     const signUpData = {
       ...data,
-      tutorType: isFoundingTutor ? "founder" : "standard",
+      tutorType: isFoundingTutor,
     };
 
     signupTeacher(signUpData, {

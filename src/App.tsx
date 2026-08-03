@@ -10,7 +10,7 @@ import { CalendarProvider } from "./contexts/CalendarContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import { MessagesProvider } from "./contexts/MessagesContext";
 import { TeacherDataProvider } from "./contexts/TeacherDataContext";
-import AdminDashboard from "./components/support/AdminDashboard";
+import AdminDashboard from "./components/admin/AdminDashboard";
 import RoleRoute from "./components/authentication/protected-route/RoleRoute";
 import ScrollToPageTop from "./ui/ScrollToPageTop";
 import { homepageRoutes } from "./routes/homepage/HomepageRoutes";
@@ -31,14 +31,6 @@ function App() {
                   <ScrollToPageTop />
                   <main className="flex flex-col justify-center items-center  text-3xl bg-main-bg ">
                     <Routes>
-                      <Route
-                        path="admin"
-                        element={
-                          <RoleRoute allowedRoles={["admin"]}>
-                            <AdminDashboard />
-                          </RoleRoute>
-                        }
-                      />
                       {authRoutes}
                       {teacherOnboardingRoutes}
                       {homepageRoutes}
