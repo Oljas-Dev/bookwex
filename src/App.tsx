@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -10,8 +10,6 @@ import { CalendarProvider } from "./contexts/CalendarContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import { MessagesProvider } from "./contexts/MessagesContext";
 import { TeacherDataProvider } from "./contexts/TeacherDataContext";
-import AdminDashboard from "./components/admin/AdminDashboard";
-import RoleRoute from "./components/authentication/protected-route/RoleRoute";
 import ScrollToPageTop from "./ui/ScrollToPageTop";
 import { homepageRoutes } from "./routes/homepage/HomepageRoutes";
 import { teacherOnboardingRoutes } from "./routes/onboarding/TeacherOnboardingRoutes";
