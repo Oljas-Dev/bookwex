@@ -1,14 +1,17 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useLogin } from "../../../api/features/useSingIn";
 import toast from "react-hot-toast";
 
 export default function SignIn() {
+  const [searchParams] = useSearchParams();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  // const { login, isPending } = useLogin();
+  const teacherId = searchParams.get("teacherId");
+
   const { login, isPending } = useLogin({
     onSuccess: () => {
       toast.success("Successfully logged in!");
@@ -31,7 +34,7 @@ export default function SignIn() {
 
   return (
     <>
-      <div className="text-center">Sign in to access the Tutor Web App</div>
+      <div className="text-center">Sign in to access the Bookwex</div>
       <div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1">
@@ -75,12 +78,14 @@ export default function SignIn() {
           </Link>
           ?{" "}
         </p>
-        <p>
-          Don't have account yet?{" "}
-          <Link to={`/auth/signup`}>
-            <strong>Sign up</strong>
-          </Link>
-        </p>
+        {teacherId && (
+          <p>
+            Don't have account yet?{" "}
+            <Link to={`/auth/signup?teacherId=${teacherId}`}>
+              <strong>Sign up</strong>
+            </Link>
+          </p>
+        )}
       </div>
     </>
   );

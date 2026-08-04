@@ -12,7 +12,7 @@ import { scrollToSection } from "../../../helpers/features";
 
 export default function Menu({ teacherId }: { teacherId: string }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, setCurrentTeacherId } = useAuth();
+  const { user } = useAuth();
   const isAuthenticated = user?.role === "authenticated";
   const { data: unreadMessages, isPending } = useConversations();
 
@@ -45,20 +45,10 @@ export default function Menu({ teacherId }: { teacherId: string }) {
         ) : (
           <>
             <li>
-              <Link
-                to={"/auth/login"}
-                onClick={() => setCurrentTeacherId(teacherId)}
-              >
-                login
-              </Link>
+              <Link to={`/auth/login?teacherId=${teacherId}`}>login</Link>
             </li>
             <li>
-              <Link
-                to={"/auth/signup"}
-                onClick={() => setCurrentTeacherId(teacherId)}
-              >
-                sign up
-              </Link>
+              <Link to={`/auth/signup?teacherId=${teacherId}`}>sign up</Link>
             </li>
           </>
         )}
@@ -135,19 +125,11 @@ export default function Menu({ teacherId }: { teacherId: string }) {
                 </li>
 
                 <li className="p-3 hover:bg-gray-100">
-                  <Link
-                    to="/auth/login"
-                    onClick={() => setCurrentTeacherId(teacherId)}
-                  >
-                    Login
-                  </Link>
+                  <Link to={`/auth/login?teacherId=${teacherId}`}>Login</Link>
                 </li>
 
                 <li className="p-3 hover:bg-gray-100">
-                  <Link
-                    to="/auth/signup"
-                    onClick={() => setCurrentTeacherId(teacherId)}
-                  >
+                  <Link to={`/auth/signup?teacherId=${teacherId}`}>
                     Sign up
                   </Link>
                 </li>

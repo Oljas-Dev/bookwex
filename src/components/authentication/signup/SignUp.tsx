@@ -1,7 +1,6 @@
 import { useState, type FormEvent } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useSignUp } from "../../../api/features/useSignUp";
-import { useAuth } from "../../../contexts/useAuth";
 import { isNameAvailable } from "./isNameAvailable";
 import { useEmailAvailability } from "./useEmailAvailability";
 import PasswordStrengthMeter from "./PasswordStrengthMeter";
@@ -9,10 +8,11 @@ import { emailRegex, passwordRegex } from "../../../helpers/variables";
 // import { useVerificationEmail } from "../../../../emails/features/useVerificationEmail";
 
 export default function SignUp() {
-  const { currentTeacherId } = useAuth();
+  const [searchParams] = useSearchParams();
   // const { mutate: verifyEmail } = useVerificationEmail();
 
   const navigate = useNavigate();
+  const teacherId = searchParams.get("teacherId");
 
   const { signup, isPending } = useSignUp(() => {
     // verifyEmail({
@@ -61,7 +61,7 @@ export default function SignUp() {
       return;
     }
 
-    if (!currentTeacherId) {
+    if (!teacherId) {
       setError("Teacher not found");
       return;
     }
@@ -79,7 +79,7 @@ export default function SignUp() {
       password,
       full_name: full_name.toLowerCase(),
       avatar_url: "",
-      my_teachers: [currentTeacherId],
+      my_teachers: [teacherId],
     });
   }
 
@@ -154,7 +154,7 @@ export default function SignUp() {
       <div className="flex flex-col items-center gap-2">
         <p>
           Already have account?{" "}
-          <Link to={`/auth/login`}>
+          <Link to={`/auth/login?teacherId=${teacherId}`}>
             <strong>Sign in</strong>
           </Link>
         </p>

@@ -7,10 +7,26 @@ import { toParamStr } from "../../../helpers/features";
 import type { currentUser } from "../../../types/profile";
 import { connectCalendar } from "../../../routes/homepage/HomepageRoutes";
 import { BecomeTeacherRoute } from "../../../routes/auth/AuthRoutes";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 export default function Settings({ user }: { user: currentUser | undefined }) {
-  const { isTeacher } = useAuth();
+  const { isTeacher, profile } = useAuth();
   const { dialogFormRef } = useBookings();
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const connected = params.get("connected");
+    if (connected === "true") {
+      toast.success(
+        "Google Calendar connected, confirmation email has been sent",
+      );
+    }
+
+    window.history.replaceState({}, "", window.location.pathname);
+  }, []);
+
+  const caledarTestAccess = profile?.teacher_status === "test_user";
 
   return (
     <aside className="flex flex-col items-center gap-2 text-center [&_a]:leading-5">
@@ -39,15 +55,17 @@ export default function Settings({ user }: { user: currentUser | undefined }) {
           change password
         </Link>
 
+        {caledarTestAccess && (
+          <Link
+            to={`/${connectCalendar}`}
+            className="text-lg hover:text-amber-100"
+          >
+            connect calendars
+          </Link>
+        )}
+
         {isTeacher && (
           <>
-            <Link
-              to={`/${connectCalendar}`}
-              className="text-lg hover:text-amber-100"
-            >
-              connect calendars
-            </Link>
-
             <Link
               to={`/teacher/${toParamStr(user?.name)}/planner`}
               className="text-lg hover:text-amber-100"

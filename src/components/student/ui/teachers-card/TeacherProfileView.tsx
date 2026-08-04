@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 import { Copy } from "react-bootstrap-icons";
 import { useAuth } from "../../../../contexts/useAuth";
 import Button from "../../../../ui/Button";
-import { useEffect } from "react";
 
 export default function TeacherProfileView({
   myTeachers,
@@ -20,16 +19,6 @@ export default function TeacherProfileView({
   const teachersExist = myTeachers !== undefined && myTeachers.length > 0;
 
   const teacherLink = `${window.location.origin}/teacher/${toParamStr(teacherName)}`;
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const connected = params.get("connected");
-    if (connected === "true") {
-      toast.success("Google Calendar connected");
-    }
-
-    window.history.replaceState({}, "", window.location.pathname);
-  }, []);
 
   async function copyTeacherLink() {
     try {

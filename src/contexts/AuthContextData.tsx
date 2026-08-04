@@ -23,6 +23,7 @@ export type ProfileType = {
   avatar_url: string;
   is_public: boolean;
   my_teachers: string[];
+  teacher_status: string;
   timezone: string;
 
   conference_link?: string | undefined;

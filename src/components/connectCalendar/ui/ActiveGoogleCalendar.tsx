@@ -2,19 +2,19 @@ import { supabase } from "../../../api/supabase/supabase";
 import dayjs from "dayjs";
 import toast from "react-hot-toast";
 import { formatLessonDate } from "../../../helpers/features";
-import { useAuth } from "../../../contexts/useAuth";
 import Button from "../../../ui/Button";
 
-import googleIcon from "./../../../assets/google-icon.png";
 import { useNavigate } from "react-router-dom";
+import { googleCalendarDisconnected } from "../../../api/emails/googleCalendarDisconnected";
+import type { ProfileType } from "../../../contexts/AuthContextData";
 
 export default function ActiveGoogleCalendar({
   syncDate,
+  profile,
 }: {
   syncDate: string;
+  profile: ProfileType | null;
 }) {
-  const { profile } = useAuth();
-
   const navigate = useNavigate();
 
   const formatedSyncDate = syncDate
@@ -42,7 +42,14 @@ export default function ActiveGoogleCalendar({
       }
 
       if (data?.success) {
-        toast.success(data.message ?? "Google Calendar disconnected");
+        await googleCalendarDisconnected({
+          teacherEmail: profile?.email,
+        });
+
+        toast.success(
+          data.message ??
+            "Google Calendar disconnected, confirmation email has been sent",
+        );
         navigate("/profile");
       }
     } catch (error) {
@@ -56,17 +63,30 @@ export default function ActiveGoogleCalendar({
 
   return (
     <div className="flex flex-col gap-4 [&_p]:text-lg">
-      <h2>Your calendars are synchronized 👍</h2>
-      <div className="pl-8">
+      <h2>Your Google Calendar is synchronized 👍</h2>
+
+      <div className="pl-8 flex flex-col gap-3">
         <p>Your Google Calendar is connected 🟢</p>
+
         <p>
-          Last time synchronized {formatedSyncDate} {formatedSyncTime}
+          Bookwex uses your calendar connection to synchronize availability,
+          prevent double bookings, and add your Bookwex lessons to your
+          calendar.
+        </p>
+
+        <p>
+          Last synchronization: {formatedSyncDate} {formatedSyncTime}
+        </p>
+
+        <p>
+          You can disconnect Google Calendar anytime. After disconnecting,
+          synchronization will stop and your calendar connection data will be
+          removed.
         </p>
       </div>
 
       <Button fn={disconnectGoogle} styles="flex gap-2 items-center w-fit">
-        disconnect
-        <img src={googleIcon} alt="google icon" /> calendar
+        Disconnect Google calendar
       </Button>
     </div>
   );
