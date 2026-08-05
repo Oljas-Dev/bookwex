@@ -72,6 +72,12 @@ export default function Settings({ user }: { user: currentUser | undefined }) {
             >
               schedule new lessons
             </Link>
+            <Link
+              to={`/teacher/${toParamStr(user?.name)}/planner`}
+              className="text-lg hover:text-amber-100"
+            >
+              lesson packages
+            </Link>
           </>
         )}
         {!isTeacher && (
