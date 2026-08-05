@@ -17,6 +17,8 @@ import RoleRoute from "../../components/authentication/protected-route/RoleRoute
 import AdminDashboard from "../../components/admin/AdminDashboard";
 import AdminTeachers from "../../components/admin/teachers/Teachers";
 import AdminFeedback from "../../components/admin/feedback/AdminFeedback";
+import LessonPackages from "../../components/lessonPackages/LessonPackages";
+import CreatePackageForm from "../../components/lessonPackages/create/CreatePackage";
 
 export const connectCalendar = "connect-calendar";
 
@@ -56,6 +58,13 @@ export const homepageRoutes = (
         <Route path="teachers" element={<AdminTeachers />} />
         <Route path="feedback" element={<AdminFeedback />} />
       </Route>
+
+      <Route path="lesson-packages" element={<LessonPackages />} />
+      <Route
+        path="lesson-packages/create/:lessonTypeId"
+        element={<CreatePackageForm />}
+      />
+
       {/* Privacy Policy */}
       <Route path="privacy" element={<PrivacyPolicy />} />
       {/* Terms of Service */}

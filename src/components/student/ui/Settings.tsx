@@ -73,7 +73,7 @@ export default function Settings({ user }: { user: currentUser | undefined }) {
               schedule new lessons
             </Link>
             <Link
-              to={`/teacher/${toParamStr(user?.name)}/planner`}
+              to={`/lesson-packages?userId=${profile?.id}`}
               className="text-lg hover:text-amber-100"
             >
               lesson packages

@@ -1,4 +1,3 @@
-import { Bullseye, KeyFill, Rocket } from "react-bootstrap-icons";
 import CardContainer from "./CardContainer";
 
 export default function OfferCard({
@@ -26,17 +25,17 @@ export default function OfferCard({
       </div>
 
       {/* Main content of a card */}
-      <div className="flex-1 flex flex-col gap-4 bg-jade border-b-2 border-jade-light pt-6 pb-4 px-8 [&_p]:text-[16px]">
-        <div className="flex gap-4">
-          <Bullseye size={18} />
+      <div className="flex-1 flex flex-col gap-4 bg-jade border-b-2 border-jade-light pt-6 pb-4 px-4 [&_p]:text-[16px]">
+        <div className="flex gap-2">
+          <p>🔶</p>
           <p>{goal}</p>
         </div>
-        <div className="flex gap-4">
-          <KeyFill size={18} />
+        <div className="flex gap-2">
+          <p>🔶</p>
           <p>{method}</p>
         </div>
-        <div className="flex gap-4">
-          <Rocket size={18} />
+        <div className="flex gap-2">
+          <p>🔶</p>
           <p>{result}</p>
         </div>
       </div>
