@@ -5,15 +5,10 @@ export default function useGetLessonOffer(
   lessonOfferId: string | undefined,
   teacherId: string | undefined,
 ) {
-  if (!lessonOfferId || !teacherId)
-    return {
-      lessonTitle: null,
-      isPending: false,
-    };
-
   const { data: lessonTitle, isPending } = useQuery({
-    queryKey: ["lesson-title"],
-    queryFn: () => getLessonOffer(lessonOfferId, teacherId),
+    queryKey: ["lesson-title", lessonOfferId, teacherId],
+    queryFn: () => getLessonOffer(lessonOfferId!, teacherId!),
+    enabled: !!lessonOfferId && !!teacherId,
   });
 
   return { lessonTitle, isPending };
